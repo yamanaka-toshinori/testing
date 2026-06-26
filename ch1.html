@@ -475,6 +475,8 @@
         <script>
             const CONFIG = {
                 homeHubUrl: "", // ポータル(index.html)の完全URLを指定する場合のみ設定
+                gasWebActionUrl:
+                    "https://script.google.com/a/macros/asoview.co.jp/s/AKfycbyx4bKqlEjDsKXBeeGLaPJAcA1XcIC7ICPzgxunaf3-k4udl-h5rwenxeuUg_0qRXm_/exec", // あなたのGASのURLに差し替えてください（未設定時はシミュレーションモードになります）
             };
 
             function backToHomeHub() {
@@ -482,7 +484,7 @@
                 if (targetUrl && targetUrl.trim() !== "") {
                     window.location.href = targetUrl;
                 } else {
-                    navigateTo(""); // リネームに合わせてindex.htmlへ遷移
+                    navigateTo(""); // リネームに合わせてポータルへ遷移
                 }
             }
 
@@ -829,7 +831,7 @@
                     tag: "弱視と文字拡大",
                     q: "弱視のゲストが、画面の「利用上の重要な注意事項」を確実に読むために行うピンチアウト（文字拡大）を、サイト側で制限してはいけない理由は何ですか？",
                     opts: [
-                        "拡大を禁止すると、スマートフォンのGPS機能が誤作動を起こすから",
+                        "拡大を禁止すると、スマートフォンのGPS機能（位置情報）が誤作動を起こすから",
                         "ゲスト自身が情報を認識する権利を物理的に奪い、手続き不能や離脱を招くから",
                         "画面を大きく表示させないと、決済処理がサーバーでブロックされるから",
                         "ズームを禁止するとデータ通信量が削減されるから",
@@ -891,7 +893,6 @@
                 document.getElementById("progress-bar").style.width =
                     `${((currentIdx + 1) / 30) * 100}%`;
                 document.getElementById("question-tag").innerText = qBox.tag;
-                // innerTextを介してそのまま生テキストを出力
                 document.getElementById("question-text").innerText = qBox.q;
 
                 // シャッフル
@@ -1006,6 +1007,51 @@
                 rankSpan.innerText = `ランク：${rank}`;
                 msgP.innerText = msg;
                 window.scrollTo({ top: 0, behavior: "smooth" });
+
+                // ==========================================
+                // 🚀 【新規追加】GASへの受講結果オートポストシステム
+                // ==========================================
+                sendResultToGoogleSystem("Chapter 01：マインド編", score, rank);
+            }
+
+            // 送信用共通関数
+            function sendResultToGoogleSystem(
+                chapterName,
+                finalScore,
+                finalRank,
+            ) {
+                const gasWebActionUrl = CONFIG.gasWebActionUrl;
+
+                // デフォルト/未設定時のガード
+                if (
+                    !gasWebActionUrl ||
+                    gasWebActionUrl.includes("【ここにあなたのGASのIDを入力】")
+                ) {
+                    console.log(
+                        "GASのURLが未設定のため、ログ送信はシミュレーションのみ実行されました。",
+                    );
+                    return;
+                }
+
+                const resultPayload = {
+                    chapter: chapterName,
+                    score: finalScore,
+                    rank: finalRank,
+                };
+
+                // 社員の画面動作を一切邪魔しない非同期かつCORS安全なno-corsモードで裏側送信
+                fetch(gasWebActionUrl, {
+                    method: "POST",
+                    mode: "no-cors",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(resultPayload),
+                })
+                    .then(() =>
+                        console.log("研修受講ログがクラウドへ送信されました。"),
+                    )
+                    .catch((err) => console.error("ログ送信エラー:", err));
             }
 
             function restartQuizOnly() {
