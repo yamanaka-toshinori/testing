@@ -1,0 +1,959 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>アクセシビリティ研修 — Chapter 06 | 研修プログラム</title>
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            border: "rgb(228, 228, 231)", // zinc-200
+                            input: "rgb(228, 228, 231)", // zinc-200
+                            ring: "rgb(79, 70, 229)", // indigo-600
+                            background: "rgb(255, 255, 255)", // white
+                            foreground: "rgb(9, 9, 11)", // zinc-950
+                            primary: {
+                                DEFAULT: "rgb(9, 9, 11)", // zinc-950
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            secondary: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            destructive: {
+                                DEFAULT: "rgb(239, 68, 68)", // red-500
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            muted: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(113, 113, 122)", // zinc-500
+                            },
+                            accent: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            card: {
+                                DEFAULT: "rgb(255, 255, 255)",
+                                foreground: "rgb(9, 9, 11)",
+                            },
+                        },
+                        borderRadius: {
+                            lg: "0.75rem",
+                            md: "calc(0.75rem - 2px)",
+                            sm: "calc(0.75rem - 4px)",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap");
+
+            body {
+                font-family: "Inter", "Noto Sans JP", sans-serif;
+                background-color: rgb(250, 250, 250);
+            }
+
+            .bg-pattern {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background:
+                    radial-gradient(
+                        at 0% 0%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        at 100% 100%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    );
+            }
+
+            .fade-in {
+                animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-foreground min-h-screen flex flex-col antialiased"
+    >
+        <div class="bg-pattern"></div>
+
+        <!-- ヘッダー -->
+        <header
+            class="bg-white border-b border-border sticky top-0 z-50 shadow-[0_1px_2px_rgba(0,0,0,0.02)] h-[49px]"
+        >
+            <div
+                class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between"
+            >
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="w-1.5 h-4 bg-indigo-600 rounded-full"></div>
+                    <span
+                        class="text-xs sm:text-sm font-bold tracking-tight text-foreground select-none"
+                    >
+                        ウェブアクセシビリティ研修 Chapter 06
+                    </span>
+                </div>
+                <button
+                    onclick="backToHomeHub()"
+                    class="text-[10px] sm:text-xs bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-2.5 py-1.5 rounded-md transition-colors cursor-pointer"
+                >
+                    ホームへ戻る
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main
+            class="flex-grow max-w-4xl w-full mx-auto px-4 pt-6 sm:pt-12 pb-16 flex flex-col justify-start"
+        >
+            <!-- 1. 講義学習フェーズ -->
+            <div
+                id="learning-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-10 shadow-sm fade-in"
+            >
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span
+                        class="text-muted-foreground font-bold text-xs tracking-widest uppercase block mb-1"
+                        >Chapter 06 (未来のUX編)</span
+                    >
+                    <h2
+                        class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-2 sm:mb-3"
+                    >
+                        AIエージェント時代のセマンティクス
+                    </h2>
+                    <p
+                        class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                    >
+                        AIがWebを自律操作する時代。正しいマークアップ構造がマシン可読性（AEO）とビジネス優位性に直結する未来のUXを学びます。
+                    </p>
+                </div>
+
+                <div
+                    class="space-y-6 sm:space-y-8 text-foreground leading-relaxed max-w-3xl mx-auto text-xs sm:text-sm md:text-base border-t border-border pt-6"
+                >
+                    <section
+                        class="border-l-4 border-indigo-600 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            1. AIエージェントとアクセシビリティツリー
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            LLM（大規模言語モデル）の進化により、ユーザーに代わってWeb操作を完結させる「AIエージェント（Computer
+                            Use）」が登場しています。AIエージェントは、スクリーンリーダー（音声読み上げシステム）と同様に、裏側の<strong>「アクセシビリティツリー（OS向けのセマンティクスデータ）」</strong>を直接スキャンして画面を解釈・クリックします。
+                        </p>
+                    </section>
+
+                    <section
+                        class="border-l-4 border-zinc-300 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            2. AEO（AIエージェント最適化）
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            マークアップに適切なセマンティクス（情報構造）を定義しておくことは、人間の支援技術をサポートするだけでなく、<strong>「自律操作AIにエラーや多重決済などのハルシネーションを起こさせずに目的をスムーズに完結させる（AEO）」</strong>ための最高のインフラとなります。構造化されたプログラムこそが、未来の送客競争の勝敗を握ります。
+                        </p>
+                    </section>
+                </div>
+
+                <!-- クイズ開始ボタン -->
+                <div class="mt-10 pt-6 border-t border-border text-center">
+                    <button
+                        onclick="startQuiz()"
+                        class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-auto"
+                    >
+                        <span>理解度クイズに挑戦する (全30問)</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2.5"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. クイズプレイフェーズ -->
+            <div
+                id="quiz-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-8 shadow-sm hidden fade-in min-h-[550px] sm:min-h-[670px] flex flex-col justify-between"
+            >
+                <div>
+                    <div
+                        class="flex items-center justify-between text-[11px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 font-medium tracking-tight"
+                    >
+                        <span id="question-index" class="uppercase"
+                            >第 1 問 / 30 問中</span
+                        >
+                        <span id="current-score-text">正答数: 0</span>
+                    </div>
+                    <div
+                        class="w-full bg-secondary h-1.5 rounded-full mb-4 sm:mb-6 overflow-hidden"
+                    >
+                        <div
+                            id="progress-bar"
+                            class="bg-primary h-full rounded-full transition-all duration-300"
+                            style="width: 3.3%"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-start">
+                    <div
+                        class="inline-block bg-secondary text-secondary-foreground text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded mb-2 sm:mb-3 w-fit"
+                        id="question-tag"
+                    >
+                        テーマ
+                    </div>
+                    <h3
+                        class="text-sm sm:text-lg font-bold text-foreground leading-snug mb-4 sm:mb-6"
+                        id="question-text"
+                    >
+                        ここに問題文が挿入されます。
+                    </h3>
+
+                    <!-- 等価選択肢コンテナ -->
+                    <div
+                        class="grid gap-2.5 mb-4 sm:mb-6"
+                        id="options-container"
+                    >
+                        <!-- ボタンがJSで動的に挿入されます -->
+                    </div>
+
+                    <!-- 解説表示エリア -->
+                    <div
+                        id="feedback-box"
+                        class="mt-2 p-3 sm:p-4 rounded-lg border hidden fade-in"
+                    >
+                        <div
+                            class="flex items-start space-x-2 sm:space-x-3 text-left"
+                        >
+                            <div class="mt-0.5 flex-shrink-0">
+                                <svg
+                                    id="feedback-icon"
+                                    class="w-4 h-4 sm:w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                ></svg>
+                            </div>
+                            <div>
+                                <h4
+                                    class="font-bold text-xs sm:text-sm mb-1"
+                                    id="feedback-title"
+                                >
+                                    結果タイトル
+                                </h4>
+                                <p
+                                    class="text-[11px] sm:text-sm leading-relaxed text-slate-700"
+                                    id="feedback-rationale"
+                                >
+                                    ここに解説テキストが挿入されます。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下部：次へボタン -->
+                <div
+                    class="mt-4 sm:mt-6 border-t border-border pt-4 min-h-[52px]"
+                >
+                    <button
+                        id="next-btn"
+                        onclick="nextQuestion()"
+                        class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-4 rounded-md transition-colors hidden flex items-center justify-center space-x-2 cursor-pointer text-xs sm:text-sm"
+                    >
+                        <span>次の問題へ進む</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. 結果画面フェーズ -->
+            <div
+                id="result-phase"
+                class="bg-card rounded-xl border border-border p-6 sm:p-12 text-center hidden fade-in shadow-sm"
+            >
+                <div
+                    class="w-12 h-12 sm:w-16 sm:h-16 bg-secondary text-primary flex items-center justify-center rounded-full mx-auto mb-4 sm:mb-6"
+                >
+                    <svg
+                        class="w-6 h-6 sm:w-8 sm:h-8"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                </div>
+
+                <h2
+                    class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-1 sm:mb-2"
+                    id="result-header"
+                >
+                    研修クイズ完了
+                </h2>
+                <p
+                    class="text-muted-foreground text-xs sm:text-sm mb-6 sm:mb-8"
+                    id="result-subheader"
+                >
+                    おめでとうございます！第六章未来のUX編を完全に制覇しました。
+                </p>
+
+                <!-- スコア表示 -->
+                <div
+                    class="bg-secondary/50 border border-border rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm mx-auto mb-6 sm:mb-8"
+                >
+                    <span
+                        class="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-wider block mb-1"
+                        >あなたの正答率</span
+                    >
+                    <span
+                        class="text-3xl sm:text-4xl font-black text-foreground"
+                        id="final-score"
+                    ></span>
+                    <span
+                        class="text-[11px] sm:text-xs text-muted-foreground block mt-1.5 sm:mt-2 font-semibold"
+                        id="score-rank"
+                    ></span>
+                </div>
+
+                <!-- フィードバック文 -->
+                <div
+                    class="max-w-md mx-auto text-slate-700 text-xs sm:text-sm leading-relaxed text-left bg-secondary border-l-4 border-primary p-4 rounded-r-md mb-6 sm:mb-8"
+                >
+                    <p id="result-message"></p>
+                </div>
+
+                <!-- 操作ボタン -->
+                <div
+                    class="flex flex-col sm:flex-row justify-center items-center gap-2 max-w-md mx-auto"
+                >
+                    <button
+                        onclick="backToHomeHub()"
+                        class="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center cursor-pointer"
+                    >
+                        ホームへ戻る
+                    </button>
+                    <button
+                        onclick="restartQuizOnly()"
+                        class="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm cursor-pointer"
+                    >
+                        もう一度挑戦する
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer
+            class="bg-white border-t border-border py-6 sm:py-8 text-center text-[10px] sm:text-xs text-muted-foreground"
+        >
+            <div class="max-w-4xl mx-auto px-4">
+                <p>© 2026 アクセシビリティ推進委員会（仮）</p>
+                <p
+                    class="mt-1 text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed"
+                >
+                    すべてのユーザーが、あらゆる利用環境において滑らかに目的を達成できる情報環境を目指して。
+                </p>
+            </div>
+        </footer>
+
+        <!-- クイズデータ管理用スクリプト -->
+        <script>
+            const CONFIG = {
+                homeHubUrl: "", // ポータル(index.html)の完全URLを指定する場合のみ設定
+            };
+
+            function backToHomeHub() {
+                const targetUrl = CONFIG.homeHubUrl;
+                if (targetUrl && targetUrl.trim() !== "") {
+                    window.location.href = targetUrl;
+                } else {
+                    navigateTo(""); // リネームに合わせてindex.htmlへ遷移
+                }
+            }
+
+            function navigateTo(fileName) {
+                try {
+                    const url = new URL(window.location.href);
+                    const path = url.pathname;
+                    const lastSlashIdx = path.lastIndexOf("/");
+                    const newPath =
+                        path.substring(0, lastSlashIdx + 1) + fileName;
+                    url.pathname = newPath;
+                    window.location.href = url.toString();
+                } catch (e) {
+                    window.location.href = fileName;
+                }
+            }
+
+            // 📝 クイズデータ定義：問題（q）や選択肢（opts）は innerText で安全展開されるため、
+            // 記述内に &lt; や &gt; などの実体参照を使わず、生のタグ文字（ < や > ）で記述します。
+            const quizData = [
+                {
+                    tag: "AIエージェントCUA",
+                    q: "ユーザーが「お出かけ予約手続きを代わりに終わらせて」とAIに指示した際、自律操作AIエージェントが人間の代わりに画面操作を行うための「裏側の主要な解釈ソース」はどれですか？",
+                    opts: [
+                        "人間の脳から発せられる思考信号をWi-Fi経由で直接読み取って処理する方式",
+                        "ブラウザが内部構築する「アクセシビリティツリー（Role/Name/State）」をデータ認識する方式",
+                        "サイト上のすべてのボタンやリンク構造を一時的にすべて削除してテキスト化する方式",
+                        "提携サーバーを直接システムハッキングしてデータベースを直接書き換える方式",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIエージェントは、人間と同じように、HTMLの裏側にある「アクセシビリティツリー（OS向けの構造情報：<code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">role</code>や<code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-*</code>属性：4.1.2相当）」を頼りに要素を認識してクリック（代行操作）します。見た目だけのdivスープはAIにとっても操作不能な「鉄壁のバリア」となり、エラーや誤操作を招きます。普遍的な構造（セマンティクス）こそが、未来のAIエージェント対応（AEO：AIエージェント最適化）そのものになるからです。',
+                },
+                {
+                    tag: "AIトークン効率",
+                    q: "AIエージェントが、生の複雑なHTMLソースをそのまま読み込むのではなく、ブラウザが構築する「アクセシビリティツリー」を優先的に参照して自律操作を行う最大の技術的価値は何ですか？",
+                    opts: [
+                        "アクセシビリティツリーには、暗号化されたゲストの決済情報のみが保存されているから",
+                        "装飾目的のdiv等の入れ子ノイズが排除され、要素の意味や役割のみに絞って推論トークンを削減できるから",
+                        "ツリーを直接読み込ませることで、AIエージェントの操作時間制限を2倍に延長できるから",
+                        "画面全体のすべての文字データを、自動的に暗号化してシステムを保護する仕様だから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>生のHTMLは、何重ものスタイル装飾用divなどの無駄なノイズ（トークン）だらけであり、AIに読み込ませるとトークン消費（コスト）と推論ミスを急激に増やします。スクリーンリーダー向けに「本質的な意味と情報だけを整理したアクセシビリティツリー（1.3.1、4.1.2）」こそが、AIにとっても最も処理効率の高い、ノイズゼロの美しいデータソースとなるからです。",
+                },
+                {
+                    tag: "AEOコンバージョン",
+                    q: "プロダクトのマークアップをアクセシブルに正しく整備しておくことが、未来の「AEO（AIエージェント最適化）」において強力なビジネス競争力となる理由は何ですか？",
+                    opts: [
+                        "全世界のスマートフォンの基本システムライセンス費用を永久に無料化できるから",
+                        "自律操作AIから「カレンダー空き枠や送信ボタンが判読不能で操作を完結できない危険サイト」としてスキップされるのを防ぐから",
+                        "検索のロボットが巡回した際、自動的にすべての競合他社のアクセスをブロックするから",
+                        "システムを動作させるためのサーバー費用を、AIの力で自動的に半額に軽量化できるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AI自動代行購入が一般化する時代、AIは「エラーを起こして処理を完結できない危険な未対応サイト（divスープ）」を、ユーザーに推薦することを拒絶（スキップ）します（4.1.2相当）。アクセシビリティ対応を徹底しておくことこそが、未来のAIエージェント経由の新規ユーザーと売上シェア（AEO）を丸ごと獲得するための最強の成長戦略となるからです。",
+                },
+                {
+                    tag: "divスープハルシ",
+                    q: "仕様定義や実装をサボり、意味を持たない <div> タグだけで画面全体を構成した「divスープのサイト」が、未来のAI自動手続き代行において引き起こす「深刻な実害」はどれですか？",
+                    opts: [
+                        "画面全体の配色デザインやフォントが、自動的に英語の斜体表記に強制固定される現象",
+                        "AIがボタンやフォームの目的を誤解（ハルシネーション）し、異なる日程での誤予約や多重決済事故を招く現象",
+                        "スマートフォンのバックライトが強制消灯し、液晶画面の明るさが一律でゼロになる現象",
+                        "AIが予約データを勝手に暗号化し、データベースから完全に消去してしまうバグ",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br><code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;div&gt;</code> にデザインクラスを当てて作ったお洒落な「見た目だけのチェックボックスやボタン」は、AIにとってはただの「色のついた四角形」です。AIが画像認識から要素の目的を推測（ハルシネーション）して無理にクリックを試みると、誤った別の日程や枚数で誤決済（実害：4.1.2）を引き起こし、深刻なトラブルになります。タグの正しいセマンティクスがAI予約の安全保証です。',
+                },
+                {
+                    tag: "標準タグ信頼性",
+                    q: "HTMLの標準対話要素（ <button> や <input> ）をそのままマークアップすることが、AIエージェントの操作ハルシネーションを極限まで抑制できる最大の理由はどれですか？",
+                    opts: [
+                        "標準要素を使用すると、スマートフォンの通信データ量が自動的に10分の1に軽量化されるから",
+                        "Tab選択や送信等の標準挙動仕様がブラウザ定義されているため、AIが推測に頼らず「100%操作可能」と即断できるから",
+                        "標準要素はセキュリティが強固なため、AIが不要な認証処理をすべて自動でスキップできるから",
+                        "画面全体の表示フォントが、自動的に各スマートフォンのデフォルト書体に統一されるから",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AI自動クローラーやエージェントは、Web標準仕様（W3C規格）をベースに判断します。裏側のプログラムタグが <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;button&gt;</code> などの本物の対話要素（2.1.1相当）であれば、AIはハルシネーションを起こする余地なく、1ミリ秒でそこをクリック可能な主要なアクションとして特定（AEO）でき、代行手続きをエラーなく進行できます。',
+                },
+                {
+                    tag: "label特定特定",
+                    q: "Figmaで、文字情報を持たないグラフィックだけのアイコンボタンを設計・実装する際、 aria-label 属性で名前を定義しておくことが、AIエージェントの「操作成功率」を劇的に高められるのはなぜですか？",
+                    opts: [
+                        "aria-label を指定すると、自動的にすべてのアイコンが3Dグラフィック化されるから",
+                        "支援技術用の名前がツリー定義され、AIが画面画像解析に頼らず「閉じるボタン」等とテキスト情報で最速検知できるから",
+                        "自動的にアイコンボタンのクリック領域が、一律で標準サイズの2倍に強制拡張されるから",
+                        "AIエージェントが不必要な通信量を削減して、セキュリティバグを自動監査できるようになるから",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>テキスト情報のないビジュアルアイコンは、AIエージェントに「重い画像認識（Visionモデル）による文脈推測コスト」を課します（1.1.1、4.1.2相当）。 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-label</code> がプログラム内に明記されていれば、AIはテキストとして0.1秒でその「役割と目的」を特定でき、ハルシネーション（押し間違い）による代行エラーを完璧に防げます。',
+                },
+                {
+                    tag: "expanded非同期",
+                    q: "折りたたみ（アコーディオン）UIを実装する際、開閉状態に合わせて aria-expanded 属性（ true / false ）を動的に更新しておくことが、AIエージェントの自動処理を完璧に成功させる理由はどれですか？",
+                    opts: [
+                        "アコーディオンが展開する際のアニメーション速度を、AIの力で2倍速くさせるため",
+                        "属性値の状態フラグをチェックすることで、展開したコンテンツが今出現して操作できるかAIが確認できるから",
+                        "メニューを開閉する際、スマートフォンのセキュリティシステムが通信を遮断するのを防ぐため",
+                        "折りたたまれたテキストデータを、自動的にデータベース上で2進数に暗号化させるため",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIが「アコーディオンを押した」後、コンテンツが現れて操作可能になるまでの「タイムラグ（読み込み待機時間）」の判定は困難です。 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-expanded="true"</code> （4.1.2）という確実な開閉状態データ（State）をJSで動的変化させておくことで、AIは待機エラーを起こする余地なく、表示された次のアクション（FAQ確認など）へと安全に進行できます。',
+                },
+                {
+                    tag: "構造化AI親和",
+                    q: "「全盲などの視覚障害ユーザーが使うスクリーンリーダーに、等しく完璧に情報を伝える（アクセシビリティ対応）」という営みが、なぜ結果的に「AIエージェントにとって最も使いやすいサイト（マシンリーダブル）」になるのですか？",
+                    opts: [
+                        "AIエージェントは、すべての障害者と等しい感情・身体制限を抱えるようにプログラムされているから",
+                        "視覚情報なしで操作可能にするツリー構造（Role/Name/State）は、テキストデータだけで画面解読するAIに必要な情報と100%合致するから",
+                        "AIにアクセシビリティ基準を学習させるのが、最も安価なAIトレーニング方法だから",
+                        "すべてのブラウザが、音声読み上げのみによる直接操作以外を許可しない仕様に移行するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>これこそがアクセシビリティ対応のもたらす「美しい本質的シナジー（普遍的価値）」です。スクリーンリーダーユーザー（視力制限環境下のゲスト）に対して、裏側のコードに正しい意味とラベルを用意して滑らかに伝えるというアクセシビリティの営みそのものが、そのまま「画面のビジュアルを見ずにテキスト構造だけで全体像を正しく認識して操作する AI エージェント」への最高の最適化（AEO）となるからです。",
+                },
+                {
+                    tag: "カレンダー特定",
+                    q: "カレンダーのチケット空き状況を表現する際、見た目の「色（赤・緑）」の違いだけで区別せず、「○（空き）」「×（満席）」等のテキストや記号を併記するアクセシビリティ対応が、AIエージェントの「自動空き枠特定」を完璧にサポートする技術的理由はどれですか？",
+                    opts: [
+                        "カレンダーのデータ容量を自動的に3分の1に軽量化してAIに送信するから",
+                        "複雑で推論誤差を伴う「画面画像の色解析」に頼ることなく、裏側の「○・空き」等のテキストから正確に特定できるから",
+                        "カレンダーの表示位置を自動的にブラウザの中央に固定するから",
+                        "AIが予約データを自動的に暗号化し、データベースに保存するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIによるスクリーンショット画像（Visionモデル）の色調認識や座標検知は、明暗変化や解像度によって、意図しない「色の見落とし・誤判定」を引き起こします（1.4.1）。「○」や「空き（テキスト：1.3.1）」が明確にプログラムデータとして併記されていれば、AIはハルシネーション（決済日付を間違えるなどの甚大な実害）をゼロに抑えて、正しい予約日程を即座に特定・完了できます。",
+                },
+                {
+                    tag: "画像OCR排除",
+                    q: "バナーや告知画像の中にある重要情報を「すべて外側にテキストデータとして掲載（画像内文字の排除）」する運用が、AIエージェントの「処理速度と推論コスト」を劇的に下げる最大の要因は何ですか？",
+                    opts: [
+                        "画像が表示される時間を自動的に3秒以下にカットするから",
+                        "高コストで遅延を伴う「画像をOCR解析してテキスト化する推論ステップ」を完全にスキップして、テキストデータから直接解釈できるから",
+                        "画像ファイル自体を、自動的に10kb以下のファイルに自動軽量化するから",
+                        "AIのセキュリティプログラムが、ウイルスバグを検知しやすくなるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>画像のなぞり読み（画像イメージ解析）は、LLMの推論リソースを大量に浪費する「極めて時間とコストのかかるマルチモーダル（Vision）処理」です（1.1.1、1.4.5）。画像の外側にテキストが用意されていれば、AIは0.1秒でその意味（注意事項など）を解読し代行を進行できます。「画像内文字をテキスト化して記述する運用」は、人間のスクリーンリーダーのみならず、AIの推論を究極に効率化（AEO）する運用品質です。",
+                },
+                {
+                    tag: "待機タイムアウト",
+                    q: "予約手続きの有効時間（セッション切れ）に「時間を延長するダイアログ警告」を設ける仕様が、AIエージェントによる自動予約代行処理時の「処理遅延・フリーズエラー」を防止する技術的理由はどれですか？",
+                    opts: [
+                        "タイムアウトを設けないと、AIの処理サーバーが物理的に過熱するから",
+                        "API連携や推論遅延で処理が長引いた際、AI自身がダイアログを検知して延長ボタンを押し、安全に決済まで進行を保証できるから",
+                        "タイムアウトが発生した瞬間に、画面全体のCSSがすべて崩れて表示されなくなる現象を防ぐから",
+                        "AIの操作座標を自動で10px拡大するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AI自動予約代行は、常に1秒で動くわけではありません。通信キャリアの遅延や、AI側の推論ステップが混雑して処理に5分以上かかることもよくあります。一方的な時間切れでフォーム入力を全消去されてしまうと、AIはフリーズし予約代行は失敗（CVR喪失：2.2.1）します。延長の選択肢をプログラムで用意しておくことは、人間の手元のババタした環境と、AIの処理遅延の双方を包摂する極上のアクセシビリティだからです。",
+                },
+                {
+                    tag: "プレインLLM解釈",
+                    q: "お知らせの案内やキャンセルに関する注意書きを「プレイン・ランゲージ（平易で簡潔な日本語）」で記述することが、AIエージェント（LLM）の「規則理解度」を高める技術的価値として、正しいものはどれですか？",
+                    opts: [
+                        "テキストデータを、AIのデータベース上で自動的に倍の解像度で圧縮できるから",
+                        "複雑な二重否定や難解な表現を排除することで、LLM（大規模言語モデル）の指示・規約誤認によるユーザーへの虚偽報告を防ぐから",
+                        "プレインテキストは、AIが読み込んだ瞬間に自動で英語に翻訳されるから",
+                        "フォームの送信処理が、自動で半分にスキップされるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>LLMは高度な推論ができますが、「〜しないわけではないが、〜とは言えなくもない」といった曖昧で難解な二重否定文やビジネス敬語は、AIにとっても「誤訳・意味の誤判定（ハルシネーション：3.1.5相当）」の最大の原因です。シンプルでストレートな表現（プレイン・ランゲージ）で書き記しておくことは、ゲスト自身の読みやすさの向上と、AIがカレンダーや利用規約の条件を100%正確に判定することを保証（AEO）します。",
+                },
+                {
+                    tag: "モーダル探索漏れ",
+                    q: "チケット選択などのポップアップ（モーダル）を開いた際、「フォーカストラップ」を正しくマークアップしておくことが、AIエージェントの「要素探索エラー」を防ぐ理由はどれですか？",
+                    opts: [
+                        "モーダルの外側のCSSデザインが、自動的にすべて非表示に変更されるから",
+                        "背後の不要なボタン要素を走査してしまう探索迷子を防ぎ、モーダル内部の購入決定へ最短で集中させられるから",
+                        "モーダルの表示位置を、自動的にスマートフォンのGPS中央に固定するため",
+                        "AIが二重クリックをするのを自動でロックするため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIは、DOMツリーやアクセシビリティツリー上の要素を上から順に走査してクリック対象を探します。モーダルの裏側に、現在操作してはいけない大量のボタン（DOM）が生きたまま露出（フォーカスリーク：2.4.3）していると、AIはどれが最優先の決済ボタンなのか見失い、背後のボタンを誤クリックする致命的バグを引き起こします。トラップによる「探索領域の明確な限定」が、AI自動操作の堅牢性を決定づけます。",
+                },
+                {
+                    tag: "SPA遷移AI同期",
+                    q: "SPA（シングルページアプリケーション）で画面遷移が発生した際、スクリプトで新しい見出し <h1> へフォーカスを強制移動させる設計が、AIエージェントの「現在地トラッキング（動作の進行）」を助ける技術的理由はどれですか？",
+                    opts: [
+                        "新しいページの表示にかかる通信データ量を自動で半分に軽量化するため",
+                        "リロードが発生しないSPAでも、フォーカス（ tabfocus 位置）移動をトリガーにしてページ遷移成功を1ミリ秒で検出できるから",
+                        "新しいページのボタンのタップターゲットを自動的に拡大させるため",
+                        "AIによる画面自動スクロールを強制トリガーさせるため",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>リロードのないSPA遷移では、AIエージェントも「本当に購入完了画面に切り替わったのか、それともまだ通信中のまま元の画面にとどまっているのか」の状態特定に失敗します。遷移後に先頭の見出し（<code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;h1&gt;</code>）へフォーカスを移す（2.4.3 フォーカス順序）ことで、システム側から明確に「ページが切り替わりました、ここが新ページの先頭です」と宣言でき、AIの遷移検出ハルシネーションを完璧に防ぎます。',
+                },
+                {
+                    tag: "autocompleteAI",
+                    q: "入力フォームに autocomplete 属性（ autocomplete='email' など）を正しく指定しておくことが、AIエージェントによるゲストの個人情報自動入力を完璧に支援する理由はどれですか？",
+                    opts: [
+                        "AIの自動入力機能が、システム全体のセキュリティ証明を自動無効化するのを防ぐため",
+                        "「お名前」「ご連絡先」等の多様な文言推測をせず、属性データからメール等の個人情報を100%正確に自動代入できるから",
+                        "自動入力されたデータを自動的にすべて2進数に暗号化して暗号サーバーに送信するため",
+                        "インプット要素の背景色を自動的に青色に変えるためのCSS仕様だから",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>「メルアド」「Mail」「お名前」「漢字名」など、各フォームによる文言（ビジュアル）の微妙な違いは、AIによる入力位置特定のハルシネーション（名前の欄にメールアドレスを入力してしまうなどの実害バグ）を引き起こします。 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">autocomplete</code> 属性（1.3.5）が明記されていれば、AIはハルシネーションの余地なく、1ミリ秒で正しい変数を自動代入（AEO）でき、代行予約の整合性を完璧に保証できます。',
+                },
+                {
+                    tag: "ジェスチャー排除",
+                    q: "2本の指によるピンチインや、複雑なドラッグスワイプなどのジェスチャー操作を排除し、シンプルな1タップで進めるUIを整備することが、AIエージェントの「物理操作コスト」を劇的に下げる理由はどれですか？",
+                    opts: [
+                        "AIの物理的なタッチパネル液晶へのタッチ回数が、自動的に半分に節約されるから",
+                        "エミュレーター制御負荷が高く、座標のズレで誤操作しやすい『マルチタッチ操作』を回避し、シンプルなクリック座標のみで完結できるから",
+                        "複雑なジェスチャーをさせないことで、サイト全体のデータ読み込み通信量が半分になるから",
+                        "スマホのタッチ感度センサーが、AIの力で自動的に10％向上するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIがWebを自動操作する際、ドラッグやスワイプ、ピンチ操作をシミュレートするのには、OSのタッチAPIに対して非常に複雑で精密な座標データ配列を送信する必要があります。この物理座標エミュレートは最も「失敗（2.5.1）」が発生しやすい弱点です。シンプルな1タップで全操作が完結できることは、AIによる動作の堅牢性を100%保証します。",
+                },
+                {
+                    tag: "タップターゲットAI",
+                    q: "ボタンやチェックボックスのタップターゲット（押しやすさ）を44px以上に拡大しておくことが、AIエージェントによる「誤タップ（座標予測誤差によるクラッシュ）」を完璧に防げる理由はどれですか？",
+                    opts: [
+                        "Tapターゲットが大きいと、AIの処理サーバーが自動的に半分に軽量化されるから",
+                        "Vision解析によるタップ位置特定時に、数ピクセルの座標ズレ（予測誤差）が発生しても、面積が広ければ100%タップを成功させられるから",
+                        "面積を拡大しないと、AIのプログラムがクリックイベントを認識できないから",
+                        "タップターゲットが大きいボタンは、自動的に他の言語（英語など）に翻訳されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIが画像認識からクリック座標を算出する際、視覚モデルの精度や解像度差異によって、ターゲットの中心から「数ピクセル分の誤差（ズレ：2.5.5）」が常に生じます。ターゲットが小さすぎると、隣のキャンセルボタンを誤クリックしたり空白を誤タップして全フリーズします。ターゲットの拡大は、人間の手元の震えと、AIの推論座標誤差の画像上の差分を完全に吸収します。",
+                },
+                {
+                    tag: "フォーカス枠AI",
+                    q: "選択されている要素を囲むフォーカス枠（ outline ）をCSSで消し去らず、はっきりと目立つように明示しておくことが、AIエージェントによる自動操作の「現在地トラッキング（動作の監視）」を完璧に助ける理由はどれですか？",
+                    opts: [
+                        "フォーカス枠を表示させると、画面全体の読み込み表示速度が自動的に1.5倍に高速化されるから",
+                        "フォーカス枠をAIが検知することで、Tab操作による移動時に「画面上のどこに現在地があるか」をデータ特定・追跡できるから",
+                        "フォーカス枠を表示させないと、スマートフォンのセキュリティシステムが自動で強制終了するから",
+                        "タップターゲットの間隔が、自動的に2倍に拡張されるバグを防ぐため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIエージェントは、入力や送信のアクションを行う際、「本当にそのボタンにフォーカス（選択状態：2.4.7）が当たっているか」を画像認識でループ確認（トラッキング）しながら処理を実行します。アウトライン枠が消去されていると、AIは選択に成功したか判定できず、無限待機（タイムアウトエラー）や多重送信バグを引き起こします。フォーカスの可視化は、AIに進行を認識させるための絶対条件です。",
+                },
+                {
+                    tag: "テーブルth紐付け",
+                    q: "料金表などの複雑な表データに <th> と <td> の見出し紐付け（セマンティックマークアップ）を完璧に指定しておくことが、AIエージェントが正確にデータを抽出してゲストに報告する際の「正確性」を保証する理由はどれですか？",
+                    opts: [
+                        "テーブル構造化をすると、自動的にすべてのテキストにグラデーションが掛かるから",
+                        "見出し関係がプログラムレベルで保証され、表のセル数値を、ハルシネーション（誤判定）なく正しい文脈でデータ抽出できるから",
+                        "構造化しないと、AIのデータベース容量が10倍に膨れ上がるバグがあるから",
+                        "テーブルの枠線が、自動的にすべての端末で白と黒の二色のみに変更されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>HTMLの表構造をサボり、ただの改行だけで組まれた表は、LLM（大規模言語モデル）のコンテキスト解釈能力を著しく低下させます。「これはどの見出し（大人の料金、平日の料金、など：1.3.1）に属しているのか」のデータ的関連性が失われると、AIは嘘の料金（ハルシネーション）を平気でゲストに返答し、契約上のトラブル（実害）を招きます。表の正しいセマンティクスは、AI時代のRAG精度を極限まで高める最強のデータ資産（AEO）です。",
+                },
+                {
+                    tag: "表明インデックスAI",
+                    q: "公式サイト上に、アクセシビリティの達成基準や適合レベルを明快に表明し、JIS AA適合したプロダクトを構築することが、未来の「AI推薦クローラー（AIインデックス）」において強力なビジネス価値を生む最大の理由はどれですか？",
+                    opts: [
+                        "キーボードでの移動順序が焦っている時に使いやすいかどうかのみで推薦されるから",
+                        "未来のAI検索エンジンが「AI自身がエラーなく100%確実に予約を完結できる、安全で最優先すべきインフラ」と高く評価・優先推薦するから",
+                        "AIクローラーが自動的にシステムのセキュリティシステムを最新型にアップグレードしてくれるから",
+                        "画面全体の背景色を自動的にダークテーマに適応させるためのOS仕様に連動するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>これこそがアクセシビリティがもたらす究極の「ビジネスの生命線」です。AIによる代行予約や推薦が当たり前の未来において、AIは「エラーを起こして途中で予約を完結できないバリアサイト」を、ユーザーに推薦することを完全に拒絶（ブラックリスト化）します。アクセシビリティ適合表明と、裏側のマシンリーダブルな堅牢な設計（4.1.2相当適合）を守ることは、人間を包摂する優しさと同時に、未来のすべてのAIエージェントの送客インフラとして機能し続けるための生命維持（ビジネス戦略）そのものだからです。",
+                },
+                {
+                    tag: "AIエラーログ削減",
+                    q: "正しいマークアップを用いてアクセシビリティツリーを健全に保つことが、AIエージェントの自動巡回時における「実行エラーログ（システム不具合）」を劇的に減らせる技術的理由はどれですか？",
+                    opts: [
+                        "サーバー内の物理データ保存量が自動的に削減され、データ破損バグが消滅するから",
+                        "AIがタグ本来の意味に基づいて正確に要素を選択でき、誤クリックによる画面の無限ループ等の不具合を完璧に排除できるから",
+                        "エラーの発生時に、AIエージェントが自動的にシステムを最新のバリアフリー規格にアップデートするから",
+                        "アプリの表示位置が、自動的に世界のどの競合サイトよりも最上位に表示されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>意味の壊れたdivスープは、AI自動操作時（Computer Use）に「どれをクリックすれば前に進めるか」の文脈解釈エラー（ハルシネーション）を連発させます。正しいセマンティクス構造（4.1.2相当）を記述しておくことで、AIの動作シーケンスを100%確実に完了させることができ、原因不明の実行エラー（ログの爆増）を防ぐことができます。",
+                },
+                {
+                    tag: "見出しタグ検索",
+                    q: "ページ内のセクションを見出しタグ（ <h2> / <h3> ）で正しく構造化しておくことが、AIエージェントが注意書きや集合場所の「該当テキスト箇所」を爆速でスキャン・抽出するのを可能にする理由はどれですか？",
+                    opts: [
+                        "見出しタグを指定すると、自動的にすべてのテキストデータが圧縮暗号化されるから",
+                        "AIが『目次ツリー』をベースに、関係のない余計な情報を読み飛ばして、必要な解説段落（セグメント）だけを即座にピンポイントで読み取れるから",
+                        "自動的に見出しテキストの表示色がお洒落なパステルカラーに統一されるから",
+                        "AIが文字サイズを変更する際、自動的にプログラムがCSSエラーを消去するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AI（LLM）が利用規約やキャンセルポリシーから情報を検索抽出する際、見出しタグ（1.3.1、2.4.10相当）はテキスト全体を論理的に分割（セグメンテーション）する「境界線（目次）」になります。階層をサボったdivの羅列は、AIが膨大な文章を最初から最後まで無駄に読み込む原因となり、推論の遅延とトークン消費の爆増を招くからです。",
+                },
+                {
+                    tag: "ARIAランドマーク",
+                    q: "HTML5のランドマーク要素（ <header> / <main> / <nav> / <footer> 等）を正確にマークアップしておくことが、AIエージェントの「処理成功率」を高められる技術的理由はどれですか？",
+                    opts: [
+                        "ランドマークに指定された領域の画像が、自動的に軽量化して保存されるから",
+                        "AIが『ヘッダーやフッターの不要なナビゲーション』を一瞬でスキップし、購入・予約の手続きに必要な <main> 領域へダイレクトに到達できるから",
+                        "自動的にページの配色デザインが、ダークテーマに適応される仕様だから",
+                        "AIが二重クリックをするのを自動でロックするため",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>ページの全体構造を示す「ランドマーク（WCAG 達成基準 1.3.1、2.4.1相当）」は、音声ユーザーのみならず、AIにとっても「地図」の役割を果たします。これらを正確に記述しておくことで、AIはフッターのメニュー一覧などの不要情報をスルーし、 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;main&gt;</code>（主要手続きエリア）にフォーカスを直接当てて0.1秒で操作を開始し、時間切れや探索バグを防ぐことができます。',
+                },
+                {
+                    tag: "aria-live通知",
+                    q: 'クレジットカードの処理中インジケーターなど、非同期に切り替わるステータス領域に aria-live="polite"（または role="status" ）を指定しておくことが、AIエージェントの「誤作動」を防止できる理由はどれですか？',
+                    opts: [
+                        "aria-live を指定すると、自動的にすべてのアイコンが3Dアニメーション化するから",
+                        "AIが『決済処理の読み込みが完了した（あるいはエラー）』という状態変化を、キャプチャ監視に頼らずデータとして最速で同期検知できるから",
+                        "自動的に決済手続きの進行速度が自動的に10秒短縮されるから",
+                        "AIがクレジットカード番号を自動的にデータベースに保存するから",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>非同期のロード完了タイミング（4.1.3 状態に関するメッセージ）の検知は、画面の「見た目（ピクセル）」に頼るとタイムラグによるフリーズやボタンの空振りを連発します。 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-live</code> でシステムから「完了」「エラー」などのイベントを明示しておくことで、AIは迷いなく次のプロセスに同期追従し、進行不能エラーを完璧に回避できます。',
+                },
+                {
+                    tag: "target別タブ",
+                    q: 'リンクに target="_blank" を指定する際、あらかじめ警告テキスト（「（新しいウィンドウで開く）」）を含めておくアクセシビリティ配慮が、AIエージェントの「ブラウザタブ制御バグ」を完全に防げる理由はどれですか？',
+                    opts: [
+                        "警告テキストを指定すると、自動的に移行先のページのデータ容量が軽量化されるから",
+                        "AIエージェントが『新しいウィンドウが開く挙動』を事前に推論し、ブラウザの操作コンテキスト（制御タブ）を自動で切り替えて追従できるから",
+                        "自動的に現在のページの履歴が、すべて暗号化して保護されるから",
+                        "リンクを自動的に別ページに遷移させないために、10秒間のローディング処理を挿入すること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>警告なしで別タブに画面遷移（3.2.1）が走ると、AIは「元のタブのURLが切り替わる」と誤認して元のタブを無限ロード監視し、新タブを見失う「プロセス孤立フリーズバグ」を起こします。事前に明示しておく（3.2.1）ことで、AIエージェントは新タブの発生をあらかじめ織り込んでコンテキスト（タブハンドラ）を切り替えるようになり、堅牢な自律操作（AEO）が保証されます。",
+                },
+                {
+                    tag: "aria-invalid",
+                    q: '入力フォームのバリデーションエラーが発生した際、エラーの <input> 要素に JS で動的に aria-invalid="true" （エラー状態属性）を付与すべきなのは、どのようなAI操作エラーを防ぐためですか？',
+                    opts: [
+                        "入力エラーが発生した瞬間に、スマートフォンの液晶画面が自動的に2倍に明るく発光する現象",
+                        "AIが画面の『どのインプットマスに入力の不備があるか』を完璧にデータ特定し、ハルシネーション（的外れな修正）をゼロに抑えるため",
+                        "AIが二重入力をするのを自動でロックするため",
+                        "画面全体の配色デザインが、自動的に元の日本語フォントから英語の斜体に書き換わってしまうバグ",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>赤い枠線だけのビジュアル表現は、AIにとっても「何のエラーなのか」判定しきれず、適当な修正データを無関係なフォームに代入する暴走を招きます。 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-invalid="true"</code> （4.1.2 役割・名前・状態）を付与しておくことで、AIは「この電話番号の項目が正しくない」とプログラムレベルで即座に検知でき、ピンポイントでの正しい情報修正（バグのない自律操作）が保証されます。',
+                },
+                {
+                    tag: "画像置換の排除",
+                    q: "ボタンの文字をプログラムに記述せず、CSS背景画像だけでチケットロゴ等の文字を表現する手法（画像置換）を完全に排除すべき「AIエージェント上の理由」はどれですか？",
+                    opts: [
+                        "CSSの並び順を変更すると、サーバーの描画速度が著しく低下するバグがあるから",
+                        "画像解析（Vision）に失敗しても、アクセシビリティツリー上のテキストデータ（Name：『チケットを表示』等）からボタンを100%発見できるから",
+                        "並び順をCSSで変えた場合、セキュリティ証明書の暗号化に脆弱性が発生するから",
+                        "ボタンの自動クリックエミュレーションが、自動で無効化されるバグを防ぐため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>背景画像によるボタン文字（1.1.1、4.1.2相当の欠陥）は、AIエージェントのテキストスキャン（Name属性検索）にかかりません。文字データがないと、AIは画面の見た目のロゴの輪郭を推測してクリック位置を割り出さねばならず、少しのデザイン変更で発見不能に陥ります。テキスト（Name：名前）を必ずプログラム構造に含めることがAI時代のAEO品質です。",
+                },
+                {
+                    tag: "aria-modal",
+                    q: 'ダイアログ（モーダル）を実装する際、コンテナタグに aria-modal="true" 属性を指定しておくことが、AIエージェントの「処理フリーズ」を防止する技術的理由はどれですか？',
+                    opts: [
+                        "モーダルの外側のCSSデザインが, 自動的にすべて非表示に変更されるから",
+                        "AIに『これ以外の背景要素は現在操作・認識する必要がない』とデータ宣言でき、余計な背面DOMのスキャンによるループフリーズを防げるから",
+                        "モーダルの表示位置を、自動的にスマートフォンのGPS中央に固定するため",
+                        "AIが二重クリックをするのを自動でロックするため",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AIは、DOMツリーやアクセシビリティツリー上の要素を上から順に解析して探索します。 <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-modal="true"</code> （4.1.2）が宣言されていれば、ブラウザ側がモーダル外部のすべての要素を「非表示（探索対象外）」としてツリーから除外してくれるため、AIは不要な要素を完全に無視でき、処理コスト（トークン消費）を劇的に減らし、最短での確実な決済ボタンタップを実現できます。',
+                },
+                {
+                    tag: "プレインコンバージョン",
+                    q: "利用手順などの重要説明テキストを難解な表現を避けて「平易な日本語（プレイン・ランゲージ）」で記述しておくことが、AIエージェント経由の予約成功率（CVR）を最大化させる最大の理由はどれですか？",
+                    opts: [
+                        "テキストデータを、AIのデータベース上で自動的に倍の解像度で圧縮できるから",
+                        "AIエージェントが、複雑な規約や制約条件をハルシネーション（誤読）なく正確に理解し、失敗のない安全な代行予約を完了させられるから",
+                        "簡潔な文章にすることで、AIが予約確定ボタンを自動的にダブルタップするバグを防止できるから",
+                        "プログラムが自動的にすべて多言語翻訳され、表示スピードが自動的に向上するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>AI自動予約が常識になる時代、LLM（大規模言語モデル）にとって、複雑な修飾表現や二重否定が多い「まわりくどい注意書き」は、処理ルール誤認（ハルシネーション：3.1.5相当）の最大の原因です。平易で簡潔な日本語で指示が書かれていれば、AIは条件（例：キャンセル料発生日など）を完璧に理解し、誤決済トラブルを起こさずに予約手続きを完結できるため、AI経由の送客・コンバージョン率を最大化させられるからです。",
+                },
+                {
+                    tag: "JIS適合表明AI",
+                    q: "JIS X 8341-3 規格に適合（表明）した堅牢な情報構造をシステムに整備しておくことが、未来のAI推薦検索クローラーから「最優先で推薦されるサイト」になる本当の理由はどれですか？",
+                    opts: [
+                        "表明書を公開するだけで、自動的に広告掲載費用が無料になる仕組みだから",
+                        "AI検索が『AI自身が代行してエラーなく100%確実に予約を完結できる、安全で最優先すべきインフラ』と高く評価・推薦し、露出を独占できるから",
+                        "AIクローラーが自動的にシステム全体のセキュリティシステムを最新型にアップグレードしてくれるから",
+                        "画面全体の背景色を自動的にダークテーマに適応させるためのOS仕様に強制連動するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>これこそが、アクセシビリティを徹底する「最高の未来のビジネス競合優位性（AEO）」です。AIによる代行予約や推薦が当たり前の未来において、AIは「エラーを起こして最後まで完了できないバリアサイト（未整備サイト）」を、ユーザーに推薦することを完全に拒絶します。JIS適合（4.1.2相当適合）を表明しておくことは、未来のAIエージェントの公式なインフラ（第一選択肢）として機能し続けるための絶対不可欠な生存戦略そのものだからです。",
+                },
+            ];
+
+            let currentIdx = 0,
+                score = 0,
+                isAnswered = false,
+                currentShuffledOpts = [];
+
+            function startQuiz() {
+                document
+                    .getElementById("learning-phase")
+                    .classList.add("hidden");
+                document
+                    .getElementById("quiz-phase")
+                    .classList.remove("hidden");
+                currentIdx = 0;
+                score = 0;
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function loadQuestion() {
+                isAnswered = false;
+                const qBox = quizData[currentIdx];
+                document.getElementById("question-index").innerText =
+                    `第 ${currentIdx + 1} 問 / 30 問中`;
+                document.getElementById("current-score-text").innerText =
+                    `正答数: ${score}`;
+                document.getElementById("progress-bar").style.width =
+                    `${((currentIdx + 1) / 30) * 100}%`;
+                document.getElementById("question-tag").innerText = qBox.tag;
+                // 💡 innerTextを介してそのまま生テキストを出力し二重エスケープバグを100%防止
+                document.getElementById("question-text").innerText = qBox.q;
+
+                // シャッフル
+                currentShuffledOpts = qBox.opts.map((opt, i) => ({
+                    text: opt,
+                    isCorrect: i === qBox.ans,
+                }));
+                for (let i = currentShuffledOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [currentShuffledOpts[i], currentShuffledOpts[j]] = [
+                        currentShuffledOpts[j],
+                        currentShuffledOpts[i],
+                    ];
+                }
+
+                const container = document.getElementById("options-container");
+                container.innerHTML = "";
+                currentShuffledOpts.forEach((opt, idx) => {
+                    const btn = document.createElement("button");
+                    btn.className =
+                        "option-item text-left w-full p-3 sm:p-4 rounded-lg border border-border bg-white text-xs sm:text-sm font-medium hover:bg-secondary transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-ring focus:border-indigo-500";
+                    btn.innerText = opt.text;
+                    btn.onclick = () => selectOption(idx);
+                    container.appendChild(btn);
+                });
+                document.getElementById("feedback-box").classList.add("hidden");
+                document.getElementById("next-btn").classList.add("hidden");
+            }
+
+            function selectOption(idx) {
+                if (isAnswered) return;
+                isAnswered = true;
+                const btns = document.getElementsByClassName("option-item");
+                const qBox = quizData[currentIdx];
+
+                for (let i = 0; i < btns.length; i++) {
+                    btns[i].disabled = true;
+                    btns[i].classList.remove("hover:bg-secondary");
+                    if (currentShuffledOpts[i].isCorrect) {
+                        btns[i].className +=
+                            " bg-emerald-50/50 border-emerald-500 text-emerald-900 font-semibold shadow-sm";
+                    }
+                }
+
+                const correct = currentShuffledOpts[idx].isCorrect;
+                if (correct) {
+                    score++;
+                } else {
+                    btns[idx].className +=
+                        " bg-rose-50/50 border-rose-400 text-rose-900 font-medium";
+                }
+
+                const feedback = document.getElementById("feedback-box");
+                feedback.className = `mt-4 p-3 sm:p-4 rounded-lg border ${correct ? "bg-emerald-50/50 border-emerald-500 text-emerald-900" : "bg-rose-50/50 border-rose-400 text-rose-900"} fade-in text-left`;
+                document.getElementById("feedback-title").innerText = correct
+                    ? "正解です"
+                    : "不正解です";
+
+                const iconSvg = document.getElementById("feedback-icon");
+                const iconGeorgeHTML = correct
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>';
+                iconSvg.innerHTML = iconGeorgeHTML;
+                iconSvg.className = `w-4 h-4 sm:w-5 h-5 ${correct ? "text-emerald-600" : "text-rose-600"}`;
+
+                document.getElementById("feedback-rationale").innerHTML =
+                    qBox.note;
+                feedback.classList.remove("hidden");
+                document.getElementById("next-btn").classList.remove("hidden");
+            }
+
+            function nextQuestion() {
+                if (++currentIdx < 30) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }
+
+            function showResult() {
+                document.getElementById("quiz-phase").classList.add("hidden");
+                document
+                    .getElementById("result-phase")
+                    .classList.remove("hidden");
+                document.getElementById("final-score").innerText =
+                    `${score} / 30`;
+
+                const rankSpan = document.getElementById("score-rank");
+                const msgP = document.getElementById("result-message");
+
+                let rank = "";
+                let msg = "";
+
+                if (score === 30) {
+                    rank = "体験設計プロフェッショナル（最高峰） 🏆";
+                    msg =
+                        "完璧です！第六章：未来のUX編の全30問を完全にクリアしました。お出かけ先におけるゲストの『一時的な不自由さ』を見抜き、そのバリアを設計とコードで100%解決する最高のマインドセットを持っています。あなたの優しい視点が、サービスの価値を底上げします！";
+                } else if (score >= 24) {
+                    rank = "アクセシビリティ推進リーダー 🥇";
+                    msg =
+                        "素晴らしい成績です！お出かけ現場での5つの不自由さ（焦り、雨、片手、直射日光、騒音など）を深く理解できています。ぜひチームの中で『ここ、屋外の日差しの中で読めないかも？』などの声を自発的にあげるリードを取っていきましょう！";
+                } else if (score >= 15) {
+                    rank = "共感パートナー 🥈";
+                    msg =
+                        "合格点レベルです！日常の不自由さに寄り添う優れた視点がおおむね身についています。間違えてしまった問題の『なぜやるのかの理由』をもう一度復習して、さらに解像度の高いバリアフリー思想を深めましょう。";
+                } else {
+                    rank = "アクセシビリティビギナー 🌱";
+                    msg =
+                        "お疲れ様でした。お出かけ先におけるゲストの制限は想像以上に多様です。もう一度講義ノートをじっくり読み返し、いつでもご自身のペースでクイズに再挑戦してみてください！";
+                }
+
+                rankSpan.innerText = `ランク：${rank}`;
+                msgP.innerText = msg;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function restartQuizOnly() {
+                document.getElementById("result-phase").classList.add("hidden");
+                startQuiz();
+            }
+        </script>
+    </body>
+</html>

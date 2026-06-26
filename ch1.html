@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>アクセシビリティ研修 — Chapter 01 | 研修プログラム</title>
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            border: "rgb(228, 228, 231)", // zinc-200
+                            input: "rgb(228, 228, 231)", // zinc-200
+                            ring: "rgb(79, 70, 229)", // indigo-600
+                            background: "rgb(255, 255, 255)", // white
+                            foreground: "rgb(9, 9, 11)", // zinc-950
+                            primary: {
+                                DEFAULT: "rgb(9, 9, 11)", // zinc-950
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            secondary: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            destructive: {
+                                DEFAULT: "rgb(239, 68, 68)", // red-500
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            muted: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(113, 113, 122)", // zinc-500
+                            },
+                            accent: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            card: {
+                                DEFAULT: "rgb(255, 255, 255)",
+                                foreground: "rgb(9, 9, 11)",
+                            },
+                        },
+                        borderRadius: {
+                            lg: "0.75rem",
+                            md: "calc(0.75rem - 2px)",
+                            sm: "calc(0.75rem - 4px)",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap");
+
+            body {
+                font-family: "Inter", "Noto Sans JP", sans-serif;
+                background-color: rgb(250, 250, 250);
+            }
+
+            .bg-pattern {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background:
+                    radial-gradient(
+                        at 0% 0%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        at 100% 100%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    );
+            }
+
+            .fade-in {
+                animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-foreground min-h-screen flex flex-col antialiased"
+    >
+        <div class="bg-pattern"></div>
+
+        <!-- ヘッダー -->
+        <header
+            class="bg-white border-b border-border sticky top-0 z-50 shadow-[0_1px_2px_rgba(0,0,0,0.02)] h-[49px]"
+        >
+            <div
+                class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between"
+            >
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="w-1.5 h-4 bg-indigo-600 rounded-full"></div>
+                    <span
+                        class="text-xs sm:text-sm font-bold tracking-tight text-foreground select-none"
+                    >
+                        ウェブアクセシビリティ研修 Chapter 01
+                    </span>
+                </div>
+                <button
+                    onclick="backToHomeHub()"
+                    class="text-[10px] sm:text-xs bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-2.5 py-1.5 rounded-md transition-colors cursor-pointer"
+                >
+                    ホームへ戻る
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main
+            class="flex-grow max-w-4xl w-full mx-auto px-4 pt-6 sm:pt-12 pb-16 flex flex-col justify-start"
+        >
+            <!-- 1. 講義学習フェーズ -->
+            <div
+                id="learning-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-10 shadow-sm fade-in"
+            >
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span
+                        class="text-muted-foreground font-bold text-xs tracking-widest uppercase block mb-1"
+                        >Chapter 01 (マインド編)</span
+                    >
+                    <h2
+                        class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-2 sm:mb-3"
+                    >
+                        ウェブの思想と5つの不自由さ
+                    </h2>
+                    <p
+                        class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                    >
+                        お出かけの現場で誰もが直面する一時的な不自由から、アクセシビリティの本質的な思想を学びます。
+                    </p>
+                </div>
+
+                <div
+                    class="space-y-6 sm:space-y-8 text-foreground leading-relaxed max-w-3xl mx-auto text-xs sm:text-sm md:text-base border-t border-border pt-6"
+                >
+                    <section
+                        class="border-l-4 border-indigo-600 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            1. ウェブの思想と普遍性
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            ウェブの創始者ティム・バーナーズ＝リーは次のように宣言しました。<strong
+                                >「ウェブのパワーは、その普遍性にある。使う人の状況や環境に関わらず、誰もが同じように対等にアクセスできること。」</strong
+                            >
+                            ウェブは生まれつき「特定の環境や能力のある人だけを歓迎する場所」ではなく、誰も排除しないバリアフリーな空間としてデザインされています。
+                        </p>
+                    </section>
+
+                    <section
+                        class="border-l-4 border-zinc-300 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            2. お出かけ現場における「5つの不自由さ」
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed mb-4"
+                        >
+                            現地のフィールドにいるユーザーは、静かなオフィスのように落ち着いてスマホを操作できる完璧な環境にはいません。日常的に以下の制限（不自由さ）に包囲されています。
+                        </p>
+                        <div class="grid gap-3 grid-cols-1 sm:grid-cols-2">
+                            <div
+                                class="p-3 bg-secondary/50 rounded-lg border border-border"
+                            >
+                                <h4
+                                    class="font-bold text-xs sm:text-sm text-foreground"
+                                >
+                                    【精神的制限（焦り）】
+                                </h4>
+                                <p
+                                    class="text-[10px] sm:text-xs text-muted-foreground mt-1 leading-relaxed"
+                                >
+                                    入場締切直前、混雑するゲート前で後ろに行列ができ、プレッシャーからパニック状態になっているとき。
+                                </p>
+                            </div>
+                            <div
+                                class="p-3 bg-secondary/50 rounded-lg border border-border"
+                            >
+                                <h4
+                                    class="font-bold text-xs sm:text-sm text-foreground"
+                                >
+                                    【身体的制限（片手）】
+                                </h4>
+                                <p
+                                    class="text-[10px] sm:text-xs text-muted-foreground mt-1 leading-relaxed"
+                                >
+                                    重い旅行カバンを持っていたり、子どもの手を強く引いていて、物理的に片手しか使えないとき。
+                                </p>
+                            </div>
+                            <div
+                                class="p-3 bg-secondary/50 rounded-lg border border-border"
+                            >
+                                <h4
+                                    class="font-bold text-xs sm:text-sm text-foreground"
+                                >
+                                    【環境的制限（直射日光）】
+                                </h4>
+                                <p
+                                    class="text-[10px] sm:text-xs text-muted-foreground mt-1 leading-relaxed"
+                                >
+                                    快晴の屋外で、画面に強い太陽光が差し込んで液晶がグレア白飛びし、文字が全く見えないとき。
+                                </p>
+                            </div>
+                            <div
+                                class="p-3 bg-secondary/50 rounded-lg border border-border"
+                            >
+                                <h4
+                                    class="font-bold text-xs sm:text-sm text-foreground"
+                                >
+                                    【状況的制限（雑踏・電波）】
+                                </h4>
+                                <p
+                                    class="text-[10px] sm:text-xs text-muted-foreground mt-1 leading-relaxed"
+                                >
+                                    周囲の騒音やアナウンスで行き交い注意力が散漫なときや、通信制限・山奥で低速電波のとき。
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- クイズ開始ボタン -->
+                <div class="mt-10 pt-6 border-t border-border text-center">
+                    <button
+                        onclick="startQuiz()"
+                        class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-auto"
+                    >
+                        <span>理解度クイズに挑戦する (全30問)</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2.5"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. クイズプレイフェーズ -->
+            <div
+                id="quiz-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-8 shadow-sm hidden fade-in min-h-[550px] sm:min-h-[670px] flex flex-col justify-between"
+            >
+                <div>
+                    <div
+                        class="flex items-center justify-between text-[11px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 font-medium tracking-tight"
+                    >
+                        <span id="question-index" class="uppercase"
+                            >第 1 問 / 30 問中</span
+                        >
+                        <span id="current-score-text">正答数: 0</span>
+                    </div>
+                    <div
+                        class="w-full bg-secondary h-1.5 rounded-full mb-4 sm:mb-6 overflow-hidden"
+                    >
+                        <div
+                            id="progress-bar"
+                            class="bg-primary h-full rounded-full transition-all duration-300"
+                            style="width: 3.3%"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-start">
+                    <div
+                        class="inline-block bg-secondary text-secondary-foreground text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded mb-2 sm:mb-3 w-fit"
+                        id="question-tag"
+                    >
+                        テーマ
+                    </div>
+                    <h3
+                        class="text-sm sm:text-lg font-bold text-foreground leading-snug mb-4 sm:mb-6"
+                        id="question-text"
+                    >
+                        ここに問題文が挿入されます。
+                    </h3>
+
+                    <!-- 等価選択肢コンテナ -->
+                    <div
+                        class="grid gap-2.5 mb-4 sm:mb-6"
+                        id="options-container"
+                    >
+                        <!-- ボタンがJSで動的に挿入されます -->
+                    </div>
+
+                    <!-- 解説表示エリア -->
+                    <div
+                        id="feedback-box"
+                        class="mt-2 p-3 sm:p-4 rounded-lg border hidden fade-in"
+                    >
+                        <div
+                            class="flex items-start space-x-2 sm:space-x-3 text-left"
+                        >
+                            <div class="mt-0.5 flex-shrink-0">
+                                <svg
+                                    id="feedback-icon"
+                                    class="w-4 h-4 sm:w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                ></svg>
+                            </div>
+                            <div>
+                                <h4
+                                    class="font-bold text-xs sm:text-sm mb-1"
+                                    id="feedback-title"
+                                >
+                                    結果タイトル
+                                </h4>
+                                <p
+                                    class="text-[11px] sm:text-sm leading-relaxed text-slate-700"
+                                    id="feedback-rationale"
+                                >
+                                    ここに解説テキストが挿入されます。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下部：次へボタン -->
+                <div
+                    class="mt-4 sm:mt-6 border-t border-border pt-4 min-h-[52px]"
+                >
+                    <button
+                        id="next-btn"
+                        onclick="nextQuestion()"
+                        class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-4 rounded-md transition-colors hidden flex items-center justify-center space-x-2 cursor-pointer text-xs sm:text-sm"
+                    >
+                        <span>次の問題へ進む</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. 結果画面フェーズ -->
+            <div
+                id="result-phase"
+                class="bg-card rounded-xl border border-border p-6 sm:p-12 text-center hidden fade-in shadow-sm"
+            >
+                <div
+                    class="w-12 h-12 sm:w-16 sm:h-16 bg-secondary text-primary flex items-center justify-center rounded-full mx-auto mb-4 sm:mb-6"
+                >
+                    <svg
+                        class="w-6 h-6 sm:w-8 sm:h-8"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                </div>
+
+                <h2
+                    class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-1 sm:mb-2"
+                    id="result-header"
+                >
+                    研修クイズ完了
+                </h2>
+                <p
+                    class="text-muted-foreground text-xs sm:text-sm mb-6 sm:mb-8"
+                    id="result-subheader"
+                >
+                    おめでとうございます！第一章マインド編を完全に制覇しました。
+                </p>
+
+                <!-- スコア表示 -->
+                <div
+                    class="bg-secondary/50 border border-border rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm mx-auto mb-6 sm:mb-8"
+                >
+                    <span
+                        class="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-wider block mb-1"
+                        >あなたの正答率</span
+                    >
+                    <span
+                        class="text-3xl sm:text-4xl font-black text-foreground"
+                        id="final-score"
+                    ></span>
+                    <span
+                        class="text-[11px] sm:text-xs text-muted-foreground block mt-1.5 sm:mt-2 font-semibold"
+                        id="score-rank"
+                    ></span>
+                </div>
+
+                <!-- フィードバック文 -->
+                <div
+                    class="max-w-md mx-auto text-slate-700 text-xs sm:text-sm leading-relaxed text-left bg-secondary border-l-4 border-primary p-4 rounded-r-md mb-6 sm:mb-8"
+                >
+                    <p id="result-message"></p>
+                </div>
+
+                <!-- 操作ボタン -->
+                <div
+                    class="flex flex-col sm:flex-row justify-center items-center gap-2 max-w-md mx-auto"
+                >
+                    <button
+                        onclick="backToHomeHub()"
+                        class="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center cursor-pointer"
+                    >
+                        ホームへ戻る
+                    </button>
+                    <button
+                        onclick="restartQuizOnly()"
+                        class="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm cursor-pointer"
+                    >
+                        もう一度挑戦する
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer
+            class="bg-white border-t border-border py-6 sm:py-8 text-center text-[10px] sm:text-xs text-muted-foreground"
+        >
+            <div class="max-w-4xl mx-auto px-4">
+                <p>© 2026 アクセシビリティ推進委員会（仮）</p>
+                <p
+                    class="mt-1 text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed"
+                >
+                    すべてのユーザーが、あらゆる利用環境において滑らかに目的を達成できる情報環境を目指して。
+                </p>
+            </div>
+        </footer>
+
+        <!-- クイズデータ管理用スクリプト -->
+        <script>
+            const CONFIG = {
+                homeHubUrl: "", // ポータル(index.html)の完全URLを指定する場合のみ設定
+            };
+
+            function backToHomeHub() {
+                const targetUrl = CONFIG.homeHubUrl;
+                if (targetUrl && targetUrl.trim() !== "") {
+                    window.location.href = targetUrl;
+                } else {
+                    navigateTo(""); // リネームに合わせてindex.htmlへ遷移
+                }
+            }
+
+            function navigateTo(fileName) {
+                try {
+                    const url = new URL(window.location.href);
+                    const path = url.pathname;
+                    const lastSlashIdx = path.lastIndexOf("/");
+                    const newPath =
+                        path.substring(0, lastSlashIdx + 1) + fileName;
+                    url.pathname = newPath;
+                    window.location.href = url.toString();
+                } catch (e) {
+                    window.location.href = fileName;
+                }
+            }
+
+            const quizData = [
+                {
+                    tag: "ウェブの本質",
+                    q: "ウェブ（インターネットの世界）が生まれた最も根本的な目的として、正しいものはどれですか？",
+                    opts: [
+                        "最新の端末を所持しているユーザーに対して高度な機能を提供すること",
+                        "パソコンのキーボード操作が極めて得意なプロユーザーを満足させること",
+                        "使う人の状況や環境に関わらず、誰もが対等に情報にアクセスできること",
+                        "企業のサービス売上や利益率を最大化するために特定の環境を優遇すること",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>普遍的なアクセスを保証することがウェブの原点であり、特定の環境や身体能力に依存しない設計が求められるからです。",
+                },
+                {
+                    tag: "精神的不自由",
+                    q: "入場時間の直前、後ろに行列ができてゲストが極度に焦っているとき、絶対に避けるべき設計はどれですか？",
+                    opts: [
+                        "1タップで予約情報が即座に呼び出せるよう、ログイン状態を維持する仕様",
+                        "チケット画面に到達する途中で、無関係な全画面ポップアップ広告を挟む仕様",
+                        "複雑な操作を排除し、目立つ位置に「チケットを表示する」ボタンを置く仕様",
+                        "通信データ量を極限まで抑え、電波の悪い場所でも即座に描画する軽量仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>時間的プレッシャー下では人間の視野や記憶力（認知的リソース）は急激に低下します。目的と関係のないポップアップを全画面に強制表示する設計は、ゲストの焦りを増幅させてボタンの押し間違いを誘発し、深刻な手続きの遅延を招くからです。",
+                },
+                {
+                    tag: "身体的な不自由",
+                    q: "重い荷物を持っていたり、子どもの手を引いていたりして「片手しか使えない」状況のゲストに優しい画面設計はどれですか？",
+                    opts: [
+                        "画面の左右に小さなナビゲーションを散りばめ、両手で細かく操作させる仕様",
+                        "親指が届きやすい画面の下半分に、十分な大きさの決定ボタンを配置する仕様",
+                        "誤操作を防止するために、二本の指で画面を同時に操作（ピンチ動作）させる仕様",
+                        "デザインの見た目を優先し、画面最上部の隅にすべての重要ボタンを集約する仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>お出かけの現場では、子どもを抱っこしていたり、旅行バッグを持っていたりして、片手だけでスマホを操作せざるを得ない「一時的な身体的制限」が頻繁に発生します。親指が届かない画面上部に最重要のボタンを置くと、無理に指を伸ばしてスマホをホールドできなくなり、コンクリートの地面へ落下させて破損するなどの「物理的な損害（実害）」をゲストに被らせる原因になるからです。また、下スワイプクローズ等の代替クローズジェスチャーや背景タップで閉じる等のマルチモーダルなアプローチを併行サポートすることが非常に有効です。",
+                },
+                {
+                    tag: "環境的な不自由",
+                    q: "快晴の屋外入場口など、強い太陽光で画面が白飛びしている環境でも、ゲストが迷わずにチケットを提示できるために意識すべきことは何ですか？",
+                    opts: [
+                        "画面デザインの全体の美観と統一感を高いレベルで保持するための淡い配色",
+                        "文字の輪郭をスタイリッシュに表現するために極限まで細くしたフォント",
+                        "背景の色と文字の色との明暗の差（コントラスト比）をはっきりと確保すること",
+                        "すべての警告テキストをおしゃれなパステルカラーで統一して表現すること",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>直射日光下では液晶から発せられる光が外光に負けてしまい、コントラストが著しく落ちます（白飛び現象）。国際基準（WCAG）でコントラスト比を「4.5:1以上（大きな文字は3:1以上）」と定めているのは、文字やボタンが物理的に見えなくなるのを防ぎ、入場口での立ち往生（実害）をなくすためです。",
+                },
+                {
+                    tag: "状況的な不自由",
+                    q: "周囲の騒音やアナウンスが激しく、子どものぐずり等で注意力が散漫になっているゲストに、重要な注意事項を確実に伝える方法として最も適切なものはどれですか？",
+                    opts: [
+                        "画面上に詳細な利用規約テキストを数千文字にわたり隙間なく表示する手法",
+                        "重要なポイント（時間や場所など）を一目で理解できるよう簡潔に記述する手法",
+                        "画面にはテキストを表示せず、音声ガイダンスだけで手順を自動案内する手法",
+                        "ユーザーの確認手順を省くため、あらゆる重要チェックボックスを排除する手法",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>雑踏やお子様連れのお出かけ現場はマルチタスクが発生するため、脳のメモリ（認知リソース）が限界に達しています。このような状況で複雑な長文を読ませる設計は、文字の読み飛ばしや勘違い（集合場所や時間の誤認など）を誘発し、楽しみにしていたお出かけを台無しにする実害に直結するからです。",
+                },
+                {
+                    tag: "端末の不自由",
+                    q: "急な雨でお出かけ先のスマートフォンの液晶が濡れてしまい、タッチパネルが水滴で誤作動したり反応しにくい際、ゲストを最も助ける設計はどれですか？",
+                    opts: [
+                        "画面を上下に何度もフリックして目的の場所にスクロールさせる縦長レイアウト",
+                        "余計な装飾がなく、決定ボタンが大きく、適度な余白を持って配置されたレイアウト",
+                        "2本の指で正確につまむ（ピンチイン）ジェスチャー操作を要求するUI",
+                        "自動的に3秒ごとに画面がスライドショーのように切り替わる動的なUI",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>画面が水滴で濡れると静電容量の変化によってタッチ精度が著しく低下し、意図しない場所が勝手にタップされたり、細かなドラッグやフリック操作が受け付けられなくなります。誤作動が起きやすい環境下で、押し間違えを防ぐ大きなボタンと、誤タップを防ぐ十分な距離（余白）が確保されていることこそが、雨天時のスムーズな入場（実害回避）を可能にします。",
+                },
+                {
+                    tag: "障害の社会モデル",
+                    q: "「障害の社会モデル」の思想において、お出かけ先の入場口でスマホ画面のチケット表示に手こずっているゲストの『障害の原因』はどこにあると考えますか？",
+                    opts: [
+                        "ゲスト自身のITリテラシーの低さや、スマートフォンの持ち方のコンディション",
+                        "「焦っている状況」や「片手が塞がっている現場」を想定して作られていない、サービス（環境）の側",
+                        "当日の現地の混雑状況や、後ろに並んでいる他のゲストからの精神的プレッシャー",
+                        "スマートフォンの通信速度の遅さやバッテリー性能の物理的な寿命",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>「バリアは想定を怠ったサービス設計（環境）の側にある」とする『社会モデル』を全員が理解することで、自分たちの設計とコードで課題を100%解決できるという当事者意識が生まれるからです。",
+                },
+                {
+                    tag: "検討タイミング",
+                    q: "サービスの開発工程において、アクセシビリティ対応について検討を開始すべき「最も適切なタイミング」はいつですか？",
+                    opts: [
+                        "プロダクトが完成し、リリース（公開）する1週間前の最終テスト期間",
+                        "ユーザーから「画面が見づらい」「操作できない」とクレームが入ってから",
+                        "サービスを立ち上げて仕様やワイヤーを考え始める最初期段階",
+                        "開発予算に余裕ができ、サービスが軌道に乗ってから行う改善フェーズ",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>建物が完成した後にスロープやエレベーターを付け足そうとすると構造破壊や膨大なコストが発生します。最初期からアクセシビリティ（普遍性）を考慮して設計する（シフトレフト）ことが、手戻りコストをゼロにし、結果として最も安価で高品質なプロダクトを生み出せるからです。",
+                },
+                {
+                    tag: "チーム当事者意識",
+                    q: "「どんな状況のゲストでも、自分の力で最後まで手続きできるサービス」にするため、アクセシビリティの重要性を深く理解しておくべきなのはチーム内の誰ですか？",
+                    opts: [
+                        "最終的にコードを書く責任を持つフロントエンドエンジニアのメンバー",
+                        "画面の配色やビジュアルデザインを定義するUI/UXデザイナーのメンバー",
+                        "障害者差別解消法などの法令遵守を監視する法務・ガバナンス部門のメンバー",
+                        "企画、デザイン、開発、マーケ、運用など、プロセスに関わる全員の職種",
+                    ],
+                    ans: 3,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>エンジニアがどれだけ完璧なコードを書いても、企画や運用に問題があればアクセシビリティは崩壊します。チームのバリューチェーン全体で知識を共有していなければ、アクセシビリティの品質は担保できないからです。",
+                },
+                {
+                    tag: "自立の保証",
+                    q: "アクセシビリティを徹底的に追及した先にある、プロダクトとして目指すべき「最終的なゴール」はどれですか？",
+                    opts: [
+                        "特定の障害を持つゲスト専用の別の簡易的な隠しページを用意すること",
+                        "周囲の混雑や焦りに関わらずすべてのゲストが自らの力で完了できる仕様",
+                        "スマートフォンの最新OSの機能を100%限界まで使った近未来的なUIにすること",
+                        "すべてのゲストに対してお出かけ前に静かな自宅で完全に予習させる仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>アクセシビリティの本質は「自立（Autonomy）の保証」です。他人の手を借りなければ入れない、登録できないという依存状態を排し、誰もが対等に、自分の操作で当サービスのお出かけ体験にアクセスできることが、お出かけの楽しさや幸福感を最大化するからです。",
+                },
+                {
+                    tag: "反射と配色",
+                    q: "【環境的な不自由】スマートフォンの光沢画面に太陽光が差し込み、画面が白飛びしている過酷な屋外環境において、避けるべき配色デザインはどれですか？",
+                    opts: [
+                        "明暗のコントラスト比を「7:1以上」に極めて高く保った、コントラスト重視の配色",
+                        "白背景に太い黒文字といった, エッジの立ったシンプルな配色",
+                        "薄いグレーの背景に、細くて白い文字を重ねたようなスタイリッシュで淡い配色",
+                        "暗いグレー背景に黄色い文字を配した、道路標識に近い配色",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>反射光による輝度の低下が著しい屋外グレア環境下では、淡いカラーや細い文字は完全に光に溶けて「不可視」になります。おしゃれさを優先してコントラストを犠牲にしたデザインは、屋外の現場で手続きを物理的に遮断する重大なバリアとなります。",
+                },
+                {
+                    tag: "乗り物酔いと揺れ",
+                    q: "【状況的な不自由】移動中の揺れる車内で、手続きの注意事項を確認しているゲストに乗り物酔いや誤タップを発生させないために、避けるべき演出はどれですか？",
+                    opts: [
+                        "ボタンをタップした際に、ローディングが走るシンプルなインジケーター表示",
+                        "スクロールに連動して、背景画像や各要素が異なるスピードで大きくズレ動く視差効果",
+                        "ページ遷移時に左から右へ静かにスライドして切り替わる画面トランジション",
+                        "トースト通知が数秒かけてふわっとフェードイン・アウトする演出",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>不規則な揺れ（車内）で平衡感覚が狂っているときに、視覚的な基準面が画面上で不自然にズレ動くパララックス効果は、脳に深刻な空間認知エラー（乗り物酔い・不快感）を誘発します。",
+                },
+                {
+                    tag: "パニック状態のエラー",
+                    q: "【精神的な不自由】予約確定の直前、何らかの理由で決済が通らずパニックになっているゲストに対し、最悪な体験を与える「不適切なエラー表示」はどれですか？",
+                    opts: [
+                        "「カード情報の有効期限が切れています。期限を修正して再度お試しください」と明確な日本語で案内する",
+                        "「システムエラーが発生しました (ErrorCode: ERR_500)。サポートセンターにお問い合わせください」と英数字のみ提示する",
+                        "入力エラーがある部分の入力フォームの枠線を赤くし、すぐ真下に具体的な修正方法をテキストで表示する",
+                        "「カード会社へのお問い合わせが必要です」と, 取るべき次の行動を指示する",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>焦っている人間は高度な推論ができません。開発者向けの専門用語や意味不明な英数字の羅列（ERR_500など）をただ提示されると、ゲストは「自分のデータが消えたのではないか」という極度の恐怖に陥ります。",
+                },
+                {
+                    tag: "かじかむ指先と余白",
+                    q: "【一時的な不自由】スキー場などの氷点下の環境で、手がかじかんだり、厚手の手袋を着用してタッチパネルを操作しているゲストを助けるUI設計はどれですか？",
+                    opts: [
+                        "タップ位置の精度を高めるため、あえてボタンサイズを10px程度に極小化する",
+                        "誤タップを減らすために、重要な決定ボタンとキャンセルボタンを隙間なく密着させて並べる",
+                        "タップターゲットそのものを大きくし、さらにボタン間の物理的距離（余白）を十分に確保すること",
+                        "タップ操作ではなく、画面上を特定のパターンでこするスワイプジェスチャーを強制する",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>かじかんだ指や手袋での操作は、指先の接地面積が大きくなりタップの座標ブレ（位置ズレ）が頻発します。ターゲット面積を広げ、かつ誤って隣のボタンを押さないように余白をあける設計が、誤タップを防止する唯一の手段です。",
+                },
+                {
+                    tag: "音なし静音環境",
+                    q: "【状況的な不自由】騒音で音が一切聞こえない、あるいは静かなバスの車内でイヤホンがなく音を出せないゲストに、動画での集合案内を等しく届けるためのアプローチとして、最も不適切なものはどれですか？",
+                    opts: [
+                        "動画の内容（集合場所、時間など）を、すべて字幕（テキスト）として画面に表示する",
+                        "動画の横に、手順を整理した図解とステップごとの説明テキストをセットで掲載する",
+                        "「大切な案内ですので、必ず音量を最大にして音声を聞いてください」と画面に警告を表示すること",
+                        "動画とは別に、マイページ等で「利用案内テキスト」として文字でも同じ情報を保管しておく",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>音が出せない・聞こえない「状況的な制限」は誰にでも発生します。音声のみに頼るコンテンツ設計はバリアを作ります。情報は必ず「テキスト（文字データ）」という最も普遍的な代替手段を並行して用意すべきだからです。",
+                },
+                {
+                    tag: "画面右上デスの領域",
+                    q: "【一時的な不自由】荷物を片手に持ったゲストが、お出かけ先で片手操作をしている際、スマートフォンの画面設計において親指が届きにくい「配置を避けるべき最重要ボタン」はどれですか？",
+                    opts: [
+                        "ほとんど使うことのない、詳細な利用規約のページを開く小さな文字リンク",
+                        "会員マイページのさらに奥深くにある、セキュリティ設定の解除ボタン",
+                        "入場口でスタッフに見せる「チケットを提示して入場手続きを開始する」などの最重要ボタン",
+                        "アプリのロゴを模した、トップページに遷移するためのロゴ画像",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>人間の手の骨格構造上、片手持ちでの「画面上部の角（特に右上）」は親指が届かないデス・ゾーンです。この領域に高頻度で使用する最重要ボタンを置くと、ゲストは無理に指を伸ばしてスマホをホールドできなくなり、コンクリートに落として破損するなどの実害を招きます。",
+                },
+                {
+                    tag: "低速回線とフリーズ",
+                    q: "【端末の不自由】通信制限にかかった端末や、電波の極端に悪い山奥のキャンプ場受付において、プロダクトの読み込みを完全にストップさせてしまう「最も不親切な実装」はどれですか？",
+                    opts: [
+                        "文字や構造（HTML）データが先に読み込まれ、画像が遅れて表示される軽量なSPA",
+                        "数MB以上ある大容量の告知アニメーション動画や高画質画像を強制的にローディングさせる仕様",
+                        "画像データの読み込みが失敗した際、その画像が配置されていた箇所に代替テキストが表示される設定",
+                        "不要なJavaScriptプラグインを廃止し、ブラウザ本来の機能で動作するシンプルな受付コード",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>低速通信環境下では、巨大な画像や動画ファイルの強制ローディングはブラウザをロックし、画面が数分間にわたり真っ白のままフリーズします。「チケットが表示できないため中に入れない」という深刻なバリアを引き起こします。",
+                },
+                {
+                    tag: "旅先の不慣れ感",
+                    q: "【精神的な不自由】初めての旅行先や不慣れなテーマパークの入り口で、手続き方法に不安を感じているゲストに対し、最も認知的な安心感（UX向上）を与える親切な画面設計はどれですか？",
+                    opts: [
+                        "「利用規約」を細かく画面いっぱいに表示し、法的なルールをすべて読ませる",
+                        "「現地受付でスマホを見せるだけでOK」「このQRコードを機械にかざす」など具体的に示すこと",
+                        "手続きの正確性を保証するため、多段階の認証や長い個人情報の入力を何度も求める",
+                        "「手続き方法は施設ごとに異なりますので、ご自身の直感でお進みください」と自己責任に任せる",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>慣れない環境では、人間は「情報の不確実性」によって認知負荷が最大になります。現地に到着したその瞬間、「次に自分はどこで何をすれば入場を完了できるのか」が1秒で視覚的に伝わるナビゲーションを組むことが極めて重要です。",
+                },
+                {
+                    tag: "暗闇でのフラッシュ",
+                    q: "【環境的な不自由】夜間のキャンプ場や薄暗いイルミネーション施設において、ゲストが手元でスマホチケットをスタッフに提示した際、ゲストの一時的な盲目状態を防ぐための配慮として最も不適切なものはどれですか？",
+                    opts: [
+                        "暗闇での利用が想定される画面に、自動的にダークテーマ（黒基調のデザイン）を適用する",
+                        "チケット表示時に、画面全体を眩しい純白（#FFFFFF）の背景で全画面フラッシュさせる仕様",
+                        "画面全体の輝度が暗い状態でも、文字の輪郭がはっきりと読めるようにコントラスト比を最適化しておくこと",
+                        "急な眩しさを防ぐため、チケット表示画面へのトランジションにフェードインを穏やかに施する",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>暗い場所に目が慣れている（暗順応）状態のとき、急激な高輝度のフラッシュ光を受けると、瞳孔が縮小しきれず網膜に激しいストレス（グレアショック）を受け、一時的盲目バリアが発生します。",
+                },
+                {
+                    tag: "開発環境と現場の乖離",
+                    q: "「自分やチームのメンバーは開発室の最新端末でプロダクトを快適に使えているから十分である」という考え方が、致命的な認知バイアスとされる最大の理由はどれですか？",
+                    opts: [
+                        "自分たちのプロダクトをテストすること自体が法律で禁止されているから",
+                        "テスト環境と本番環境のサーバーが物理的に異なるから",
+                        "作り手は極めて限定され恵まれた環境にいるが、ゲストは全く異なる多様な環境で利用するから",
+                        "チームメンバーの画面操作速度が、一般的なユーザーよりも速すぎるから",
+                    ],
+                    ans: 2,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>「自分の健康や快適な環境」を基準にして物事に判断をくだすバイアスは、アクセシビリティにおける最大のバリアです。ユーザーが利用する「現場環境」を真摯にシミュレーションし、その乖離を埋めることがプロの仕事です。",
+                },
+                {
+                    tag: "老眼（加齢視力低下）",
+                    q: "スマホの「老眼（加齢による近距離の視力低下）」に直面し始めたお父さんお母さん世代が、現地でお出かけ先チケットを購入する際の主要なバリアはどれですか？",
+                    opts: [
+                        "スマホのタッチ感度センサーが年齢とともに低くなってしまうこと",
+                        "小さい文字や低いコントラストの文字が識別できず、手続きのミスを誘発しやすくなること",
+                        "アプリケーションの制限時間制限が自動短縮されてしまうこと",
+                        "自動的にすべての言語が英語に切り替わってしまい、日本語の解読ができなくなること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>加齢による視覚的な制約は、家族連れなど極めて多くのゲストが日常的に遭遇するバリアです。文字サイズ変更や明快なコントラストの確保が、体験を阻害しないための大切な親切です。",
+                },
+                {
+                    tag: "オーバーレイの誤解",
+                    q: "サイトに一行のスクリプトを埋め込むだけで、画面の色や文字サイズを自動で変更する「アクセシビリティ・オーバーレイ（自動ツール）」の導入だけで対応を終わらせることの罠はどれですか？",
+                    opts: [
+                        "サーバー全体の通信処理速度が自動的に10秒以上遅れてフリーズするから",
+                        "元のHTML構造の欠陥（divスープなど）は直らないため、支援技術の根本バリアを解決できないから",
+                        "自動ツールを導入すると、スマートフォン自体のセキュリティシステムが無効化されるから",
+                        "日本語のフォントが自動的にすべて英語の明朝体フォントに強制変更されてしまうから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>オーバーレイツールは見た目の簡易的な変更をユーザーに強いる「パッチ的な手段」に過ぎません。裏側のセマンティクス（情報構造）が崩壊している場合、スクリーンリーダーやAIエージェントにとっての根本的なバリアは一切解消されません。",
+                },
+                {
+                    tag: "社会的インクルージョン",
+                    q: "プロダクト開発チームがアクセシビリティを最初から前提に置くことは、ビジネス面でどのようなポジティブなインパクトをもたらしますか？",
+                    opts: [
+                        "サイト上のすべての画像を、自動的に10kb以下の軽量ファイルに変換できる",
+                        "「高齢者」「怪我をしたゲスト」「屋外で利用する多忙なゲスト」などの幅広い顧客層を包摂できる",
+                        "他のすべての競合サービスの予約手続きを自動でブロックできるようになる",
+                        "アプリケーションのプログラミング言語が、自動的に最新のものに更新される",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>アクセシビリティは特定の人のためのコストではありません。一時的に制限状態にあるすべての人が、快適にサービスを利用して楽しい体験にアクセスできるようにするための、優れたUX品質（投資）だからです。",
+                },
+                {
+                    tag: "騒音と動画",
+                    q: "【状況的な不自由】雑踏やアナウンスが激しく、動画の音声情報が一切聞こえない環境にいるゲストに、重要な集合注意事項を確実に伝えるための設計はどれですか？",
+                    opts: [
+                        "音量が自動で強制最大になるように、端末の音量APIを操作する",
+                        "動画と同等の重要案内がすべて書かれた、代替テキスト（書き起こし）を併記すること",
+                        "音声データをより高音質にエンコードしたファイルに置き換える",
+                        "動画の表示位置を自動的にブラウザの中央に固定する",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>音が出せない・聞こえない状況は誰にでも発生します。代替テキストや字幕を用意しておくことで（WCAG 1.2相当）、不自由な状況下でもゲストが入場手順を見落とさず安全に遊べるようになります。",
+                },
+                {
+                    tag: "やさしい規約要約",
+                    q: "非常に長くて難解な文字だけで構成された「利用規約」を、すべてのゲストが等しく確認できるようにするための最も親切な情報設計はどれですか？",
+                    opts: [
+                        "利用規約のフォントサイズを一律で5pxの極小文字にして1画面に収める",
+                        "重要な要約（ポイント）を中学生でもわかる平易な日本語で上部に要約掲載すること",
+                        "規約のテキストをすべて、音声データだけのファイルにして自動再生させる",
+                        "利用規約を読まなければ、次の決済画面に一切進めないように強制ロックする",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>難解な法的規約は認次的負荷を高め、トラブルを誘発します。重要事項をプレイン・ランゲージで簡潔に要約しておくことで、誰もが納得して安心して購入手続きを進められます。",
+                },
+                {
+                    tag: "JIS規格AAの意義",
+                    q: "適合表明レベルAAを達成することを組織的なアクセシビリティ目標に掲げる、最大のビジネス意義はどれですか？",
+                    opts: [
+                        "達成した瞬間に、すべてのサイト運営にかかるシステムサーバー代が無料になる",
+                        "国や自治体、大企業の推奨・調達基準を満たし、BtoBビジネスの取引優位性を獲得するため",
+                        "競合サービスのウェブ広告を自動的にブロックする排他的な権利が得られる",
+                        "アプリケーションの動作パフォーマンスが、物理的に2倍速くなるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>公的機関や大企業は調達の条件として「JIS適合レベルAA」を強く要求します。規格適合はブランドの信頼性だけでなく、大きな法人取引での強固な営業競合優位性になるからです。",
+                },
+                {
+                    tag: "色覚特性配慮",
+                    q: "「赤色のボタンが購入、緑色のボタンがキャンセル」という色だけでアクションを区別する設計が不適切な理由は何ですか？",
+                    opts: [
+                        "赤色と緑色のボタンは、通信量を自動的に増大させるバグがあるから",
+                        "赤色と緑色の区別がつきにくい色覚特性を持つ人にとって、同じ色のボタンに見えてしまうから",
+                        "国際規格において、購入ボタンは必ず青色に決まっているから",
+                        "画面の読み込み表示速度が自動的に10％低下するスクリプト上の不具合があるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>色だけで状態を伝えると（1.4.1）、一部の色覚特性や画面が白飛びした屋外ではエラーの存在を認識できない実害が起きるからです。アイコンやテキストの併記が必須です。",
+                },
+                {
+                    tag: "弱視と文字拡大",
+                    q: "弱視のゲストが、画面の「利用上の重要な注意事項」を確実に読むために行うピンチアウト（文字拡大）を、サイト側で制限してはいけない理由は何ですか？",
+                    opts: [
+                        "拡大を禁止すると、スマートフォンのGPS機能が誤作動を起こすから",
+                        "ゲスト自身が情報を認識する権利を物理的に奪い、手続き不能や離脱を招くから",
+                        "画面を大きく表示させないと、決済処理がサーバーでブロックされるから",
+                        "ズームを禁止するとデータ通信量が削減されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>作り手都合によるズーム禁止は、視覚制限を抱えるゲストにとって致命的なバリアです。拡大しても崩れず、一画面に美しく折り返すリフロー対応（1.4.10）が正しい品質です。",
+                },
+                {
+                    tag: "手が震える一時制限",
+                    q: "「手が震える（寒さ、体調不良等の一時的症状）」状況のゲストが、お出かけ先でスマホを操作する際、最も障壁となる設計はどれですか？",
+                    opts: [
+                        "タップした際に、スマートフォンが軽く振動（触覚フィードバック）する仕様",
+                        "決定ボタンとキャンセルボタンが極端に小さく、かつぴったりと隣り合って配置されている仕様",
+                        "画面全体がダークテーマ（黒基調のデザイン）で落ち着いた輝度で構成されている仕様",
+                        "自動的に音声読み上げシステムが作動してテキストを読み上げる仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>指先の座標ブレが多発する状況下では、密着した小さなボタンは誤操作を極限まで誘発させます。決定ボタンと危険なキャンセル（削除）ボタンを並べる際などは、十分なターゲットサイズと物理的距離（余白）の確保がセーフティネットになります。",
+                },
+                {
+                    tag: "等価な顧客体験",
+                    q: "「アクセシビリティ対応は、ごく一握りの特別な障害を持つ人のために行うものである」という考え方が、根本的に間違っている理由は何ですか？",
+                    opts: [
+                        "障害者向けの特別な機能を作らないと、自動的にサイトの利用規約が無効化されるから",
+                        "「焦り、片手、直射日光、騒音、通信制限」など、お出かけ現場で誰もが一時的な不自由さに直面するから",
+                        "最新のPCやスマートフォンの表示速度が自動的に10％低下するのを防ぐため",
+                        "世界的な特許を申請する際、アクセシビリティ対応の証明が必須となるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか】</strong><br>お出かけの現場では、誰もが「一時的制限状態」になり得ます。これらを取り除いて滑らかに決済まで誘導することは、すべてのゲストの離脱を防ぎ、売上（CVR）を最大化するための優れた「顧客体験設計（投資）」だからです。",
+                },
+            ];
+
+            let currentIdx = 0,
+                score = 0,
+                isAnswered = false,
+                currentShuffledOpts = [];
+
+            function startQuiz() {
+                document
+                    .getElementById("learning-phase")
+                    .classList.add("hidden");
+                document
+                    .getElementById("quiz-phase")
+                    .classList.remove("hidden");
+                currentIdx = 0;
+                score = 0;
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function loadQuestion() {
+                isAnswered = false;
+                const qBox = quizData[currentIdx];
+                document.getElementById("question-index").innerText =
+                    `第 ${currentIdx + 1} 問 / 30 問中`;
+                document.getElementById("current-score-text").innerText =
+                    `正答数: ${score}`;
+                document.getElementById("progress-bar").style.width =
+                    `${((currentIdx + 1) / 30) * 100}%`;
+                document.getElementById("question-tag").innerText = qBox.tag;
+                // innerTextを介してそのまま生テキストを出力
+                document.getElementById("question-text").innerText = qBox.q;
+
+                // シャッフル
+                currentShuffledOpts = qBox.opts.map((opt, i) => ({
+                    text: opt,
+                    isCorrect: i === qBox.ans,
+                }));
+                for (let i = currentShuffledOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [currentShuffledOpts[i], currentShuffledOpts[j]] = [
+                        currentShuffledOpts[j],
+                        currentShuffledOpts[i],
+                    ];
+                }
+
+                const container = document.getElementById("options-container");
+                container.innerHTML = "";
+                currentShuffledOpts.forEach((opt, idx) => {
+                    const btn = document.createElement("button");
+                    btn.className =
+                        "option-item text-left w-full p-3 sm:p-4 rounded-lg border border-border bg-white text-xs sm:text-sm font-medium hover:bg-secondary transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-ring focus:border-indigo-500";
+                    btn.innerText = opt.text;
+                    btn.onclick = () => selectOption(idx);
+                    container.appendChild(btn);
+                });
+                document.getElementById("feedback-box").classList.add("hidden");
+                document.getElementById("next-btn").classList.add("hidden");
+            }
+
+            function selectOption(idx) {
+                if (isAnswered) return;
+                isAnswered = true;
+                const btns = document.getElementsByClassName("option-item");
+                const qBox = quizData[currentIdx];
+
+                for (let i = 0; i < btns.length; i++) {
+                    btns[i].disabled = true;
+                    btns[i].classList.remove("hover:bg-secondary");
+                    if (currentShuffledOpts[i].isCorrect) {
+                        btns[i].className +=
+                            " bg-emerald-50/50 border-emerald-500 text-emerald-900 font-semibold shadow-sm";
+                    }
+                }
+
+                const correct = currentShuffledOpts[idx].isCorrect;
+                if (correct) {
+                    score++;
+                } else {
+                    btns[idx].className +=
+                        " bg-rose-50/50 border-rose-400 text-rose-900 font-medium";
+                }
+
+                const feedback = document.getElementById("feedback-box");
+                feedback.className = `mt-4 p-3 sm:p-4 rounded-lg border ${correct ? "bg-emerald-50/50 border-emerald-500 text-emerald-900" : "bg-rose-50/50 border-rose-400 text-rose-900"} fade-in text-left`;
+                document.getElementById("feedback-title").innerText = correct
+                    ? "正解です"
+                    : "不正解です";
+
+                const iconSvg = document.getElementById("feedback-icon");
+                const iconGeorgeHTML = correct
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>';
+                iconSvg.className = `w-4 h-4 sm:w-5 h-5 ${correct ? "text-emerald-600" : "text-rose-600"}`;
+                iconSvg.innerHTML = iconGeorgeHTML;
+
+                document.getElementById("feedback-rationale").innerHTML =
+                    qBox.note;
+                feedback.classList.remove("hidden");
+                document.getElementById("next-btn").classList.remove("hidden");
+            }
+
+            function nextQuestion() {
+                if (++currentIdx < 30) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }
+
+            function showResult() {
+                document.getElementById("quiz-phase").classList.add("hidden");
+                document
+                    .getElementById("result-phase")
+                    .classList.remove("hidden");
+                document.getElementById("final-score").innerText =
+                    `${score} / 30`;
+
+                const rankSpan = document.getElementById("score-rank");
+                const msgP = document.getElementById("result-message");
+
+                let rank = "";
+                let msg = "";
+
+                if (score === 30) {
+                    rank = "体験設計プロフェッショナル（最高峰） 🏆";
+                    msg =
+                        "完璧です！第一章：マインド編の全30問を完全にクリアしました。お出かけ先におけるゲストの『一時的な不自由さ』を見抜き、そのバリアを設計とコードで100%解決する最高のマインドセットを持っています。あなたの優しい視点が、サービスの価値を底上げします！";
+                } else if (score >= 24) {
+                    rank = "アクセシビリティ推進リーダー 🥇";
+                    msg =
+                        "素晴らしい成績です！お出かけ現場での5つの不自由さ（焦り、雨、片手、直射日光、騒音など）を深く理解できています。ぜひチームの中で『ここ、屋外の日差しの中で読めないかも？』などの声を自発的にあげるリードを取っていきましょう！";
+                } else if (score >= 15) {
+                    rank = "共感パートナー 🥈";
+                    msg =
+                        "合格点レベルです！日常の不自由さに寄り添う優れた視点がおおむね身についています。間違えてしまった問題の『なぜやるのかの理由』をもう一度復習して、さらに解像度の高いバリアフリー思想を深めましょう。";
+                } else {
+                    rank = "アクセシビリティビギナー 🌱";
+                    msg =
+                        "お疲れ様でした。お出かけ先におけるゲストの制限は想像以上に多様です。もう一度講義ノートをじっくり読み返し、いつでもご自身のペースでクイズに再挑戦してみてください！";
+                }
+
+                rankSpan.innerText = `ランク：${rank}`;
+                msgP.innerText = msg;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function restartQuizOnly() {
+                document.getElementById("result-phase").classList.add("hidden");
+                startQuiz();
+            }
+        </script>
+    </body>
+</html>

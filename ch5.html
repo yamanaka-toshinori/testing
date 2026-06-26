@@ -1,0 +1,963 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>アクセシビリティ研修 — Chapter 05 | 研修プログラム</title>
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            border: "rgb(228, 228, 231)", // zinc-200
+                            input: "rgb(228, 228, 231)", // zinc-200
+                            ring: "rgb(79, 70, 229)", // indigo-600
+                            background: "rgb(255, 255, 255)", // white
+                            foreground: "rgb(9, 9, 11)", // zinc-950
+                            primary: {
+                                DEFAULT: "rgb(9, 9, 11)", // zinc-950
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            secondary: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            destructive: {
+                                DEFAULT: "rgb(239, 68, 68)", // red-500
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            muted: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(113, 113, 122)", // zinc-500
+                            },
+                            accent: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            card: {
+                                DEFAULT: "rgb(255, 255, 255)",
+                                foreground: "rgb(9, 9, 11)",
+                            },
+                        },
+                        borderRadius: {
+                            lg: "0.75rem",
+                            md: "calc(0.75rem - 2px)",
+                            sm: "calc(0.75rem - 4px)",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap");
+
+            body {
+                font-family: "Inter", "Noto Sans JP", sans-serif;
+                background-color: rgb(250, 250, 250);
+            }
+
+            .bg-pattern {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background:
+                    radial-gradient(
+                        at 0% 0%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        at 100% 100%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    );
+            }
+
+            .fade-in {
+                animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-foreground min-h-screen flex flex-col antialiased"
+    >
+        <div class="bg-pattern"></div>
+
+        <!-- ヘッダー -->
+        <header
+            class="bg-white border-b border-border sticky top-0 z-50 shadow-[0_1px_2px_rgba(0,0,0,0.02)] h-[49px]"
+        >
+            <div
+                class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between"
+            >
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="w-1.5 h-4 bg-indigo-600 rounded-full"></div>
+                    <span
+                        class="text-xs sm:text-sm font-bold tracking-tight text-foreground select-none"
+                    >
+                        ウェブアクセシビリティ研修 Chapter 05
+                    </span>
+                </div>
+                <button
+                    onclick="backToHomeHub()"
+                    class="text-[10px] sm:text-xs bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-2.5 py-1.5 rounded-md transition-colors cursor-pointer"
+                >
+                    ホームへ戻る
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main
+            class="flex-grow max-w-4xl w-full mx-auto px-4 pt-6 sm:pt-12 pb-16 flex flex-col justify-start"
+        >
+            <!-- 1. 講義学習フェーズ -->
+            <div
+                id="learning-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-10 shadow-sm fade-in"
+            >
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span
+                        class="text-muted-foreground font-bold text-xs tracking-widest uppercase block mb-1"
+                        >Chapter 05 (検証・評価編)</span
+                    >
+                    <h2
+                        class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-2 sm:mb-3"
+                    >
+                        検証・テストと品質保証
+                    </h2>
+                    <p
+                        class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                    >
+                        自動ツールの限界を知り、VoiceOver/TalkBack等の実機操作、JIS規格試験等の確かな評価プロセスを学びます。
+                    </p>
+                </div>
+
+                <div
+                    class="space-y-6 sm:space-y-8 text-foreground leading-relaxed max-w-3xl mx-auto text-xs sm:text-sm md:text-base border-t border-border pt-6"
+                >
+                    <section
+                        class="border-l-4 border-indigo-600 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            1. 自動監査ツールの検知限界
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            Lighthouseやaxe-coreなどの優れた自動監査ツールは、構文解析のエラーを高速で発見できますが、<strong>「検知できるのはアクセシビリティ問題全体の3〜4割程度」</strong>にすぎません。
+                            残りの6割強は、キーボード操作やスクリーンリーダーの実機を直接動かす「手動検証」でのみ保証されます。
+                        </p>
+                    </section>
+
+                    <section
+                        class="border-l-4 border-zinc-300 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            2. 手動テストの必要性
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            Tabキー移動時に「どこを選択しているか」を示すフォーカス枠が美観目的で消去（
+                            <code
+                                class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-[10px] sm:text-xs"
+                                >outline: none</code
+                            >
+                            ）されているバグや、モーダル裏の要素へのキーボードリーク、音声読み上げが途絶えて現在位置を失う現象などは、人間の手によるQA検証でのみ確実に排除できます。
+                        </p>
+                    </section>
+                </div>
+
+                <!-- クイズ開始ボタン -->
+                <div class="mt-10 pt-6 border-t border-border text-center">
+                    <button
+                        onclick="startQuiz()"
+                        class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-auto"
+                    >
+                        <span>理解度クイズに挑戦する (全30問)</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2.5"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. クイズプレイフェーズ -->
+            <div
+                id="quiz-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-8 shadow-sm hidden fade-in min-h-[550px] sm:min-h-[670px] flex flex-col justify-between"
+            >
+                <div>
+                    <div
+                        class="flex items-center justify-between text-[11px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 font-medium tracking-tight"
+                    >
+                        <span id="question-index" class="uppercase"
+                            >第 1 問 / 30 問中</span
+                        >
+                        <span id="current-score-text">正答数: 0</span>
+                    </div>
+                    <div
+                        class="w-full bg-secondary h-1.5 rounded-full mb-4 sm:mb-6 overflow-hidden"
+                    >
+                        <div
+                            id="progress-bar"
+                            class="bg-primary h-full rounded-full transition-all duration-300"
+                            style="width: 3.3%"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-start">
+                    <div
+                        class="inline-block bg-secondary text-secondary-foreground text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded mb-2 sm:mb-3 w-fit"
+                        id="question-tag"
+                    >
+                        テーマ
+                    </div>
+                    <h3
+                        class="text-sm sm:text-lg font-bold text-foreground leading-snug mb-4 sm:mb-6"
+                        id="question-text"
+                    >
+                        ここに問題文が挿入されます。
+                    </h3>
+
+                    <!-- 等価選択肢コンテナ -->
+                    <div
+                        class="grid gap-2.5 mb-4 sm:mb-6"
+                        id="options-container"
+                    >
+                        <!-- ボタンがJSで動的に挿入されます -->
+                    </div>
+
+                    <!-- 解説表示エリア -->
+                    <div
+                        id="feedback-box"
+                        class="mt-2 p-3 sm:p-4 rounded-lg border hidden fade-in"
+                    >
+                        <div
+                            class="flex items-start space-x-2 sm:space-x-3 text-left"
+                        >
+                            <div class="mt-0.5 flex-shrink-0">
+                                <svg
+                                    id="feedback-icon"
+                                    class="w-4 h-4 sm:w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                ></svg>
+                            </div>
+                            <div>
+                                <h4
+                                    class="font-bold text-xs sm:text-sm mb-1"
+                                    id="feedback-title"
+                                >
+                                    結果タイトル
+                                </h4>
+                                <p
+                                    class="text-[11px] sm:text-sm leading-relaxed text-slate-700"
+                                    id="feedback-rationale"
+                                >
+                                    ここに解説テキストが挿入されます。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下部：次へボタン -->
+                <div
+                    class="mt-4 sm:mt-6 border-t border-border pt-4 min-h-[52px]"
+                >
+                    <button
+                        id="next-btn"
+                        onclick="nextQuestion()"
+                        class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-4 rounded-md transition-colors hidden flex items-center justify-center space-x-2 cursor-pointer text-xs sm:text-sm"
+                    >
+                        <span>次の問題へ進む</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. 結果画面フェーズ -->
+            <div
+                id="result-phase"
+                class="bg-card rounded-xl border border-border p-6 sm:p-12 text-center hidden fade-in shadow-sm"
+            >
+                <div
+                    class="w-12 h-12 sm:w-16 sm:h-16 bg-secondary text-primary flex items-center justify-center rounded-full mx-auto mb-4 sm:mb-6"
+                >
+                    <svg
+                        class="w-6 h-6 sm:w-8 sm:h-8"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                </div>
+
+                <h2
+                    class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-1 sm:mb-2"
+                    id="result-header"
+                >
+                    研修クイズ完了
+                </h2>
+                <p
+                    class="text-muted-foreground text-xs sm:text-sm mb-6 sm:mb-8"
+                    id="result-subheader"
+                >
+                    おめでとうございます！第五章検証・評価編を完全に制覇しました。
+                </p>
+
+                <!-- スコア表示 -->
+                <div
+                    class="bg-secondary/50 border border-border rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm mx-auto mb-6 sm:mb-8"
+                >
+                    <span
+                        class="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-wider block mb-1"
+                        >あなたの正答率</span
+                    >
+                    <span
+                        class="text-3xl sm:text-4xl font-black text-foreground"
+                        id="final-score"
+                    ></span>
+                    <span
+                        class="text-[11px] sm:text-xs text-muted-foreground block mt-1.5 sm:mt-2 font-semibold"
+                        id="score-rank"
+                    ></span>
+                </div>
+
+                <!-- フィードバック文 -->
+                <div
+                    class="max-w-md mx-auto text-slate-700 text-xs sm:text-sm leading-relaxed text-left bg-secondary border-l-4 border-primary p-4 rounded-r-md mb-6 sm:mb-8"
+                >
+                    <p id="result-message"></p>
+                </div>
+
+                <!-- 操作ボタン -->
+                <div
+                    class="flex flex-col sm:flex-row justify-center items-center gap-2 max-w-md mx-auto"
+                >
+                    <button
+                        onclick="backToHomeHub()"
+                        class="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center cursor-pointer"
+                    >
+                        ホームへ戻る
+                    </button>
+                    <button
+                        onclick="restartQuizOnly()"
+                        class="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm cursor-pointer"
+                    >
+                        もう一度挑戦する
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer
+            class="bg-white border-t border-border py-6 sm:py-8 text-center text-[10px] sm:text-xs text-muted-foreground"
+        >
+            <div class="max-w-4xl mx-auto px-4">
+                <p>© 2026 アクセシビリティ推進委員会（仮）</p>
+                <p
+                    class="mt-1 text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed"
+                >
+                    すべてのユーザーが、あらゆる利用環境において滑らかに目的を達成できる情報環境を目指して。
+                </p>
+            </div>
+        </footer>
+
+        <!-- クイズデータ管理用スクリプト -->
+        <script>
+            const CONFIG = {
+                homeHubUrl: "", // ポータル(index.html)の完全URLを指定する場合のみ設定
+            };
+
+            function backToHomeHub() {
+                const targetUrl = CONFIG.homeHubUrl;
+                if (targetUrl && targetUrl.trim() !== "") {
+                    window.location.href = targetUrl;
+                } else {
+                    navigateTo(""); // リネームに合わせてindex.htmlへ遷移
+                }
+            }
+
+            function navigateTo(fileName) {
+                try {
+                    const url = new URL(window.location.href);
+                    const path = url.pathname;
+                    const lastSlashIdx = path.lastIndexOf("/");
+                    const newPath =
+                        path.substring(0, lastSlashIdx + 1) + fileName;
+                    url.pathname = newPath;
+                    window.location.href = url.toString();
+                } catch (e) {
+                    window.location.href = fileName;
+                }
+            }
+
+            // 📝 クイズデータ定義：問題（q）や選択肢（opts）は innerText で安全展開されるため、
+            // 記述内に &lt; や &gt; などの実体参照を使わず、生のタグ文字（ < や > ）で記述します。
+            const quizData = [
+                {
+                    tag: "Lighthouse限界",
+                    q: "Lighthouseやaxe-coreなどの自動監査ツールで「アクセシビリティスコア 100点」だった際、私たちが持つべき正しい品質認識はどれですか？",
+                    opts: [
+                        "自動ツールで検知できるバグは全体の3〜4割程度であり、手動での実機検証が不可欠であること",
+                        "自動チェックツールで満点を獲得した時点で、今後のユーザーテストや法的義務は免除されること",
+                        "自動検証で100点であれば、どのような利用環境のユーザーでも100%バリアフリーであること",
+                        "プログラムコードの容量が自動的に半分になり、ページの表示速度が2倍速く完了すること",
+                    ],
+                    ans: 0,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>自動検証ツールは「alt属性が書かれているか」などの構文レベルのチェックは行えますが、「そのaltの記述内容が、画像の意味を正しく表現できているか」といった文脈的な正しさは判定できません。手動テスト（QA）こそが真のバリアフリーを担保します（WCAG 準拠全般）。",
+                },
+                {
+                    tag: "キーボードテスト",
+                    q: "マウスやトラックパッドを一切使わず、「Tabキー」や「Enter/Spaceキー」のみでフォーム操作のテストを行う最優先の目的は何ですか？",
+                    opts: [
+                        "キーボードだけで操作したほうが、アプリのコンバージョン率が自動的に2倍に高まるから",
+                        "マウス操作が困難なゲストや画面の白飛びで目視が困難な環境でも、Tabキーだけで確実に手続きが完結できるか保証するため",
+                        "ページのセキュリティ暗号化状態が正常に起動しているか確認するため",
+                        "画面の読み込み表示スピードをミリ秒単位で計測するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>Tabキー移動（WCAG 2.1.1）は、マウスを使えない肢体不自由ゲストが「そもそも物理的に決定ボタンを押せるか」を確認するための唯一無二の手法です。Tabキーがボタンをスキップしてしまうなどの致命的欠陥を未然に防ぐために必須の手動QAプロセスです。",
+                },
+                {
+                    tag: "VoiceOver検証",
+                    q: "iOSの「VoiceOver」やAndroidの「TalkBack」を使った手動テストにおいて、スワイプ操作による要素の移動時にエンジニアが注視すべき挙動はどれですか？",
+                    opts: [
+                        "画面全体の配色デザインが、自動的に元の日本語フォントから英語の斜体に書き換わる不具合",
+                        "読み上げフォーカスの移動する順番が、目で見た画面の「論理的な並び順」と完全に一致していること",
+                        "要素が選択されるたびに、スマートフォンの液晶のバックライト輝度が自動的にオフになる不具合",
+                        "読み上げを1回繰り返すことで、ページのデータ読み込み容量が2倍に増大していくバグ",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>CSSで見た目の位置だけを強引に入れ替え、HTMLコードの記述順（DOM）を無視していると、フリック時に読み上げ位置が突然ワープしてしまいます（WCAG 1.3.2 意味のある順序）。実機テストは、この論理不整合バグを発見する最速の手段です。",
+                },
+                {
+                    tag: "ツリーインスペクト",
+                    q: "デベロッパーツールを用いて、DOMツリーとは別にブラウザが内部構築する「アクセシビリティツリー」をインスペクトすべき理由は何ですか？",
+                    opts: [
+                        "サーバー側のAPI通信エラーが発生した際のデバッグログを自動抽出するため",
+                        "DOMの不要な入れ子ノイズを完全に排し、支援技術に直接手渡されている要素の役割・名前・状態を直接監査デバッグするため",
+                        "WebページのHTMLやCSSを、自動的に新しいプログラム規格に変換するため",
+                        "AIエージェントの操作時間をデータベース上で自動的に半分にするため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>スクリーンリーダーやAIエージェント（WCAG 4.1.2相当）は、生のHTMLコードではなく、ブラウザが解釈した「アクセシビリティツリー」を頼りに動きます。このツリー構造が破損している要素は、機械にとって存在しない（不可視）のと同等であるため、ツリーの直接デバッグが必要です。",
+                },
+                {
+                    tag: "JISサンプリング",
+                    q: "日本産業規格（JIS X 8341-3）の適合表明テストにおいて、全ページ検証ではなく「ランダム抽出を含むサンプリングテスト」を推奨する組織的意義は何ですか？",
+                    opts: [
+                        "サーバー代の利用料金を安くするための免税申請に必要な手続きだから",
+                        "開発を繰り返す中で品質の退化（リグレッション）がないかを、規格水準で科学的に定量測定し、対外的に説明可能にするため",
+                        "すべての競合サービスの動きを遮断する業務停止命令を出すため",
+                        "プログラムのデバッグログを自動的にデータベースに保存するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>大規模なWebサイトですべてのファイルを都度手動監査するのは天文学的なコストが掛かります。JISが規定する「代表的なページのサンプリング監査」を行うことで、現実的な工数で最大の品質保証データを対外的に公表できるようになるからです。",
+                },
+                {
+                    tag: "当事者テスト",
+                    q: "開発したプロダクトに対し、自動チェッカーだけでなく「実際の障害を持つ当事者」を招いたユーザーテストを重ねて実施すべき最大の意義は何ですか？",
+                    opts: [
+                        "開発チームのコーディング作業そのものを、代わりに代行して修正してもらうため",
+                        "『アプリ構造を知っている作り手のエゴ（無意識のバグ回避や近道）』を排除し、日常の使いこなしにおけるリアルな実害を発見するため",
+                        "ユーザーテストを行うことで、JIS規格の適合試験のプロセスを自動的にスキップできるから",
+                        "アプリのレビュー評価（★5）を自動的に最安コストで大量獲得するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>開発者は「次に何が起きるか」を知っているため、操作エラーを無意識に回避するエゴに陥ります。当事者テストは、作り手都合の「想定の甘さ」を浮き彫りにし、実害（お出かけ手続きの断念）に直結するバリアを洗い出します。",
+                },
+                {
+                    tag: "CI/CD自動テスト",
+                    q: "スピード開発を繰り返す過程で、一度直した「画像のalt属性の書き忘れ」や「マークアップバグ」の再混入（デグレーション）を自動検知する最も効果的な手法はどれですか？",
+                    opts: [
+                        "リリース後に、CS（サポートセンター）に同様のクレームが入るのを待つ運用ルール",
+                        "継続的インテグレーション（CI/CD）のビルド時に、自動監査テスト（axe-core等）を実行し、エラー検知時にPRを自動ブロックする仕組み",
+                        "開発者全員に、リリースごとに毎週10時間の手動全件テストを義務付けること",
+                        "すべての開発用PCのプログラミング言語を、アクセシビリティ対応言語に自動変更すること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>日々の高速なプルリクエスト（PR）の中で、人間の目視チェックだけでリグレッション（退化：WCAG 4.1.1、1.1.1相当）を100%防ぐのは不可能です。自動検証を実行パイプラインに組み込むことが最も確実で安価なバリア侵入防止壁になります。",
+                },
+                {
+                    tag: "ズームテストリフロー",
+                    q: "PCブラウザの拡大ズーム機能を用いて画面サイズを「200%（2倍）」に拡大した際、アクセシビリティQAテストで『合格（不具合なし）』と判定される状態はどれですか？",
+                    opts: [
+                        "画面を拡大した際に、ページ全体の画像データが自動的に表示されなくなり読み込みをカットする状態",
+                        "テキストが画面の端を突き破って横にスクロールせず、自動的に1画面内に折り返されて（リフロー）表示される状態",
+                        "文字が大きくなった瞬間に、安全のためにすべての決済処理が強制的に遮断ロックされる状態",
+                        "画面の上下に表示されている注意事項テキストが一律で薄いグレーの極小文字に変更される状態",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>弱視などのゲストは、画面を2倍以上にズームして利用します（WCAG 1.4.4）。ズームした際に、文字がはみ出して読めなくなったり、ボタンが消滅するバグは、その場での手続きを完全に行き詰まらせます。縦1列に正しく収まるリフロー品質（WCAG 1.4.10）が必須です。",
+                },
+                {
+                    tag: "色の識別手動測定",
+                    q: "デザインアセットの背景色と文字のコントラスト比が「4.5:1以上（大きな文字は3:1以上）」を死守できているか監査する正しい手法はどれですか？",
+                    opts: [
+                        "開発モニターの画面を部屋の電気を暗くして見つめ、自分の目視だけで美しいと感じるか評価する",
+                        "Figmaのコントラスト測定プラグインやデベロッパーツール等を用いて、相対輝度比の数値を機械的に測定すること",
+                        "画面全体の背景色を一律で自動的に赤と青で点滅させて、視覚的な点滅度合いをデバッグする仕様",
+                        "スマートフォンの液晶バックライトを永続的に最大輝度に固定させてから目視で確認する仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>人間の「見やすさ」は体調、オフィスの照明、ディスプレイ性能（輝度）によって激しく揺らぎます。主観を排し、国際規格に基づく算出式（WCAG 1.4.3）から出力される「輝度データ比」を用いて測定することがプロの品質保証です。",
+                },
+                {
+                    tag: "キーボードトラップ検証",
+                    q: "埋め込んだ外部のSNSウィジェットやチャットサポートなどの領域に対し、キーボードTabキーの手動テストで『不合格（トラップ検出）』となる挙動はどれですか？",
+                    opts: [
+                        "キーボードのTabキーをどれだけ押しても、ウィジェットの入力欄や閉じるボタンに選択が移動しない状態",
+                        "Tabキーでウィジェット内部のチャット欄に入り込めたが、そこからTabキーやShift+Tabキーを押しても元の予約画面にフォーカスを戻せない状態",
+                        "ウィジェットのボタンを選択してEnterキーを押した際、メッセージ送信処理が正常に行われる状態",
+                        "フォーカス枠が選択された瞬間に、画面の下部から自動的にお役立ちヒントダイアログがせり出す状態",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>キーボードのTab移動が外のコンテンツに復帰できなくなるバグ（WCAG 2.1.2 キーボードトラップ）は、キーボードユーザーにとって「画面が完全にフリーズして固まった」のと同じ絶望を招きます。手動テストで「入る」と「脱出」を検証する責任があります。",
+                },
+                {
+                    tag: "alt文字列内容監査",
+                    q: "画像ファイル（imgタグ）のalt属性テストにおいて、「属性が記述されているからヨシ」として自動チェックをパスしたものの、人間による内容監査で「不合格（バリア）」とすべき記述はどれですか？",
+                    opts: [
+                        '装飾線の画像に対して、読み上げをスルーさせるために alt="" （空値）と意図的に設定されている記述',
+                        '入場受付手順の地図画像に対して、 alt="画像" や alt="map02_fixed_final_new.png" と適当に記述されているもの',
+                        "チケットの利用制限事項の案内画像に対して、画像に書かれている重要なテキスト内容が漏れなくalt内に書き起こされている記述",
+                        '装飾目的のアイコンに対して、aria-hidden="true" が適切に付与され音声リーダーを無視させる記述',
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>自動ツールは「alt属性があるかないか（WCAG 1.1.1）」しか判定できません。中身が「画像」という無意味な3文字（WCAG 2.4.6）では音声ユーザーには何も伝わりません。画像が伝えている『情報そのもの』を過不足なくテキスト化する手動監査が必要です。",
+                },
+                {
+                    tag: "フォーカス脱出復帰",
+                    q: "重要ポップアップ（モーダル）を閉じる手動キーボードテストにおいて、「テスト合格（仕様適合）」と判定されるための正しいフォーカス制御はどれですか？",
+                    opts: [
+                        "キーボードのすべてのキーを押しても、モーダルが自動的に閉じないロック状態をキープすること",
+                        "ESCキーや閉じるボタンを押した際、モーダルが閉じ、フォーカス位置が『開く直前に選択していた元のボタン』に自動で戻ること",
+                        "モーダルを閉じた瞬間に、ページが自動的にブラウザのリロードを強制開始すること",
+                        "タップターゲット面積が, 一律で半分のサイズに縮小して閉じること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>モーダルを閉じた後、フォーカスの現在地がページの先頭（`<body>`）やフッターの彼方まで吹き飛んでしまうバグは、現在地をロストさせる（WCAG 2.4.3 フォーカス順序）重大な移動バリアです。開く前の位置に自然に戻してあげる脱出テストを確実に通すことが、エンジニアの品質担保責任です。",
+                },
+                {
+                    tag: "相互運用テスト",
+                    q: "1つのPCブラウザだけでテストを終わらせず、複数の「OS・ブラウザ・支援技術の組み合わせ（マトリクス）」でアクセシビリティを検証すべき最大の理由は何ですか？",
+                    opts: [
+                        "すべてのブラウザメーカーに対して、利用料金を均等に支払わなければならない契約ルールがあるから",
+                        "ブラウザと支援技術の組み合わせ（例：Safari×VoiceOver、Chrome×NVDA等）によって、読み上げや挙動に著しい差異があるから",
+                        "テストを行うブラウザの数が多いほど、自動的にサーバーの暗号化セキュリティレベルが2倍に強化されるから",
+                        "PCの画面解像度に合わせて、自動的にすべてのアイコンが3Dアニメーション化するのを検証するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>アクセシビリティ仕様の解釈や実装APIは、OS（Windows/Mac/iOS/Android）や支援技術の組み合わせによって挙動のばらつきが多々発生します。1つのブラウザだけでテストして満足することは、特定の動作環境のゲストを完全に見落とし（切り捨て）て操作不能にさせるリスクがあるため、主要な組み合わせでの整合性検証が必須となります。",
+                },
+                {
+                    tag: "適合表明監査",
+                    q: "JIS X 8341-3 規格に基づいたアクセシビリティの検証結果を、公式サイト上に「品質・アクセシビリティ表明（適合表明）」として公開する際、JIS規格に則った誠実で正しい開示内容はどれですか？",
+                    opts: [
+                        "「当システムは、すべての障害者に対して100%完璧に適合したバリアフリーアプリであることを完全に保証します」とだけ誇張記述する",
+                        "対象となるページの範囲、検証に用いた環境、達成したJIS適合レベル、および未達成となっているバリア項目と今後の具体的な改善計画を開示すること",
+                        "一部でも達成できていない項目がある場合は、表明書の公開自体を国の法律によって永続的に禁止される",
+                        "表明書の文字を、CSSですべて白地に白文字（不可視）に設定して検索対策を施すること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>表明書は、単なる「完璧さの誇張」ではなく、現在のアクセシビリティ品質に対する誠実な「透明性（ディスクロージャー）」です。一部準拠（JIS規格上の正式な表明様式）であることを開示し、かつ今後どう直すかの計画を示すこと自体が、お出かけを希望しているすべてのゲストと対話をする第一歩であり、ブランドの社会的信頼を強固にする最重要の表明ドキュメントだからです。",
+                },
+                {
+                    tag: "テーブル構造テスト",
+                    q: "スクリーンリーダーを用いた料金表テーブル（表構造）の手動読み上げテストを行う際、不合格（アクセシビリティ崩壊バグ）となるマークアップ状態はどれですか？",
+                    opts: [
+                        "CSSでテーブルの枠線をフラットなグレーにして、ヘッダーに太字を適用しているマークアップ",
+                        "表構造のタグを使わず、見た目を横に並べるためだけに <div> と改行とスペースだけで表現しているマークアップ",
+                        "表の一番上のセルに scope 属性を適切に指定し、料金と区分を関連付けているマークアップ",
+                        "表全体の幅をレスポンシブ（流動的）にパーセンテージ（%）で可変指定しているマークアップ",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>ただ改行とスペースで整えた表（WCAG 1.3.1）は、音声ユーザーには一列の長い文字列にしか聞こえず、どの数値が「大人」「平日」の価格なのか解釈不可能です（バリア）。手動テストで「料金と区分が連動して聞こえるか」をチェックし、マークアップ構造を保証する必要があります。",
+                },
+                {
+                    tag: "フォーカス論理順テスト",
+                    q: "フォーム画面のキーボード手動テスト中、Tabキーを押した際の選択枠の移動（フォーカス順序）において、合格となる正しい動作要件はどれですか？",
+                    opts: [
+                        "キーボードのTabキーが押された瞬間に、ブラウザ全体が強制的に自動リロードされること",
+                        "目で画面を見た時のレイアウト順に沿って、論理的かつ予測可能に各フォームやボタンへ順番に移動すること",
+                        "すべての入力フォーム要素を一回スキップして、画面最下部のフッターリンクへいきなりジャンプすること",
+                        "現在フォーカスが当たっている枠線の外枠が、自動的にグラデーションのアニメーションで点滅し始めること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>見た目の並び順と、キーボードの操作順（WCAG 2.4.3）が一致していない場合、操作者は現在位置を見失う深刻な移動迷子に陥ります。手動監査で「ビジュアルとDOMツリー記述順が、論理的順序として完全にシンクロしているか」を確認する責任があります。",
+                },
+                {
+                    tag: "やさしい言葉検査",
+                    q: "利用規約や集合場所に関する案内のテキスト表現について、コンテンツ監査（レビュー）チームがチェックし、修正（不適合）を出すべき記述はどれですか？",
+                    opts: [
+                        "「集合時間は、指定時間の15分前です。遅れた場合は入場できません」と、主語述語を明確にした簡潔な文章",
+                        "「決済の処理を完了しないと同意を承ることができないわけではありません」などの、難解でまわりくどい二重否定文章",
+                        "「受付スタッフに、スマートフォンの画面をそのままご提示ください」と、取るべき行動を能動態で明確に示した優しい文章",
+                        "「手荷物の持ち込み制限」について、中学生でも一読でスッと内容を正確に誤解なく理解できる平易な日本語で要約された文章",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>複雑な二重否定や難解敬語は、手続きに焦っているゲストの読読負担を増やし、キャンセル料や入場条件の「勘違い（誤認トラブル）」を誘発します。また、多言語の翻訳エンジン（WCAG 3.1.5）を誤動作させます。プレインライティングのチェックは、顧客体験保証の重要QA項目です。",
+                },
+                {
+                    tag: "背面スクロールテスト",
+                    q: "ボトムシートやモーダル展開時の背面スクロールロック手動テストにおいて、不合格（背面リークバグあり）と判定すべき挙動はどれですか？",
+                    opts: [
+                        "モーダルが表示されている間、ダイアログの内側にある入力フォームやボタンのみが正確にスクロールできる状態",
+                        "モーダルが表示されている間、ダイアログの外側の背景部分をフリック操作した際に背後ページ全体が一緒に動いてしまう状態",
+                        "モーダルが開いた瞬間に、キーボードのTabキー移動がダイアログ内部のボタン要素だけでループして外に漏れない状態",
+                        "ダイアログの外側の背景エリアをタップした際に、安全にモーダルが閉じ、元のボタンへフォーカスが正しく復帰する状態",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>背面がスクロールリーク（背景スクロール）するバグは、操作フォーカス位置をモーダル背後へと不意に押し流し、支援技術の現在地をロストさせる（WCAG 2.4.3相当）原因になります。背景フリック時にも背後が絶対に動かないよう、JS等で背面ロックがされているか検証が必要です。",
+                },
+                {
+                    tag: "タイムアウト警告QA",
+                    q: "在庫確保セッションなどの「予約操作制限時間（タイムアウト）」に関するQA（品質保証）テストにおいて、合格判定基準となる正しい挙動はどれですか？",
+                    opts: [
+                        "制限時間切れの10秒前に突然警告画面が表示され、時間延長の手続きを踏まなくても自動的に決済処理が完了する挙動",
+                        "セッション切れが近くなったタイミングで警告をダイアログ表示し、ユーザー自身がキー操作で有効期限を自由に延長できる挙動",
+                        "サーバーへの通信負荷を最大限減らすために、セッション時間の制限を一律で最大5秒にまで自動縮小して動作する挙動",
+                        "時間切れに達したその瞬間に、警告や事前通知を行うことなく、直ちにブラウザウィンドウが強制終了される挙動",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>手の震えや音声ユーザー、あるいは混雑したお出かけ現場のバタバタ（一時的制限環境）では、情報の入力に健常者の3倍以上の時間を必要とすることが多々あります。タイムアウトの事前警告と延長保証（WCAG 達成基準 2.2.1）は、不意のデータロストによるゲストの極度の心理パニックと、これまでの入力苦労の全損失（離脱）を完璧に防ぎます。",
+                },
+                {
+                    tag: "表明表明メリット",
+                    q: "アクセシビリティ品質ポリシーを策定し、自発的にサイトの適合レベルAA情報をサイトに公開することの、組織的な最大のメリットは何ですか？",
+                    opts: [
+                        "ポリシー策定と同時に、すべてのインフラサーバー費用を国の法律によって無料化させることができる",
+                        "自治体や大手企業など、アクセシビリティ適合（JIS AA等）を調達条件に定める大口クライアントとのBtoB取引が可能になるため",
+                        "自社のセキュリティ品質が完璧であるため、競合他社が提供しているウェブ広告を一括で強制非表示にできるから",
+                        "スマートフォンのブラウザにおけるマークアッププログラムの描画処理速度が物理的に2倍高速化されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>自治体や大企業は、提携やシステム導入（調達）の厳格な必須条件として「JIS規格適合」を掲げています。ポリシーと適合表明を開示することは、ブランドイメージの向上のみならず、大口のBtoB取引を勝ち取るための強固な「営業アドバンテージ」となるからです。",
+                },
+                {
+                    tag: "エラーフォーカスQA",
+                    q: "フォーム送信処理を実行し、入力バリデーションエラーを非同期で画面上に動的表示させる際、手動テストで「最も合格（UX適合）」とすべきスクリプト動作はどれですか？",
+                    opts: [
+                        "エラーが発生した瞬間にセキュリティのために入力マスのすべての情報を自動的に空っぽにする動作",
+                        "エラー内容を簡潔にまとめた「エラー要約エリア（または最初のエラー項目）」にフォーカスを自動で強制移動する動作",
+                        "エラー警告用の大きなサイレンを端末から自動再生させて、画面を3秒間赤色に点滅表示させる動作",
+                        "エラーが発生した旨を画面に1秒だけ一瞬ポップアップで表示し、直ちに画面を前のページへと戻す動作",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>画面を大きくズームしている弱視ゲストや音声利用ゲストは、非同期（リロードなし）で現れた赤い文字のエラー表示に気づけず、「押したのに動かない、なぜ？」と離脱（バリア）します。フォーカスをエラー箇所へ強制移動させる（WCAG 2.4.3、3.3.1相当）手動QA検証が必須です。",
+                },
+                {
+                    tag: "アイコンフォント監査",
+                    q: "リリース前にフロントエンドのプログラムコードを監査する際、アイコンフォント（<i>タグ等）が多用されている箇所で、エンジニアが「不合格（バグあり）」として差し戻すべきマークアップ記述はどれですか？",
+                    opts: [
+                        'アイコンフォントが装飾目的であるため、iタグに aria-hidden="true" 属性が適切に付与されているもの',
+                        "iタグ自体に何もWAI-ARIA属性が記述されておらず、音声読み上げ時にUnicodeなどのゴミ文字コードをそのまま音読してしまう状態",
+                        "アイコン自体の見た目のグラフィックをCSSで目立たせて、余白の間隔を大きく設計しているもの",
+                        "音声ガイド利用者にアイコンの目的を伝えるため、親のbuttonタグ等に aria-label が明確にテキスト設定されているもの",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>アイコンフォントは、中に文字がないように見えても、機械レベルでは何らかのフォントキャラクター文字として登録されています。これを無対策で放置すると、音声読み上げが謎の記号や不可解な文字コードをそのまま音読し（1.1.1、1.3.1相当）、音声ユーザーを著しく邪魔する耳障りなノイズバリアになります。",
+                },
+                {
+                    tag: "ダブルタップ検証",
+                    q: "スマートフォンの手動検証において、「送信する」ボタンなどの主要な決定ボタンが、一律で「ダブルタップ（連続タップ）」しなければ動作しない仕様になっていた際、テスト結果の判定はどうなりますか？",
+                    opts: [
+                        "ダブルタップはセキュリティの強度を高めるための必須の実装であるため、手動テストでは「満点合格」となる",
+                        "手が震える一時制限を抱えるゲストや、操作に不慣れな一般ユーザーの操作を困難にし離脱を招くため「不合格（バリア）」となる",
+                        "連続タップは、ページの全体読み込み速度をシステム的に軽量化させる効果があるため、「合格」となる",
+                        "最新のスマートフォンの通信データ量が自動的に10％軽量化される効果が保証されるため、「合格」となる",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>手の震えがあるゲストや焦っているゲスト、シニアユーザーにとって、精密なタイミングで画面を素早く連続して2回タップする操作（ダブルクリック：WCAG 2.5.1相当）は、操作が全く受け付けられず「サイトが壊れてフリーズした」のと等しい致命的な状況（離脱実害）を招きます。すべてのアクションは、標準的な1タップ（クリック）で完了できるようテスト基準を厳格に監査すべきです。",
+                },
+                {
+                    tag: "多言語自動翻訳チェック",
+                    q: "インバウンド対応としてサイトを機械翻訳にかけた際、外国人ゲストを深刻な「手続き不能バリア」に陥れてしまう、検証で発見すべきマークアップバグはどれですか？",
+                    opts: [
+                        "文章の主語と述語が明確なため、自動翻訳エンジンを介しても一瞬で非常に自然な英語に翻訳される状態",
+                        "注意事項をテキストで書かずに、料金や時間のすべての文字情報をalt属性のない「画像」に埋め込んで掲載している状態",
+                        "重要なお知らせテキストの背景カラーに、視認性を高めるための十分なコントラスト比を確保している状態",
+                        "カレンダーの空き枠ステートに、英語での補足用テキストラベル（「Available」等）を設定している状態",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>画像の中に閉じ込められた文字（WCAG 1.1.1、1.4.5）は、自動翻訳エンジン（AI）はスキャン・翻訳できません。外国人ゲストの画面には日本語のままで取り残され、重要なルールを一切解読できない進行不能バリアを招くため、必ず生のHTMLテキストでコーディングされているか検証が必要です。",
+                },
+                {
+                    tag: "target別タブ検証",
+                    q: 'リンクタグに target="_blank" を設定して別タブで新しい画面を開くように設計した際、手動QAテストにおいて「不合格（バリアあり）」と判定すべき記述はどれですか？',
+                    opts: [
+                        "リンクのすぐ横に、あらかじめ「（新しいウィンドウで開く）」という視覚テキストやスクリーンリーダー用ラベルが設定されている記述",
+                        "別タブで開く旨の事前警告テキストやアイコン表示が一切なく、クリックした瞬間に不意に新しいタブが背後で立ち上がる状態",
+                        'プログラムコード内に、遷移先の不正な挙動を防ぐための rel="noopener" 属性がセットで記述されている状態',
+                        "Tabキー移動でそのリンクを選択してEnterキーを押した際、安全に別のブラウザタブでページが起動する状態",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>視覚や認知に何らかの制限を抱えるゲスト（あるいは大きくズームして見ている弱視ゲスト）にとって、事前のアナウンスがない「別タブでの画面切り替え（WCAG 3.2.1 画面フォーカス時の変更）」は、自分のブラウザの「戻る」ボタンが突然効かなくなり、迷子になる深刻なバリアを引き起こします。新ウインドウ展開は必ず事前に予告されるよう監査されるべきです。",
+                },
+                {
+                    tag: "aria-invalidテスト",
+                    q: "バリデーションエラー発生時の実装検証において、赤いエラーテキストを視覚的に表示する以外に、機械（スクリーンリーダーやAI）にエラーをデータとして検知させるための正しい検証コードはどれですか？",
+                    opts: [
+                        'インプットタグに class="invalid-error-color" 属性が適切に指定されているか確認する',
+                        'インプット要素に対して、JavaScriptで動的に aria-invalid="true" 属性が付与されるかテストすること',
+                        '自動補完機能をシステム側で一律無効化するautocomplete="off"が指定されているかテストする',
+                        "エラーメッセージの表示位置が、自動的にお洒落なパステルカラーグラデーションになるかテストする",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>色や見た目だけの不備表示は、目で見えない機械（音声読み上げ等：WCAG 4.1.2）には全く認識できません。 `aria-invalid="true"` が動的にセットされるかをプログラム検証することで、音声ユーザーが「このフォームにはエラーが含まれており、修正が必要である」と最速で気づき回復できるよう保証します。',
+                },
+                {
+                    tag: "タップサイズ検証",
+                    q: "スマートフォンのすべてのクリック可能パーツについて、開発者が本番公開前に手動でピクセル領域（タップターゲット）を測定検証する際、合格となる正しい基準はどれですか？",
+                    opts: [
+                        "画面全体の通信データ量が10分の1に軽量化されるのを保証するため、ターゲットサイズを一律で10px以下に設計する",
+                        "すべての主要な決定ボタン、リンク、チェックボックスなどのタップエリアが、一律で最低「44px × 44px 以上」確保されていること",
+                        "画面をズームした際に、自動的にお洒落なグラデーション装飾でボタンの背景全体が塗りつぶされること",
+                        "一度タップされた決定ボタンの周辺領域が、自動的にシステムでロックされて二度とタップできないようになること",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>タップターゲット（WCAG 2.5.5）が小さすぎると、かじかんだ手やお出かけ現場で慌てて操作しているゲストは押し間違い（誤爆）を多発させます。手動QAテストで、指の腹が確実にフィットする「44px以上」のサイズが物理的に維持できているか測定する責任があります。",
+                },
+                {
+                    tag: "id重複テスト",
+                    q: "HTMLコーディング完了時に、マークアップ検証ツールを用いて「 id 属性の重複（1つのページの中に同じ id のタグが2つ以上存在する等）」を検出・デバッグすべき技術的な目的は何ですか？",
+                    opts: [
+                        "ページの容量を削減し、スマートフォンの通信パケット費用を自動的に半分に節約するため",
+                        "ブラウザや支援技術（スクリーンリーダー）がフォーム同士の関連を誤解し、読み上げや選択移動が破壊されるのを防ぐため",
+                        "同じidがある場合に、CSSのアニメーション動作スピードを強制的に10倍に高速化させるため",
+                        "AIエージェントの操作目標座標がシステムエラーで10pxずれてしまう現象を防止するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>HTML仕様書（JIS / WCAG 4.1.1 構文解析）において、idの一意性はアクセシビリティツリー（OSに渡されるデータ構造）の信頼性を保つ絶対条件です。idが重複していると、チェックボックスをクリックしたのに隣のフォームが勝手に動き出す等の致命的なデータ崩壊バグを招くため、重複テストが必要です。",
+                },
+                {
+                    tag: "aria-controlsテスト",
+                    q: "タブメニューや、クリックで開くドロワーメニューのQA（品質検証）テストを行う際、不合格（関係性の未定義バリア）とすべき状態はどれですか？",
+                    opts: [
+                        "ドロワーが開くアニメーション速度が0.3秒で滑らかに動作するように設計されたもの",
+                        "メニューを開くボタン（トリガー）と開かれる側のコンテンツ領域を繋ぐ、 aria-controls 属性が記述されていない状態",
+                        "ボタン自体のサイズが44px以上に十分に確保され、片手でも容易にタップできる状態",
+                        "ドロワーが開いた瞬間に、キーボードのフォーカスがダイアログ内部へ正しく強制移動する状態",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>視認している人には連動性が一目で分かりますが、音声ユーザー（WCAG 1.3.1、4.1.2相当）にはドロワーが開いた場所が論理的に繋がっているか判別できません。 `aria-controls` でトリガーとコンテンツの関係がテストで検証されていることこそが、確実な音声エスコートを約束します。",
+                },
+                {
+                    tag: "品質デグレーション防止",
+                    q: "新しい開発リリースやデザイン刷新を頻繁に繰り返すアジャイル開発において、アクセシビリティの品質が気づかぬうちに再び退化（バリア混入）するのを防ぐための最適な品質管理プロセスはどれですか？",
+                    opts: [
+                        "クレームが入るのを待つだけの消極的な運用ルール",
+                        "リリース時のPRレビューやCI自動テストにアクセシビリティの検証項目を組み込み、定期的な手動監査を回すプロセス",
+                        "リリースごとに開発者全員が手動で数千ページの全件テストを毎週行うルール",
+                        "すべてのプログラムのプログラミング言語を、アクセシビリティ対応言語に変更する仕組み",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>アクセシビリティは一時的なプロジェクトではなく、日々の品質維持（継続的プロセス）が必要です。自動検証（CIゲート）で基本的なエラーの混入（WCAG 4.1.1相当）を防ぎつつ、主要動線の定例手動レビューを行うことのみが、恒久的にアソビューの普遍的UX品質（CVR最大化）を維持し続ける唯一の手段だからです。",
+                },
+            ];
+
+            let currentIdx = 0,
+                score = 0,
+                isAnswered = false,
+                currentShuffledOpts = [];
+
+            function startQuiz() {
+                document
+                    .getElementById("learning-phase")
+                    .classList.add("hidden");
+                document
+                    .getElementById("quiz-phase")
+                    .classList.remove("hidden");
+                currentIdx = 0;
+                score = 0;
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function loadQuestion() {
+                isAnswered = false;
+                const qBox = quizData[currentIdx];
+                document.getElementById("question-index").innerText =
+                    `第 ${currentIdx + 1} 問 / 30 問中`;
+                document.getElementById("current-score-text").innerText =
+                    `正答数: ${score}`;
+                document.getElementById("progress-bar").style.width =
+                    `${((currentIdx + 1) / 30) * 100}%`;
+                document.getElementById("question-tag").innerText = qBox.tag;
+                document.getElementById("question-text").innerText = qBox.q;
+
+                // シャッフル
+                currentShuffledOpts = qBox.opts.map((opt, i) => ({
+                    text: opt,
+                    isCorrect: i === qBox.ans,
+                }));
+                for (let i = currentShuffledOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [currentShuffledOpts[i], currentShuffledOpts[j]] = [
+                        currentShuffledOpts[j],
+                        currentShuffledOpts[i],
+                    ];
+                }
+
+                const container = document.getElementById("options-container");
+                container.innerHTML = "";
+                currentShuffledOpts.forEach((opt, idx) => {
+                    const btn = document.createElement("button");
+                    btn.className =
+                        "option-item text-left w-full p-3 sm:p-4 rounded-lg border border-border bg-white text-xs sm:text-sm font-medium hover:bg-secondary transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-ring focus:border-indigo-500";
+                    btn.innerText = opt.text;
+                    btn.onclick = () => selectOption(idx);
+                    container.appendChild(btn);
+                });
+                document.getElementById("feedback-box").classList.add("hidden");
+                document.getElementById("next-btn").classList.add("hidden");
+            }
+
+            function selectOption(idx) {
+                if (isAnswered) return;
+                isAnswered = true;
+                const btns = document.getElementsByClassName("option-item");
+                const qBox = quizData[currentIdx];
+
+                for (let i = 0; i < btns.length; i++) {
+                    btns[i].disabled = true;
+                    btns[i].classList.remove("hover:bg-secondary");
+                    if (currentShuffledOpts[i].isCorrect) {
+                        btns[i].className +=
+                            " bg-emerald-50/50 border-emerald-500 text-emerald-900 font-semibold shadow-sm";
+                    }
+                }
+
+                const correct = currentShuffledOpts[idx].isCorrect;
+                if (correct) {
+                    score++;
+                } else {
+                    btns[idx].className +=
+                        " bg-rose-50/50 border-rose-400 text-rose-900 font-medium";
+                }
+
+                const feedback = document.getElementById("feedback-box");
+                feedback.className = `mt-4 p-3 sm:p-4 rounded-lg border ${correct ? "bg-emerald-50/50 border-emerald-500 text-emerald-900" : "bg-rose-50/50 border-rose-400 text-rose-900"} fade-in text-left`;
+                document.getElementById("feedback-title").innerText = correct
+                    ? "正解です"
+                    : "不正解です";
+
+                const iconSvg = document.getElementById("feedback-icon");
+                const iconGeorgeHTML = correct
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>';
+                iconSvg.innerHTML = iconGeorgeHTML;
+                iconSvg.className = `w-4 h-4 sm:w-5 h-5 ${correct ? "text-emerald-600" : "text-rose-600"}`;
+
+                document.getElementById("feedback-rationale").innerHTML =
+                    qBox.note;
+                feedback.classList.remove("hidden");
+                document.getElementById("next-btn").classList.remove("hidden");
+            }
+
+            function nextQuestion() {
+                if (++currentIdx < 30) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }
+
+            function showResult() {
+                document.getElementById("quiz-phase").classList.add("hidden");
+                document
+                    .getElementById("result-phase")
+                    .classList.remove("hidden");
+                document.getElementById("final-score").innerText =
+                    `${score} / 30`;
+
+                const rankSpan = document.getElementById("score-rank");
+                const msgP = document.getElementById("result-message");
+
+                let rank = "";
+                let msg = "";
+
+                if (score === 30) {
+                    rank = "体験設計プロフェッショナル（最高峰） 🏆";
+                    msg =
+                        "完璧です！第五章：検証・評価編の全30問を完全にクリアしました。お出かけ先におけるゲストの『一時的な不自由さ』を見抜き、そのバリアを設計とコードで100%解決する最高のマインドセットを持っています。あなたの優しい視点が、サービスの価値を底上げします！";
+                } else if (score >= 24) {
+                    rank = "アクセシビリティ推進リーダー 🥇";
+                    msg =
+                        "素晴らしい成績です！お出かけ現場での5つの不自由さ（焦り、雨、片手、直射日光、騒音など）を深く理解できています。ぜひチームの中で『ここ、屋外の日差しの中で読めないかも？』などの声を自発的にあげるリードを取っていきましょう！";
+                } else if (score >= 15) {
+                    rank = "共感パートナー 🥈";
+                    msg =
+                        "合格点レベルです！日常の不自由さに寄り添う優れた視点がおおむね身についています。間違えてしまった問題の『なぜやるのかの理由』をもう一度復習して、さらに解像度の高いバリアフリー思想を深めましょう。";
+                } else {
+                    rank = "アクセシビリティビギナー 🌱";
+                    msg =
+                        "お疲れ様でした。お出かけ先におけるゲストの制限は想像以上に多様です。もう一度講義ノートをじっくり読み返し、いつでもご自身のペースでクイズに再挑戦してみてください！";
+                }
+
+                rankSpan.innerText = `ランク：${rank}`;
+                msgP.innerText = msg;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function restartQuizOnly() {
+                document.getElementById("result-phase").classList.add("hidden");
+                startQuiz();
+            }
+        </script>
+    </body>
+</html>

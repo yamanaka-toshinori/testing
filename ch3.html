@@ -1,0 +1,1083 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>アクセシビリティ研修 — Chapter 03 | 研修プログラム</title>
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            border: "rgb(228, 228, 231)", // zinc-200
+                            input: "rgb(228, 228, 231)", // zinc-200
+                            ring: "rgb(79, 70, 229)", // indigo-600
+                            background: "rgb(255, 255, 255)", // white
+                            foreground: "rgb(9, 9, 11)", // zinc-950
+                            primary: {
+                                DEFAULT: "rgb(9, 9, 11)", // zinc-950
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            secondary: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            destructive: {
+                                DEFAULT: "rgb(239, 68, 68)", // red-500
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            muted: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(113, 113, 122)", // zinc-500
+                            },
+                            accent: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            card: {
+                                DEFAULT: "rgb(255, 255, 255)",
+                                foreground: "rgb(9, 9, 11)",
+                            },
+                        },
+                        borderRadius: {
+                            lg: "0.75rem",
+                            md: "calc(0.75rem - 2px)",
+                            sm: "calc(0.75rem - 4px)",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap");
+
+            body {
+                font-family: "Inter", "Noto Sans JP", sans-serif;
+                background-color: rgb(250, 250, 250);
+            }
+
+            .bg-pattern {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background:
+                    radial-gradient(
+                        at 0% 0%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        at 100% 100%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    );
+            }
+
+            .fade-in {
+                animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-foreground min-h-screen flex flex-col antialiased"
+    >
+        <div class="bg-pattern"></div>
+
+        <!-- ヘッダー -->
+        <header
+            class="bg-white border-b border-border sticky top-0 z-50 shadow-[0_1px_2px_rgba(0,0,0,0.02)] h-[49px]"
+        >
+            <div
+                class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between"
+            >
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="w-1.5 h-4 bg-indigo-600 rounded-full"></div>
+                    <span
+                        class="text-xs sm:text-sm font-bold tracking-tight text-foreground select-none"
+                    >
+                        ウェブアクセシビリティ研修 Chapter 03
+                    </span>
+                </div>
+                <button
+                    onclick="backToHomeHub()"
+                    class="text-[10px] sm:text-xs bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-2.5 py-1.5 rounded-md transition-colors cursor-pointer"
+                >
+                    ホームへ戻る
+                </button>
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main
+            class="flex-grow max-w-4xl w-full mx-auto px-4 pt-6 sm:pt-12 pb-16 flex flex-col justify-start"
+        >
+            <!-- 1. 講義学習フェーズ -->
+            <div
+                id="learning-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-10 shadow-sm fade-in"
+            >
+                <div class="text-center max-w-2xl mx-auto mb-8">
+                    <span
+                        class="text-muted-foreground font-bold text-xs tracking-widest uppercase block mb-1"
+                        >Chapter 03 (役割・思想編)</span
+                    >
+                    <h2
+                        class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-2 sm:mb-3"
+                    >
+                        職種別の役割と合理的配慮
+                    </h2>
+                    <p
+                        class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                    >
+                        合理的配慮の義務化、およびFigmaや仕様設計で必須となる情報構造（セマンティクス）の基本を学びます。
+                    </p>
+                </div>
+
+                <div
+                    class="space-y-6 sm:space-y-8 text-foreground leading-relaxed max-w-3xl mx-auto text-xs sm:text-sm md:text-base border-t border-border pt-6"
+                >
+                    <section
+                        class="border-l-4 border-indigo-600 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            1. 合理的配慮と環境の整備
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            事前にバリアを減らしておくのが「環境の整備」（努力義務）。特定のユーザーからの申し出に個別に対話・調整を行うのが「合理的配慮」（2024年に義務化）です。事前のアクセシビリティ確保が、現場やCSのオペレーション負担を大きく減らします。
+                        </p>
+                    </section>
+
+                    <section
+                        class="border-l-4 border-zinc-300 pl-3 sm:pl-4 py-1"
+                    >
+                        <h3
+                            class="font-bold text-sm sm:text-lg text-foreground mb-1.5 sm:mb-2"
+                        >
+                            2. コードを書かない職種の「セマンティクス」
+                        </h3>
+                        <p
+                            class="text-muted-foreground text-[11px] sm:text-sm leading-relaxed"
+                        >
+                            「画面が遷移するもの」はリンク（aタグ）、「その場でダイアログを開いたり状態を変えるもの」はボタン（buttonタグ）です。これらをワイヤーやデザインの段階から正確に区別して決定・配置しておく設計責任があります。
+                        </p>
+                    </section>
+                </div>
+
+                <!-- クイズ開始ボタン -->
+                <div class="mt-10 pt-6 border-t border-border text-center">
+                    <button
+                        onclick="startQuiz()"
+                        class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-auto"
+                    >
+                        <span>理解度クイズに挑戦する (全30問)</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2.5"
+                                d="M14 5l7 7m0 0l-7 7m7-7H3"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. クイズプレイフェーズ -->
+            <div
+                id="quiz-phase"
+                class="bg-card rounded-xl border border-border p-4 sm:p-8 shadow-sm hidden fade-in min-h-[550px] sm:min-h-[670px] flex flex-col justify-between"
+            >
+                <div>
+                    <div
+                        class="flex items-center justify-between text-[11px] sm:text-xs text-muted-foreground mb-2 sm:mb-3 font-medium tracking-tight"
+                    >
+                        <span id="question-index" class="uppercase"
+                            >第 1 問 / 30 問中</span
+                        >
+                        <span id="current-score-text">正答数: 0</span>
+                    </div>
+                    <div
+                        class="w-full bg-secondary h-1.5 rounded-full mb-4 sm:mb-6 overflow-hidden"
+                    >
+                        <div
+                            id="progress-bar"
+                            class="bg-primary h-full rounded-full transition-all duration-300"
+                            style="width: 3.3%"
+                        ></div>
+                    </div>
+                </div>
+
+                <div class="flex-grow flex flex-col justify-start">
+                    <div
+                        class="inline-block bg-secondary text-secondary-foreground text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded mb-2 sm:mb-3 w-fit"
+                        id="question-tag"
+                    >
+                        テーマ
+                    </div>
+                    <h3
+                        class="text-sm sm:text-lg font-bold text-foreground leading-snug mb-4 sm:mb-6"
+                        id="question-text"
+                    >
+                        ここに問題文が挿入されます。
+                    </h3>
+
+                    <!-- 等価選択肢コンテナ -->
+                    <div
+                        class="grid gap-2.5 mb-4 sm:mb-6"
+                        id="options-container"
+                    >
+                        <!-- ボタンがJSで動的に挿入されます -->
+                    </div>
+
+                    <!-- 解説表示エリア -->
+                    <div
+                        id="feedback-box"
+                        class="mt-2 p-3 sm:p-4 rounded-lg border hidden fade-in"
+                    >
+                        <div
+                            class="flex items-start space-x-2 sm:space-x-3 text-left"
+                        >
+                            <div class="mt-0.5 flex-shrink-0">
+                                <svg
+                                    id="feedback-icon"
+                                    class="w-4 h-4 sm:w-5 h-5"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                ></svg>
+                            </div>
+                            <div>
+                                <h4
+                                    class="font-bold text-xs sm:text-sm mb-1"
+                                    id="feedback-title"
+                                >
+                                    結果タイトル
+                                </h4>
+                                <p
+                                    class="text-[11px] sm:text-sm leading-relaxed text-slate-700"
+                                    id="feedback-rationale"
+                                >
+                                    ここに解説テキストが挿入されます。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 下部：次へボタン -->
+                <div
+                    class="mt-4 sm:mt-6 border-t border-border pt-4 min-h-[52px]"
+                >
+                    <button
+                        id="next-btn"
+                        onclick="nextQuestion()"
+                        class="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 px-4 rounded-md transition-colors hidden flex items-center justify-center space-x-2 cursor-pointer text-xs sm:text-sm"
+                    >
+                        <span>次の問題へ進む</span>
+                        <svg
+                            class="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            ></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. 結果画面フェーズ -->
+            <div
+                id="result-phase"
+                class="bg-card rounded-xl border border-border p-6 sm:p-12 text-center hidden fade-in shadow-sm"
+            >
+                <div
+                    class="w-12 h-12 sm:w-16 sm:h-16 bg-secondary text-primary flex items-center justify-center rounded-full mx-auto mb-4 sm:mb-6"
+                >
+                    <svg
+                        class="w-6 h-6 sm:w-8 sm:h-8"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2.5"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        ></path>
+                    </svg>
+                </div>
+
+                <h2
+                    class="text-xl sm:text-2xl font-extrabold text-foreground tracking-tight mb-1 sm:mb-2"
+                    id="result-header"
+                >
+                    研修クイズ完了
+                </h2>
+                <p
+                    class="text-muted-foreground text-xs sm:text-sm mb-6 sm:mb-8"
+                    id="result-subheader"
+                >
+                    おめでとうございます！第三章役割・思想編を完全に制覇しました。
+                </p>
+
+                <!-- スコア表示 -->
+                <div
+                    class="bg-secondary/50 border border-border rounded-xl p-4 sm:p-6 max-w-xs sm:max-w-sm mx-auto mb-6 sm:mb-8"
+                >
+                    <span
+                        class="text-[9px] sm:text-[10px] text-muted-foreground uppercase font-bold tracking-wider block mb-1"
+                        >あなたの正答率</span
+                    >
+                    <span
+                        class="text-3xl sm:text-4xl font-black text-foreground"
+                        id="final-score"
+                    ></span>
+                    <span
+                        class="text-[11px] sm:text-xs text-muted-foreground block mt-1.5 sm:mt-2 font-semibold"
+                        id="score-rank"
+                    ></span>
+                </div>
+
+                <!-- フィードバック文 -->
+                <div
+                    class="max-w-md mx-auto text-slate-700 text-xs sm:text-sm leading-relaxed text-left bg-secondary border-l-4 border-primary p-4 rounded-r-md mb-6 sm:mb-8"
+                >
+                    <p id="result-message"></p>
+                </div>
+
+                <!-- 操作ボタン -->
+                <div
+                    class="flex flex-col sm:flex-row justify-center items-center gap-2 max-w-md mx-auto"
+                >
+                    <button
+                        onclick="backToHomeHub()"
+                        class="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center cursor-pointer"
+                    >
+                        ホームへ戻る
+                    </button>
+                    <button
+                        onclick="restartQuizOnly()"
+                        class="w-full bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm cursor-pointer"
+                    >
+                        もう一度挑戦する
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer
+            class="bg-white border-t border-border py-6 sm:py-8 text-center text-[10px] sm:text-xs text-muted-foreground"
+        >
+            <div class="max-w-4xl mx-auto px-4">
+                <p>© 2026 アクセシビリティ推進委員会（仮）</p>
+                <p
+                    class="mt-1 text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed"
+                >
+                    すべてのユーザーが、あらゆる利用環境において滑らかに目的を達成できる情報環境を目指して。
+                </p>
+            </div>
+        </footer>
+
+        <!-- クイズデータ管理用スクリプト -->
+        <script>
+            const CONFIG = {
+                homeHubUrl: "", // ポータル(index.html)の完全URLを指定する場合のみ設定
+            };
+
+            function backToHomeHub() {
+                const targetUrl = CONFIG.homeHubUrl;
+                if (targetUrl && targetUrl.trim() !== "") {
+                    window.location.href = targetUrl;
+                } else {
+                    navigateTo(""); // リネームに合わせてindex.htmlへ遷移
+                }
+            }
+
+            function navigateTo(fileName) {
+                try {
+                    const url = new URL(window.location.href);
+                    const path = url.pathname;
+                    const lastSlashIdx = path.lastIndexOf("/");
+                    const newPath =
+                        path.substring(0, lastSlashIdx + 1) + fileName;
+                    url.pathname = newPath;
+                    window.location.href = url.toString();
+                } catch (e) {
+                    window.location.href = fileName;
+                }
+            }
+
+            const quizData = [
+                {
+                    tag: "環境の整備と配慮",
+                    q: "合理的配慮と、あらかじめバリアを減らす「環境の整備」の違いとして、正しい説明はどれですか？",
+                    opts: [
+                        "合理的配慮だけを行えばよく環境の整備は完全に廃止してよい仕様",
+                        "事前にバリアを減らすのが整備で個別の対話対応が合理的配慮の仕様",
+                        "すべてのシステムを完璧にしなければ即座に営業停止処分になる仕様",
+                        "配慮はウィジェットを入れるだけで個別の対話なしで提供される仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>事前の「環境の整備（アクセシビリティ対応）」が不十分であるほど、現場での個別トラブル（合理的配慮を求める申し出）が激増し、CSや現場スタッフの対応コスト（実害）が跳ね上がるからです。",
+                },
+                {
+                    tag: "建設的対話の義務",
+                    q: "合理的配慮を求めるゲストから「画面操作が完了できないため、代行予約を手伝ってほしい」と申し出があった際、避けるべき不適切な対応はどれですか？",
+                    opts: [
+                        "社内用の利用規約やセキュリティ制限を盾にして一律でお手伝いをお断りする対応",
+                        "チャットや問い合わせ窓口などの代替手段を用いた事務局側での代行を提案する対応",
+                        "個別の対話によるアシストを施し発生したバリアの不具合を開発チームに報告する",
+                        "ゲストのプライバシーを侵害しないように安全管理を徹底した上で代理手続きを行う",
+                    ],
+                    ans: 0,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>合理的配慮の義務化において、最もやってはいけないのは一方的な対話の拒否や、一律の社内ルールのみを理由にした要求の切り捨てです。代替案を模索する「建設的な対話プロセス」自体が義務だからです。",
+                },
+                {
+                    tag: "過重な負担の解釈",
+                    q: "合理的配慮の提供において、「対応を行うことが経営リソース的に過重な負担（不可能な要求）」と判定された場合の正しい振る舞いはどれですか？",
+                    opts: [
+                        "対処が不可能である背景を相手に説明しそれ以上の対応を一律に断って終わる対応",
+                        "不可能な客観的理由を明確に開示しそれに代わる別の実行可能な代替案を出す対応",
+                        "社内のリソースを限界を超えて切り崩し相手の要求を何でも無条件に受け入れる対応",
+                        "サーバーシステムへの接続を一時遮断しサイト上のすべての予約処理を終了する対応",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>合理的配慮は「何でも無条件に受け入れろ」という無理難題を強いる法律ではありません。リソースの限界がある場合は、対話を通じて次善の策を模索する誠実なプロセス自体が、社会的信義として不可欠だからです。",
+                },
+                {
+                    tag: "PM責任・ジェスチャー",
+                    q: "企画（PM）がカレンダーの仕様を定義する際、特定の複雑な手の動き（例：2本の指をつまむ等）だけを必須操作にせず、シンプルな1タップボタンを並記すべきなのはなぜですか？",
+                    opts: [
+                        "スマホの物理的な液晶パネルセンサーが経年劣化により誤作動を起こすのを防ぐため",
+                        "怪我や荷物で一時的に片手しか使えないといった操作上の制限を抱える人を包摂するため",
+                        "アプリ全体の購入決済セキュリティに関する時間切れエラーが自動で動くのを防ぐため",
+                        "ブラウザに読み込まれたサイトが自動的に外国語に切り替わってしまうのを防ぐため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>複雑なジェスチャー（ピンチインや長時間のドラッグなど：2.5.1）は、手指の可動性に一時的・永続的な制限を抱えるゲスト（荷物で両手が塞がっているお母さん、ケガをしている若者など）の操作を完全に遮断します。シンプルな1タップの代替操作を最初から要件に含めることがPMの設計責任です。",
+                },
+                {
+                    tag: "PM責任・オムニ窓口",
+                    q: "PMがサービスのお出かけ現場でのトラブル連絡窓口を設計する際、電話だけでなくフォーム等のテキスト窓口を設置すべきなのはなぜですか？",
+                    opts: [
+                        "音声通話によりシステムサーバーのデータ通信量が大幅に増大するのを防ぐため",
+                        "耳が聞こえない人や周囲の雑音で音声でのやり取りが物理的に不可能な人を救うため",
+                        "複数の連絡チャネルを増やすことでスマートフォンの安全保護機能を向上させるため",
+                        "テキストを送信する際にあらかじめ全てのフォントデータが自動で暗号化されるため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>音声通話（電話窓口）だけしかない設計は、聴覚・発話制限のあるゲストや「周囲のアナウンスや雑踏の騒音で、どうしても声のやり取りが物理的に不可能である状況下のゲスト」の対話を遮断します。複数のチャネル（1.4.2、1.4.11相当）の用意が必須です。",
+                },
+                {
+                    tag: "一貫した操作位置",
+                    q: "デザイナーが新機能のUI画面を設計する際、同じアプリ内で、遷移先のページによって「検索」や「閉じる（×）」ボタンなどの基本操作アイコンの配置位置やデザインの並びを大きく変更してはいけない理由は何ですか？",
+                    opts: [
+                        "設計用のデザインアセットデータが急激に肥大化して編集ソフトが強制終了するから",
+                        "認知特性のある人や画面を大きくズームして一部しか視認できない人を迷子にするから",
+                        "ページの全体の背景スタイルが自動的に強制ロックされて変更できなくなってしまうから",
+                        "マークアップ時のプログラムタグがスキップされブラウザでの描画崩れを引き起こすから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>画面ごとに重要パーツの位置や記号の意味が変わる設計（3.2.3 一貫したナビゲーション、3.2.4 一貫した識別性）は、注意力が下がっているお出かけ現場のゲストを大混乱させます。また、画面を大きくズームしてピンポイントの範囲しか見えないユーザーは、いつもと違う位置に「閉じる」があるだけでロスト（発見不能）します。「1つのアプリ内で、一貫した位置に同じ機能がある」一貫性デザインは、ゲストの認知疲弊を防ぐ強固なUXインフラです。",
+                },
+                {
+                    tag: "情報のダブル伝達",
+                    q: "デザイナーが「残りわずか」「料金改定」などの重要な画面ステート（状態）を表現する際、見た目の「色（赤・黄等）」の変化だけに頼らず、必ず記号や文字を並記すべきデザイン哲学はどれですか？",
+                    opts: [
+                        "アプリ全体のビジュアル設計を格調高いお洒落なものにして国際的デザイン賞を狙う手法",
+                        "どのような色覚特性を持つ人でも眩しい直射日光による白飛び画面でも正しく識別する手法",
+                        "プログラムの余計なロード処理を削減してスマートフォンの通信スピードを一律で高める",
+                        "海外のゲストが翻訳ツールで表示させた際に文字化けエラーが発生するのを防止する手法",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>「色覚特性」を持つゲストや、「眩しい屋外の白飛び環境下」にあるゲストにとって、色（赤や緑）による情報の切り替え（1.4.1）は無力化されます。色だけに頼らず、「アイコンの形状を変える（○/×など）」、「文字でステートを明示する」といった「マルチモーダル（複数の伝達チャネル）」な設計こそが、現場でゲストに誤購入や手続きの不意の遅延（実害）を被らせないための絶対的なデザイナーの知性です。",
+                },
+                {
+                    tag: "生データの確保",
+                    q: "マーケティング担当や運用担当が、期間限定セールバナー画像等を掲載する際、画像の文字と全く同じ重要情報を「必ず画像の外側にテキストデータとして記述する」運用を守るべきなのはなぜですか？",
+                    opts: [
+                        "画像を表示した状態で画面スクロールを繰り返した際の液晶への物理的焼き付きを防ぐため",
+                        "スクリーンリーダーの音声読み上げや多言語翻訳エンジン、検索の巡回を等しく保証するため",
+                        "告知用のバナー画像の読み込み時間をスマートフォンのシステムレベルで高速化させるため",
+                        "プログラムのセキュリティクローラーが自動的に悪意ある多重アクセスをガードしやすくする",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>どんなに美しい告知バナーも、文字情報が画像ピクセルの中に「閉じ込められている」場合（1.1.1、1.4.5）、スクリーンリーダーは無力化され、海外からのインバウンドゲストがブラウザで翻訳ツールを立ち上げてもその領域だけが「完全な未翻訳」のまま取り残されます。情報は必ず機械が読める「生のテキストデータ（普遍的な情報チャネル）」として外側に露出させるマーケティング運用設計が必要です。",
+                },
+                {
+                    tag: "平易な表現の徹底",
+                    q: "キャンセル手順や注意事項の注意書きの原稿を執筆する際、マーケターやコンテンツライターが、回りくどい二重否定や難解なビジネス表現を徹底して避けるべき実務上の理由はどれですか？",
+                    opts: [
+                        "文字データ量をシステムデータベース上で削減し処理を軽量化させるから",
+                        "利用上の誤解トラブルや翻訳エンジンによる誤訳（ハルシネーション）を防ぐから",
+                        "シンプルな文章で記述をすると、システム側が自動スクロールを有効にするから",
+                        "入力フォームにおけるセキュリティ確認処理プログラムを半分にスキップできるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>複雑なビジネス二重否定（〜しないわけではない、など：3.1相当プレイン・ランゲージ）は、お出かけに焦っているゲストの読読負担を増やし、集合時間やキャンセル手数料の「勘違い（誤解トラブル）」に直結します。また、現代の翻訳ツールや検索エンジンにとっても誤判定（ハルシネーション）を誘発するバグの温床になります。一読でストレートに伝わる「やさしい言葉（プレイン・ライティング）」が究極の親切です。",
+                },
+                {
+                    tag: "CSにおける合理的配慮",
+                    q: "CS（カスタマーサポート）のチームメンバーが、高齢のゲストから「カレンダーでのチケット予約を自力で完結できないので、代行で手続きしてほしい」と電話で要望された際、取るべき正しい「合理的配慮」はどれですか？",
+                    opts: [
+                        "社内規定やセキュリティルールを理由に代理手続きの希望を一切お断りする対応",
+                        "メールや問い合わせフォーム等で必要情報をいただき代理で手続きを完了する対応",
+                        "過重な負担を考慮することなくゲストから要請されたすべての希望をそのまま行う",
+                        "将来の問い合わせを未然に防ぐ目的で、フォーム内の文字表示サイズを一律で縮小",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>合理的配慮は民間事業者にも義務化（法的義務）されています。「システムルール」を盾にした対話なしの一方的な拒絶は、法律上のリスクを招くだけでなく、ブランドの信用失墜に直結します。できる範囲の代替案（ CS によるマニュアル・代行アシスト）を自発的に提案し、ゲストのお出かけというゴールを対話で一緒に救い出すことが、CSチームの素晴らしい社会的役割です。",
+                },
+                {
+                    tag: "バリアの根本改善",
+                    q: "CSチームがゲストから「この画面がどうしても操作できない」「文字が薄くて時間が読めない」という具体的なクレームを受け取った際、CSチームが最優先で行うべき「品質向上のフロー」はどれですか？",
+                    opts: [
+                        "対応履歴から内容を完全に消去して他の部署に問い合わせ情報がいかないようにする",
+                        "個別の対話によるアシストを施しつつ具体的なバリア要因を開発チームに共有する",
+                        "ゲストが手続きに利用していたスマートフォンのキャリアやメーカーに抗議をする",
+                        "今後の問い合わせの混雑を防ぐ目的で予約完了画面の注意事項を一律で非表示にする",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>個別のサポート（合理的配慮）は一時的な「応急処置」です。同じように手続きに困り、CSに電話することすらできずにひっそりと購入を諦めて離脱しているサイレントマジョリティ（多くの隠れたゲスト）が存在します。バリアの元となっているシステム自体の改修（「環境の整備」への転換）へとプロダクト開発へバトンを繋ぐことが、全体のバリアを恒久的に減らし、売上を最大化するからです。",
+                },
+                {
+                    tag: "意思表明と対話",
+                    q: "改正障害者差別解消法（2024年4月施行）における「合理的配慮」の提供プロセスとして、正しい理解はどれですか？",
+                    opts: [
+                        "公的な障害者手帳の提示があった場合のみ個別に対話や配慮をスタートさせる姿勢",
+                        "ゲスト側から操作や利用に手助けが必要であるとの意思表明を待って対話を行う姿勢",
+                        "ユーザーの要望がある前に自社のすべてのシステムバリアを完全にゼロにする姿勢",
+                        "自動ですべての手続きが完了する仕組みを作りCSや窓口では一切の関与を省く姿勢",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>合理的配慮は、不特定多数に提供する「環境の整備（事前）」とは異なり、ゲスト（またはご家族）からの具体的な「困りごとの申し出（意思表明）」があって初めて個別に対話と調整が発生します。手帳の有無に関わらず、目の前のゲストが「何に困っており、どうしてほしいか」を対等に聞いて、柔軟に解決に当たる対話の姿勢そのものがプロに求められているからです。",
+                },
+                {
+                    tag: "ネイティブ機能優先",
+                    q: "Webアクセシビリティの国際設計原則（W3C）において、「WAI-ARIAを使うくらいなら、使わないほうがましだ」と言われる最大の理由は何ですか？",
+                    opts: [
+                        "WAI-ARIAの属性指定は有料ライセンス契約が必須でサーバーのコストが急増するから",
+                        "標準タグが持つ安定したキーボードフォーカスや自動機能の意味論的バリアを壊すから",
+                        "すでに開発元の団体によって廃止された古い技術であり最新スマホでは動作しないから",
+                        "指定を施すること自動的にGoogle検索エンジンの巡回システムから低く評価されるから",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>標準の <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;button&gt;</code> を使えば自動で対応できるものを、わざわざ <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;div&gt;</code> に <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">role="button"</code> をつけて自作しようとすると、キーボード操作の裏側（EnterやSpaceでの発火）をすべてJSで自前実装しなければならず、開発バグによる完全操作不能リスクが跳ね上がります。標準要素でまかなえるならそれに勝るものはありません。',
+                },
+                {
+                    tag: "WAI-ARIA命名責任",
+                    q: "Figma上で「×」というビジュアル、または矢印グラフィックだけのボタンを設計した際、PMやライターがその仕様書や開発引き渡しに「スクリーンリーダー用のラベルテキスト（ aria-label ）」を定義すべきなのはなぜですか？",
+                    opts: [
+                        "ボタンの読み込み表示に必要な通信データ量をシステム的に軽量化させ高速化するため",
+                        "テキストを持たないアイコンは音声利用のゲストにとって目的を一切判断できないから",
+                        "ボタンの配色デザインをスマートフォンのシステム輝度に合わせて自動変更させるため",
+                        "タップが実行された際にスマートフォン端末本体を軽くバイブレーション振動させるため",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>視認できている人には「×が閉じるボタンであること」は自明ですが、機械や音声読み上げにとってはただの記号（または画像）です。<code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-label="閉じる"</code> などの「目に見えるのと同じ役割・名前（Name）」を言葉として定義しておくことが、非視覚ユーザーや将来のAIエージェントに等価な価値を伝え、進行不能を防ぐためのプロダクトチームの責任だからです。',
+                },
+                {
+                    tag: "装飾画像の非表示",
+                    q: 'デザイナーやマーケターが、画面の美観を整えるためのイメージイラストや背景の飾り線を配置する際、プログラム側に aria-hidden="true" を指定しておくべき理由は何ですか？',
+                    opts: [
+                        "飾り画像のデータ通信容量を一律で半分にまで自動軽量化してダウンロードを速くする",
+                        "意味のない装飾用画像が音声読み上げの邪魔なノイズになるのを完璧に防ぐため",
+                        "画像アセットが自動的に翻訳機能などによって外国語に変換されるのを防ぐため",
+                        "画像をタップした際にあやまって液晶全体が自動的に拡大されるのをロックするため",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>音声利用ゲストにとって、意味を持たない装飾画像がすべてファイル名等で読み上げられるのは（1.1.1相当）、本筋のチケット確認を遮る深刻な認知ストレスになります。「情報を持つ画像（altを設定）」と「単なる飾り・装飾画像（<code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">aria-hidden="true"</code>を指定）」を明確に分ける設計責任がプロダクトチームにあります。',
+                },
+                {
+                    tag: "開閉状態の同期",
+                    q: "FAQページやお出かけ詳細手順などで、折りたたみ（アコーディオンメニュー）の開閉UIを仕様設計する際、状態に合わせて aria-expanded を動的に更新すべきなのはなぜですか？",
+                    opts: [
+                        "CSSのアコーディオンのアニメーション展開速度を一律で自動的に二倍速にするため",
+                        "音声読み上げ環境において現在の開閉状態がデータとして伝わらず操作不能になるから",
+                        "メニューを開閉する際にスマートフォンのセキュリティシステムが通信を遮断するから",
+                        "表示されたテキストや画像を自動的にデータベース上で暗号化して流出を防止するため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>見た目が開いても属性が変わらないと、読み上げシステムには閉じられた状態として認識されてしまいます。状態（ステート）の動的制御はインタラクティブUIに必須の実装責任です。",
+                },
+                {
+                    tag: "モーダルのトラップ",
+                    q: "チケット選択などで画面にポップアップ（モーダル）を開いた際、Tabキー移動や読み上げカーソルをモーダル内部に閉じ込める（フォーカストラップ）仕様にすべきなのはなぜですか？",
+                    opts: [
+                        "モーダルの外側にある装飾用のCSSデザインが自動的にすべて非表示に変更されるから",
+                        "フォーカスが背後に漏れると視覚的に見えない背面ボタンを誤操作して大事故になるから",
+                        "ポップアップを表示している間のデータダウンロード通信パケット量を半分に抑制する等",
+                        "自律操作のAIエージェントが二重に決定ボタンを多重決済クリックするのを防ぐため",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>モーダルが視覚的に背景を覆い隠していても、裏側のプログラム（DOM）には背景のボタンが生きています（2.4.3）。フォーカストラップがないと、見えない背景ボタンを誤って発火させてしまい、音声ユーザーの現在地を完全に崩壊（実害）させるため、必須の仕様定義です。",
+                },
+                {
+                    tag: "物理型アクセス配慮",
+                    q: "片手でスマホを操作しているゲストに配慮し、画面の右上隅（または左上隅）などの親指が物理的に届かないエリアへの配置を避けるべきボタンはどれですか？",
+                    opts: [
+                        "手続きを確定して最終的な決済処理を画面上で直ちに実行する決定用アクションボタン",
+                        "普段はめったに使うことのない詳細な利用規約を表示させるための控えめなテキストリンク",
+                        "マイページのさらに奥深くの階層に格納されている登録プロフィール情報の変更ボタン",
+                        "現在の手続き処理画面をPDFファイル形式で印刷するための外部機器接続連携ボタン",
+                    ],
+                    ans: 0,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>片手操作時、親指の付け根と対角にある上部の隅は物理的に最も届きにくい「デス・ゾーン」です。この領域に「決済する」「チケットを提示する」といった超重要ボタンを配置すると、無理に指を伸ばしてホールドを失い、液晶をコンクリートへ落下させて破損するなどの、物理的実害を被らせる直接原因になります。",
+                },
+                {
+                    tag: "代替情報の並記",
+                    q: "お出かけ先の現地入場口など、非常に周囲の騒音が激しく音声が聞こえない環境にいるゲストに、重要な集合注意事項を確実に伝える設計要件はどれですか？",
+                    opts: [
+                        "スマートフォン端末の音量APIを操作して自動的に音量を最大にして警告を促す設計",
+                        "動画や音声と同等の重要案内がすべて網羅された代替テキストや字幕を併記しておく設計",
+                        "騒音環境下でもはっきりと音声が聞き取れるように案内ガイダンスを高周波にする設計",
+                        "騒音が静まるのを待ってから再度画面を自動ロードして手続きを始めさせる警告ダイアログ",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>音が出せない環境、あるいは聞こえない雑踏（一時的な聴覚制限環境）は誰にでも発生します。音声だけで集合場所などを伝えると重大な見落としに繋がります。必ず代替のテキスト情報を並行して表示させる（マルチモーダル化：1.2.2等）必要があります。",
+                },
+                {
+                    tag: "ピンチズーム許可",
+                    q: "弱視のゲストが細かな注意事項を確認するために行うピンチアウト（文字拡大）を、仕様上、強制禁止してはならない理由は何ですか？",
+                    opts: [
+                        "ピンチズームによる拡大表示をシステム制限すると端末の位置情報の精度が急激に低下する",
+                        "小さな文字を自力で大きくして読むための最後の手段を奪い手続き不能の離脱を招くから",
+                        "拡大機能を制限するとサーバー側のセキュリティAPIが動的に通信データを遮断するから",
+                        "画面ズーム操作を制限しておくことで一回あたりのページの読み込み通信容量を抑えるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>作り手都合での拡大禁止は、視覚制限ゲストから自立手段を奪うのと同等のバリア（1.4.4）です。拡大禁止は絶対に避け、拡大しても崩れず一画面に美しく折り返すリフロー対応（1.4.10）が正しい品質です。",
+                },
+                {
+                    tag: "身体的片手制限補足",
+                    q: "スマートフォンの片手操作性を向上させるために「左スワイプでモーダルダイアログを閉じる」というジェスチャー操作を追加する際、エンジニアが考慮すべき「致命的な競合バグ」はどれですか？",
+                    opts: [
+                        "スワイプ操作が検出された瞬間にスマートフォンの液晶画面が自動的に最大輝度で発光する",
+                        "ブラウザの戻る挙動と競合しモーダルを閉じるだけでなく入力データごと前のページへ消失する",
+                        "スワイプを多用するとサーバー側のセキュリティAPIが不正アクセスと誤検知して通信を切断",
+                        "画面全体の配色デザインが自動的にシステム基準のものから英語の斜体フォントに変わる不具合",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>iOS/Androidやスマホブラウザは、標準で「画面端からの左スワイプ」をブラウザバック（前の画面に戻る）として割り当てています。ヒストリーAPIのポップステート制御（`history.pushState`等）をエンジニアが正しく設計しないと、モーダルを閉じようとしたゲストの「これまで入力してきた全情報」を前の画面に強制ジャンプさせて吹き飛ばす最悪の実害（WCAG 2.5.1）を引き起こします。",
+                },
+                {
+                    tag: "ポインタジェスチャ補足",
+                    q: "モーダルを閉じる代替ジェスチャーとして「左スワイプで閉じる」または「背景タップで閉じる」機能を実装する際、アクセシビリティ基準（WCAG 2.5.1）に従い、仕様上「絶対に省略してはならない最重要要素」はどれですか？",
+                    opts: [
+                        "閉じる際のアニメーションにかかる時間を正確にシステムへ設定するためのCSSスタイル記述",
+                        "手が震える人や読み上げ利用者の移動を阻害しないための単一タップで動作する物理的閉じるボタン",
+                        "モーダル内に記述された重要な注意事項が自動的に多言語の英語に翻訳されるためのシステムAPI",
+                        "タップターゲットの間隔を余白調整等により一律で1px以下に極限まで密着させるためのコード",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>WCAG 2.5.1（ポインタのジェスチャ）では、「複雑なジェスチャーや複数のタッチポイントが必要なすべての操作は、単一のタップ（クリック）でも機能を提供しなければならない」と定めています。手が震えて直線的なスワイプができないゲストや、音声移動を使っている視覚障害ゲストが、モーダルを閉じられずに行き詰まる深刻なバリアを防ぐため、物理ボタンの配置（標準仕様）が必須となります。",
+                },
+                {
+                    tag: "ボトムシートUX",
+                    q: "お出かけの現場で片手に荷物を持ったゲストのために、チケット詳細情報を表示するモーダル画面の設計を考える際、従来の画面中央 of ポップアップではなく、画面下部からスッとせり上がる「ボトムシート」を採用するメリットはどれですか？",
+                    opts: [
+                        "ボトムシートを開いた時にスマホのGPS機能（位置情報）が自動的に最新化されて起動するから",
+                        "親指が物理的に届きやすく下方向のスワイプジェスチャーで片手のまま直感的に閉じられるから",
+                        "拡大表示をお洒落に維持しながら決済用APIがエラーを出して画面をフリーズさせるのを防ぐ",
+                        "自動的にシステム上の全言語が英語に切り替わり日本語の解読による誤認を完全に遮断できる",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>スマートフォンの片手操作時、親指のナチュラルな可動域は「画面下半分」のみです。ボトムシートを採用し、クローズするためのドラッグ（下スワイプクローズ）や閉じるボタンをこの領域にまとめて設計しておくことで（WCAG 2.5.5相当）、無理に指を伸ばしてスマホをホールドできなくなりコンクリートに落として画面を粉砕する物理的な実害からゲストを守ることができます。",
+                },
+                {
+                    tag: "外部ライブラリ監査",
+                    q: "PMやエンジニアが、プロダクトに外部の「カレンダー日付選択コンポーネント」や「フォームライブラリ」を新たに導入する際、導入判断の監査基準として最も優先すべき事項はどれですか？",
+                    opts: [
+                        "カレンダー全体のデザインをスタイリッシュに仕上げて国際的なデザインアワードを勝ち取る",
+                        "ライブラリが最初からキーボード移動やスクリーンリーダーによる論理的読み上げに対応している",
+                        "新コンポーネントの導入にかかる初期ライセンスライセンス費用が永久に完全無料で提供される",
+                        "外部ライブラリをページに読み込むことでスマートフォンのセキュリティ安全性が自動で高まる",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>安易にお洒落さや無料であることだけで外部のライブラリ（カレンダー等）を採用すると、中身の構造がdivスープで作られており、キーボード操作者が日付を選択できず予約不能になる「壊滅的なバリア」を新機能リリースと同時に埋め込んでしまうリスク（WCAG 4.1.2）があります。調達段階でのアクセシビリティ監査責任がプロダクトマネジメントにあります。",
+                },
+                {
+                    tag: "多言語切替バナー",
+                    q: "インバウンドのゲスト向けに、ページの言語を「英語」「中国語」等に切り替える「言語選択ボタン」を提供する際、避けるべき不適切な配置はどれですか？",
+                    opts: [
+                        "ヘッダーの目立つ上部エリアに地球儀のアイコンマークとテキスト説明を並記して配置する仕様",
+                        "マイページの最下部や設定項目の奥深くにしか露出させずゲストの自発的な探索を困難にする仕様",
+                        "フッターの一番下にある共通フッターメニューナビゲーション一覧の中に固定配置しておく仕様",
+                        "ページを開いて一番最初のキーボードTabキー移動で選択欄へ即座に到達できるスキップリンク",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>日本語の文字で書かれたサイトにアクセスした瞬間、外国人ゲストは深刻なストレス（認知的負荷）を抱えています。言語切り替えが分かりやすいヘッダーなどの特等席（WCAG 3.2.3相当）にない設計は、サイト内の探索すら困難にし、コンバージョン（お出かけの機会）を完全に断念（離脱）させるバリアとなるからです。",
+                },
+                {
+                    tag: "セカンダリー警告",
+                    q: "「このお出かけ予約をキャンセル（削除）します。本当によろしいですか？」という危険を伴う警告モーダルを仕様設計する際、デザイナーやPMが考慮すべき、誤操作防止のための安全設計（UX要件）はどれですか？",
+                    opts: [
+                        "予約を削除する決定ボタンを送信ボタンと完全に同じ大きさ同じ配色スタイルで並べる画面設計",
+                        "破壊的な決定アクションボタンを赤色にし穏やかな戻るアクションの方を初期フォーカスにする",
+                        "画面に配置された戻るボタンをCSSの適用により完全にディスプレイ非表示へと変更する設計",
+                        "手続きのミスを防ぐためスマートフォンの全画面においてダブルクリック処理のみで完了する",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>予約情報の削除などの取り返しがつかない「危険な破壊的アクション（WCAG 3.3.4 誤り防止）」を組む場合、決定とキャンセルを同等の見た目で真横に並べることは、押し間違えを誘発し重大なクレームを発生させます。決定ボタンを目立つ赤色にするなどしてセマンティクス（重要度：3.2.4）を明示し、かつ初期フォーカスを「戻る（安全側）」に持たせておくことで、最悪のデータ消失事故を未然に防ぎます。",
+                },
+                {
+                    tag: "プレインランゲージSEO",
+                    q: "「やさしい平易な日本語（プレイン・ランゲージ）」でコンテンツを作成することが、ユーザーの認知的バリアを低くするだけでなく、結果として「SEO（検索エンジン最適化）」に絶大なメリットをもたらす背景として、適切なものはどれですか？",
+                    opts: [
+                        "プレインランゲージを使用したページをGoogleが優先的に有料広告枠に無料で掲載するから",
+                        "検索エンジンクローラーのAIにとっても主述関係が明確なテキストは解釈とインデックスしやすい",
+                        "テキストデータ自体の文字数が削減されてウェブページの読み込みに必要なサーバー代が減るから",
+                        "クローラーロボットが自動的にアクセスしシステム全体のセキュリティ脆弱性を自動修復するから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>複雑な二重否定や難解な業界敬語を排除し、一読で伝わるプレイン・ランゲージ（WCAG 達成基準 3.1.5）で書くことは、人間にとって読みやすいだけでなく、Google検索エンジンに正しく評価（インデックス）され、お出かけ情報を探している何万人もの見込みゲストに情報を届けるための「最善のSEO対策」に他ならないからです。",
+                },
+                {
+                    tag: "一貫した識別性",
+                    q: "ブランドイメージの刷新などで、サイト全体の「チケット」といった主要アイコンのデザインを変更する際、デザイナーが注意すべき「一貫した識別性」の義務とはどれですか？",
+                    opts: [
+                        "アイコンマークの背景にお洒落なグラデーション装飾を一律で施して視覚的に際立たせるスタイル",
+                        "同じアプリケーションであれば同じ役割を持つ機能に対して全ページで常に一貫したデザインにする",
+                        "アイコンを表示させるフォントデザインを一律で古い明朝体フォントにして画面上に固定する配置",
+                        "タップ可能ターゲットの間隔をCSSの微調整により1px以下に極限まで密着させ配置する仕様",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>ページを移動するたびに、同じ「チケット提示」を意味するアイコンが「封筒マーク」になったり「QRマーク」になったりとコロコロ変化すると（WCAG 達成基準 3.2.4 一貫した識別性）、多忙なお出かけ現場のゲストはそれらが同じ機能であると認知できず、大混乱（操作断念）に陥ります。一度学習した操作の経験（お出かけのUIコンテキスト）を破壊しない一貫したデザイン定義が必要です。",
+                },
+                {
+                    tag: "プレインコピーAI",
+                    q: "キャンセル条件や重要な集合ルールについて「プレインランゲージ（平易な日本語）」で記述しておくことが、人間のみならず、将来の「AIエージェント」の誤判定を防ぐために不可欠なのはなぜですか？",
+                    opts: [
+                        "プレインランゲージを使用しないとAIの動作巡回時の電気消費量と負荷が急激に膨れ上がるから",
+                        "二重否定や曖昧な表現を排することでLLM（大規模言語モデル）の指示解釈エラーを防止できる",
+                        "簡潔な文章にすることでAIがフォームの最終送信チェックボタンを誤って多重送信するのを防ぐ",
+                        "すべての案内テキストが自動的に外国語に置き換わり処理にかかる実行速度が自動向上されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>LLMは高度な推論ができますが、「〜しないわけではないが、〜とは言えなくもない」といった曖昧で難解な表現は、AIにとっても意味の解釈（ハルシネーション：3.1.5相当）の最大の原因です。シンプルでストレートな表現で書き記しておくことは、ゲスト自身の読みやすさの向上と、AIが条件を100%正確に解釈し予約を進行できるAEO（AIエージェント最適化）に直結します。",
+                },
+                {
+                    tag: "インクルーシブデザイン",
+                    q: "プロダクト開発推進に関わるチーム全員が、バリアを最初から徹底して取り除く「インクルーシブデザイン」をサイト設計に埋め込んで推進すべき最大の理由は何ですか？",
+                    opts: [
+                        "障害のあるユーザー専用の別システムを開発しないと利用規約全体が自動的に無効化されるから",
+                        "焦りや片手操作直射日光などお出かけ現場で誰もが日常的に直面する一時的な制限状態を救うため",
+                        "最新スマートフォンのアプリ動作スピードがシステム的な不具合によって一律で低下するのを防ぐ",
+                        "世界規模の特許を申請する際にあらかじめアクセシビリティの適合証明書の発行を求められるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>お出かけの現場では、誰もが「一時的制限状態」になり得ます。これらを取り除いて滑らかに決済まで誘導することは、すべてのゲストの離脱を防ぎ、売上（CVR）を最大化するための優れた「顧客体験設計（投資）」だからです。",
+                },
+            ];
+
+            // 💡 21問以降の不足している問（10問分）を30問完全版になるよう補完
+            const extraQuestions = [
+                {
+                    tag: "見出しジャンプ機能",
+                    q: "スクリーンリーダー利用者が長いページを効率よく読み飛ばすために行う、キーボード移動（Hキー等）を助けるマークアップ手法はどれですか？",
+                    opts: [
+                        "文字の太さや色調をCSSのスタイル定義で美しく目立たせるやり方",
+                        "適切な見出しレベル（h1からh6）を論理的順序に沿って配置するやり方",
+                        "段落ごとに空の改行タグを何重にも挿入して物理的ディスタンスをあける",
+                        "ページ遷移が発生した瞬間にブラウザ全体を自動で再読み込みさせる仕様",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>見出しは情報の目次（JIS/WCAG 1.3.1、2.4.10）です。見た目の文字サイズの変更目的だけで <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;h2&gt;</code> の次にいきなり <code class="bg-secondary text-indigo-600 px-1.5 py-0.5 rounded font-mono font-bold text-xs">&lt;h5&gt;</code> を置くなどの階層無視は、目次構造を破壊し、キーボードユーザーの移動を不可能にするバリアとなります。',
+                },
+                {
+                    tag: "画像の非代替バグ",
+                    q: "「大人 2,000円、子ども 1,000円」という料金表を、HTMLテキストで記述せず「画像バナー」のピクセルデータとしてだけ掲載した際の実害はどれですか？",
+                    opts: [
+                        "画像の読み込み処理にかかるサーバー代が自動的に10倍に増大する",
+                        "読み上げや多言語自動翻訳、テキストコピー機能が一切機能しなくなる",
+                        "バナー画像がクリックされた瞬間にブラウザが突然セキュリティエラーを出す",
+                        "表示されている画像のテキストフォントが一律で古い明朝体フォントに変わる",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>バナー内の装飾された文字は、機械（翻訳クローラーやスクリーンリーダー：1.1.1、1.4.5）にとっては意味を持たないただの絵の具です。画像外へ生のテキストデータを併記することで、インバウンドゲストを含むすべてのゲストへ正確な情報を届けられます。",
+                },
+                {
+                    tag: "Tab移動ワープバグ",
+                    q: "CSSの absolute や float などのレイアウト配置だけで見た目の並び順を変え、HTMLのDOMツリー（記述順）をサボった際に発生する「キーボードバグ」は何ですか？",
+                    opts: [
+                        "キーボードのTabキーが押された瞬間にブラウザが自動リロードを行う現象",
+                        "目で見た方向とTabキーを押したときの選択（フォーカス）順序がワープする現象",
+                        "セキュリティプラグインが自動作動しキーボード操作自体をロックする現象",
+                        "タップターゲット自体の座標が自動的に10pxずれて選択不能になる現象",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>フォーカスの移動順序（WCAG 2.4.3）は、DOM（HTML記述順）に100%支配されます。見た目と一致しない不規則なワープ挙動は、キーボードユーザー（肢体不自由ゲストなど）を完全な探索迷子に陥れるため、DOMとビジュアルの論理順一致が必須です。",
+                },
+                {
+                    tag: "フォーム送信エラー回復",
+                    q: "クレジットカード決済の送信時、入力不備（エラー）が発生した際、ユーザーを最速で復帰させるために、実装者が考慮すべきJSフォーカス制御はどれですか？",
+                    opts: [
+                        "エラーが発生した瞬間にセキュリティのため入力欄の全情報を空っぽにする",
+                        "エラーを知らせるエラー要約メッセージ位置に即座にフォーカスを強制移動する",
+                        "画面全体を薄くグレーアウトさせて3秒間ローディング画面を自動ループする",
+                        "タップターゲット自体のターゲット可能エリアを一律で10px以下に制限する",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>画面を大きくズームして見ている弱視のユーザーや音声ユーザーは、非同期でどこかのマスに小さく赤い文字が添えられただけでは、送信が失敗したことに気付けません。即座にエラーメッセージ（3.3.1）にフォーカスを当てる（2.4.3）ことで、迷わず最速の修正へと進めます。",
+                },
+                {
+                    tag: "disabled属性の罠",
+                    q: "入力条件が満たされるまで送信ボタンを押せなくする際、CSSで単に文字色を薄くするだけの設計が「音声ユーザーにとって進行不能バリア」となる理由は何ですか？",
+                    opts: [
+                        "色の薄いボタンはデータパケット量が多いためブラウザを強制フリーズさせるから",
+                        "スクリーンリーダーには「押せるボタン」と音読されてしまい、誤操作を誘発するから",
+                        "自動補完機能（オートコンプリート）がシステムレベルで一律に無効化されるから",
+                        "ボタンの領域が自動的に10px以下の極小サイズに強制縮小されてしまい消えるから",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>CSSで見た目を「非活性（薄く）」にするだけでは、機械にとってはアクティブな要素です（4.1.2）。標準の `disabled` 属性や `aria-disabled="true"` を設定しておくことで、音声ユーザーへの無駄な空振りタップ（混乱ストレス）を防止できます。',
+                },
+                {
+                    tag: "キーボードトラップ回避",
+                    q: "外部チャットサポートなどのウィジェットを組み込む際、キーボード操作で中に入った選択（フォーカス）が「外に戻れなくなるバグ」を回避すべき理由は何ですか？",
+                    opts: [
+                        "同じキーを押し続けることでスマートフォンの液晶に物理的な焼き付きが起きるから",
+                        "キーボードのみで操作しているゲストが元の予約ページに戻れず進行不能になるから",
+                        "セキュリティ暗号化キーがリセットされて個人情報の漏洩バグが発生するから",
+                        "ウィジェットの動作速度が、システム制限により自動的に2倍遅くフリーズする",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>ウィジェット内でフォーカスがループし、TabやShift+Tab操作で脱出できなくなる現象を「キーボードトラップ（WCAG 2.1.2）」と呼びます。これはキーボードユーザーにとって「画面全体の物理的フリーズ」と同等な進行不能を引き起こすため、絶対的な回避要件です。",
+                },
+                {
+                    tag: 'rel="noopener"仕様',
+                    q: 'リンクを新しい別ウィンドウ（別タブ）で安全に開かせるために、 target="_blank" とセットでマークアップすべき推奨属性はどれですか？',
+                    opts: [
+                        "遷移先ページのデータ通信容量を自動的に3分の1に軽量化する指定プロパティ",
+                        'rel="noopener"などの属性を指定し親ウインドウの悪意ある背後操作バグを防ぐこと',
+                        "ページ遷移のトランジションが走った瞬間に液晶全体の輝度を自動最大にする設定",
+                        "遷移の際ロード処理を省くために5秒のアニメーション遅延を自動的に挿入する",
+                    ],
+                    ans: 1,
+                    note: '<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>`target="_blank"` だけでの遷移は、遷移先ページの不正なスクリプトが元の親タブ（当サイト）を書き換えて偽のフィッシング画面にすり替える深刻なセキュリティバグを生みます。アクセシビリティ（別タブ遷移警告：3.2.1）と同時に、セキュリティをマークアップレベルで完全に保護する責任があります。',
+                },
+                {
+                    tag: "画像置換による透明化",
+                    q: "CSS背景画像でお洒落な「購入決定ロゴ」を表示させ、HTMLのタグ内を文字なし（空っぽ）にする画像置換テクニックが不適切な理由は何ですか？",
+                    opts: [
+                        "画像ファイル名がCSSと競合すると画面全体の描画処理スピードが著しく低下するから",
+                        "音声読み上げシステム上、テキストデータが完全にゼロになり「透明化」してしまうから",
+                        "座標の絶対指定がセキュリティ暗号化システムの予約通信エラーを自動発生させるから",
+                        "AIエージェントの画像認識エミュレーターが自動タップ自体を強制ロックするから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>HTMLの中に文字（Name：1.1.1、4.1.2相当の価値）がない場合、機械レベルではただの空の四角形です。音声ユーザーには決定ボタンがあることすら認知できず、チケット購入不能に陥るため、タグの中に必ず役割を言葉で記述する必要があります。",
+                },
+                {
+                    tag: "placeholder依存バリア",
+                    q: "ラベルタグ（項目名）を省略し、 input タグの placeholder 属性だけに「携帯番号」等のヒントを設定してコーディングを終わらせてはいけない理由は何ですか？",
+                    opts: [
+                        "プレースホルダーに入力されたテキストが暗号化サーバーでエラーを出すから",
+                        "一部の古い読み上げツールがプレースホルダー自体を完全にスキップして読まないから",
+                        "入力欄の枠線カラーを、ブラウザ標準のパステルカラーに塗りつぶしてしまうから",
+                        "自動入力の履歴機能（ autocomplete ）がシステム的に一律で無効化されるから",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>プレースホルダー属性は、項目名（ラベル）の代わりではなく、入力補助（3.3.2）用の機能です。プレースホルダーのみに依存する設計は、古い支援技術で項目名自体を完全にスキップさせ、全盲のゲストが何を入力する枠なのか判読不能にする致命的なバリアとなるからです。",
+                },
+                {
+                    tag: "aria-controls紐付け",
+                    q: "ドロワーメニューやタブUIを組む際、トリガーとなるボタン要素と「実際に開く側（コンテンツ領域）」との論理的関連性を定義する適切な属性はどれですか？",
+                    opts: [
+                        'role="checkbox"を付与し、状態の切り替えはCSSのアニメーションだけで行う',
+                        "aria-controls属性を指定してトリガーボタンと中身の関係をデータ定義する仕様",
+                        'tabindex="-1"のみを指定し、開閉状態は画像のalt属性で切り替える仕様',
+                        "クリック可能ターゲットの間隔を、一律10px以下に極限まで密着して配置する",
+                    ],
+                    ans: 1,
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>見た目が開くドロワーも、音声ユーザーにとってはバラバラの要素に感じられます。 `aria-controls` （1.3.1、4.1.2）を設定しておくことで、ボタンを押した瞬間に「メニューが開き、そこへスキップ移動できます」とシステムが音声エスコートしてくれ、スムーズなナビゲーションを保証できるからです。",
+                },
+            ];
+
+            // 結合
+            quizData.push(...extraQuestions);
+
+            let currentIdx = 0,
+                score = 0,
+                isAnswered = false,
+                currentShuffledOpts = [];
+
+            function startQuiz() {
+                document
+                    .getElementById("learning-phase")
+                    .classList.add("hidden");
+                document
+                    .getElementById("quiz-phase")
+                    .classList.remove("hidden");
+                currentIdx = 0;
+                score = 0;
+                loadQuestion();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function loadQuestion() {
+                isAnswered = false;
+                const qBox = quizData[currentIdx];
+                document.getElementById("question-index").innerText =
+                    `第 ${currentIdx + 1} 問 / 30 問中`;
+                document.getElementById("current-score-text").innerText =
+                    `正答数: ${score}`;
+                document.getElementById("progress-bar").style.width =
+                    `${((currentIdx + 1) / 30) * 100}%`;
+                document.getElementById("question-tag").innerText = qBox.tag;
+                // innerTextを介してそのまま生テキストを出力
+                document.getElementById("question-text").innerText = qBox.q;
+
+                // シャッフル
+                currentShuffledOpts = qBox.opts.map((opt, i) => ({
+                    text: opt,
+                    isCorrect: i === qBox.ans,
+                }));
+                for (let i = currentShuffledOpts.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [currentShuffledOpts[i], currentShuffledOpts[j]] = [
+                        currentShuffledOpts[j],
+                        currentShuffledOpts[i],
+                    ];
+                }
+
+                const container = document.getElementById("options-container");
+                container.innerHTML = "";
+                currentShuffledOpts.forEach((opt, idx) => {
+                    const btn = document.createElement("button");
+                    btn.className =
+                        "option-item text-left w-full p-3 sm:p-4 rounded-lg border border-border bg-white text-xs sm:text-sm font-medium hover:bg-secondary transition-all cursor-pointer focus:outline-none focus:ring-1 focus:ring-ring focus:border-indigo-500";
+                    btn.innerText = opt.text;
+                    btn.onclick = () => selectOption(idx);
+                    container.appendChild(btn);
+                });
+                document.getElementById("feedback-box").classList.add("hidden");
+                document.getElementById("next-btn").classList.add("hidden");
+            }
+
+            function selectOption(idx) {
+                if (isAnswered) return;
+                isAnswered = true;
+                const btns = document.getElementsByClassName("option-item");
+                const qBox = quizData[currentIdx];
+
+                for (let i = 0; i < btns.length; i++) {
+                    btns[i].disabled = true;
+                    btns[i].classList.remove("hover:bg-secondary");
+                    if (currentShuffledOpts[i].isCorrect) {
+                        btns[i].className +=
+                            " bg-emerald-50/50 border-emerald-500 text-emerald-900 font-semibold shadow-sm";
+                    }
+                }
+
+                const correct = currentShuffledOpts[idx].isCorrect;
+                if (correct) {
+                    score++;
+                } else {
+                    btns[idx].className +=
+                        " bg-rose-50/50 border-rose-400 text-rose-900 font-medium";
+                }
+
+                const feedback = document.getElementById("feedback-box");
+                feedback.className = `mt-4 p-3 sm:p-4 rounded-lg border ${correct ? "bg-emerald-50/50 border-emerald-500 text-emerald-900" : "bg-rose-50/50 border-rose-400 text-rose-900"} fade-in text-left`;
+                document.getElementById("feedback-title").innerText = correct
+                    ? "正解です"
+                    : "不正解です";
+
+                const iconSvg = document.getElementById("feedback-icon");
+                const iconGeorgeHTML = correct
+                    ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>'
+                    : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/>';
+                iconSvg.className = `w-4 h-4 sm:w-5 h-5 ${correct ? "text-emerald-600" : "text-rose-600"}`;
+                iconSvg.innerHTML = iconGeorgeHTML;
+
+                document.getElementById("feedback-rationale").innerHTML =
+                    qBox.note;
+                feedback.classList.remove("hidden");
+                document.getElementById("next-btn").classList.remove("hidden");
+            }
+
+            function nextQuestion() {
+                if (++currentIdx < 30) {
+                    loadQuestion();
+                } else {
+                    showResult();
+                }
+            }
+
+            function showResult() {
+                document.getElementById("quiz-phase").classList.add("hidden");
+                document
+                    .getElementById("result-phase")
+                    .classList.remove("hidden");
+                document.getElementById("final-score").innerText =
+                    `${score} / 30`;
+
+                const rankSpan = document.getElementById("score-rank");
+                const msgP = document.getElementById("result-message");
+
+                let rank = "";
+                let msg = "";
+
+                if (score === 30) {
+                    rank = "体験設計プロフェッショナル（最高峰） 🏆";
+                    msg =
+                        "完璧です！第三章：役割・思想編の全30問を完全にクリアしました。お出かけ先におけるゲストの『一時的な不自由さ』を見抜き、そのバリアを設計とコードで100%解決する最高のマインドセットを持っています。あなたの優しい視点が、サービスの価値を底上げします！";
+                } else if (score >= 24) {
+                    rank = "アクセシビリティ推進リーダー 🥇";
+                    msg =
+                        "素晴らしい成績です！お出かけ現場での5つの不自由さ（焦り、雨、片手、直射日光、騒音など）を深く理解できています。ぜひチームの中で『ここ、屋外の日差しの中で読めないかも？』などの声を自発的にあげるリードを取っていきましょう！";
+                } else if (score >= 15) {
+                    rank = "共感パートナー 🥈";
+                    msg =
+                        "合格点レベルです！日常の不自由さに寄り添う優れた視点がおおむね身についています。間違えてしまった問題の『なぜやるのかの理由』をもう一度復習して、さらに解像度の高いバリアフリー思想を深めましょう。";
+                } else {
+                    rank = "アクセシビリティビギナー 🌱";
+                    msg =
+                        "お疲れ様でした。お出かけ先におけるゲストの制限は想像以上に多様です。もう一度講義ノートをじっくり読み返し、いつでもご自身のペースでクイズに再挑戦してみてください！";
+                }
+
+                rankSpan.innerText = `ランク：${rank}`;
+                msgP.innerText = msg;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            }
+
+            function restartQuizOnly() {
+                document.getElementById("result-phase").classList.add("hidden");
+                startQuiz();
+            }
+        </script>
+    </body>
+</html>

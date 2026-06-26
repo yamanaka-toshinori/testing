@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ウェブアクセシビリティ研修プログラム</title>
+        <!-- Tailwind CSS CDN -->
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            border: "rgb(228, 228, 231)", // zinc-200
+                            input: "rgb(228, 228, 231)", // zinc-200
+                            ring: "rgb(79, 70, 229)", // indigo-600
+                            background: "rgb(255, 255, 255)", // white
+                            foreground: "rgb(9, 9, 11)", // zinc-950
+                            primary: {
+                                DEFAULT: "rgb(9, 9, 11)", // zinc-950
+                                foreground: "rgb(250, 250, 250)", // zinc-50
+                            },
+                            secondary: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            muted: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(113, 113, 122)", // zinc-500
+                            },
+                            accent: {
+                                DEFAULT: "rgb(244, 244, 245)", // zinc-100
+                                foreground: "rgb(9, 9, 11)", // zinc-950
+                            },
+                            card: {
+                                DEFAULT: "rgb(255, 255, 255)",
+                                foreground: "rgb(9, 9, 11)",
+                            },
+                        },
+                        borderRadius: {
+                            lg: "0.75rem",
+                            md: "calc(0.75rem - 2px)",
+                            sm: "calc(0.75rem - 4px)",
+                        },
+                    },
+                },
+            };
+        </script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap");
+
+            body {
+                font-family: "Inter", "Noto Sans JP", sans-serif;
+                background-color: rgb(250, 250, 250);
+            }
+
+            .bg-pattern {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: -1;
+                background:
+                    radial-gradient(
+                        at 0% 0%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        at 100% 100%,
+                        rgba(79, 70, 229, 0.03) 0px,
+                        transparent 50%
+                    );
+            }
+
+            .fade-in {
+                animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(8px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+        </style>
+    </head>
+    <body
+        class="bg-background text-foreground min-h-screen flex flex-col antialiased"
+    >
+        <div class="bg-pattern"></div>
+
+        <!-- ヘッダー -->
+        <header
+            class="bg-white border-b border-border sticky top-0 z-50 shadow-[0_1px_2px_rgba(0,0,0,0.02)] h-[49px]"
+        >
+            <div
+                class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between"
+            >
+                <div class="flex items-center space-x-2 sm:space-x-3">
+                    <div class="w-1.5 h-4 bg-indigo-600 rounded-full"></div>
+                    <h1
+                        id="header-title"
+                        class="text-xs sm:text-sm font-bold tracking-tight text-foreground select-none cursor-pointer"
+                    >
+                        ウェブアクセシビリティ研修プログラム
+                    </h1>
+                </div>
+                <span
+                    class="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-0.5 border border-border rounded bg-secondary/50"
+                    >Internal Use Only</span
+                >
+            </div>
+        </header>
+
+        <!-- メインコンテンツ -->
+        <main
+            class="max-w-5xl w-full mx-auto px-4 pt-6 sm:pt-12 pb-16 flex flex-col justify-start"
+        >
+            <!-- 0. チャプター選択ハブ画面 (Home) -->
+            <div
+                id="chapter-select"
+                class="bg-card rounded-xl border border-border p-4 sm:p-10 shadow-sm fade-in"
+            >
+                <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+                    <h2
+                        class="text-xl sm:text-3xl font-extrabold tracking-tight text-foreground mb-2 sm:mb-3"
+                    >
+                        アクセシビリティ研修
+                    </h2>
+                    <p
+                        class="text-muted-foreground text-xs sm:text-base leading-relaxed"
+                    >
+                        すべてのユーザーが、あらゆる利用環境においてスムーズに目的を達成できる未来をつくる。
+                    </p>
+                </div>
+
+                <!-- チャプターグリッド -->
+                <div
+                    class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-3 mb-10 sm:mb-12"
+                    id="chapter-grid"
+                >
+                    <!-- JSで動的に構築されます -->
+                </div>
+
+                <!-- 📚 推薦学習リソース集 -->
+                <div
+                    class="border-t border-border pt-8 sm:pt-10"
+                    id="resource-section"
+                >
+                    <!-- JSで動的に構築されます -->
+                </div>
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer
+            class="bg-white border-t border-border py-6 sm:py-8 text-center text-[10px] sm:text-xs text-muted-foreground"
+        >
+            <div class="max-w-5xl mx-auto px-4">
+                <p>© 2026 アクセシビリティ推進委員会（仮）</p>
+                <p
+                    class="mt-1 text-[10px] sm:text-[11px] text-muted-foreground/80 leading-relaxed"
+                >
+                    すべてのユーザーが、あらゆる利用環境において滑らかに目的を達成できる情報環境を目指して。
+                </p>
+            </div>
+        </footer>
+
+        <script>
+            const chaptersData = [
+                {
+                    id: 1,
+                    numLabel: "Chapter 01",
+                    file: "ch1.html",
+                    badge: "マインド編",
+                    title: "ウェブの思想と5つの不自由さ",
+                    description:
+                        "「アクセシビリティ＝特定の人のため」という誤解を解き、お出かけの現場で誰もが直面する一時的な不自由からマインドを学びます。（全30問）",
+                },
+                {
+                    id: 2,
+                    numLabel: "Chapter 02",
+                    file: "ch2.html",
+                    badge: "実践・基礎編",
+                    title: "全員で覚えてほしい情報のバリアフリー",
+                    description:
+                        "企画、デザイン、マーケ、CS等, 全員が明日から使えるアクセシビリティの基本ルール。文字、色、言葉の配慮を学びます。（全30問）",
+                },
+                {
+                    id: 3,
+                    numLabel: "Chapter 03",
+                    file: "ch3.html",
+                    badge: "役割・思想編",
+                    title: "職種別の役割と合理的配慮",
+                    description:
+                        "2024年の合理的配慮の義務化、およびFigmaや仕様設計で必須となる「セマンティクス」や「WAI-ARIA」の思想を学びます。（全30問）",
+                },
+                {
+                    id: 4,
+                    numLabel: "Chapter 04",
+                    file: "ch4.html",
+                    badge: "実装技術編",
+                    title: "堅牢なマークアップとWAI-ARIA",
+                    description:
+                        "エンジニア特化。キーボードアクセス、モーダルのフォーカストラップ、背面スクロールロック、動的WAI-ARIA属性等の実装を学びます。（全30問）",
+                },
+                {
+                    id: 5,
+                    numLabel: "Chapter 05",
+                    file: "ch5.html",
+                    badge: "検証・評価編",
+                    title: "検証・テストと品質アシュアランス",
+                    description:
+                        "自動ツールの限界を知り、VoiceOver/TalkBack実機テスト、JIS規格適合試験等の科学的評価プロセスを学びます。（全30問）",
+                },
+                {
+                    id: 6,
+                    numLabel: "Chapter 06",
+                    file: "ch6.html",
+                    badge: "未来 of UX編",
+                    title: "AIエージェント時代のセマンティクス",
+                    description:
+                        "AIがWebを自律操作する時代、構造の正しさがマシン可読性（AEO）とビジネス優位性に直結する未来のUXを学びます。（全30問）",
+                },
+            ];
+
+            const resources = [
+                {
+                    cat: "カテゴリ1：セマンティックHTML（正しい構造で組む理由）",
+                    items: [
+                        {
+                            title: "1. セマンティックタグの理解：アクセシビリティー、SEO最適化",
+                            url: "https://zenn.dev/bellstone/articles/3fbbe21d1b260e",
+                            reason: "セマンティックタグ、アクセシビリティ、SEOの繋がりが分かりやすくまとまっています。ブラウザが内部で「Accessibility tree（アクセシビリティツリー）」を構築してスクリーンリーダーに伝えている仕組みなど、エンジニアの知的好奇心を刺激する内容です。",
+                        },
+                        {
+                            title: "2. HTMLのセマンティクス（意味論）とは？適切な要素を使う大切さ",
+                            url: "https://www.bring-flower.com/blog/html-semantics-elements/",
+                            reason: "「divやspanだけで画面を組むと何が起きるのか」が明確に書かれています。ブラウザや検索エンジンがHTMLの構造をどう解釈しているかを学ぶ、最初の1歩に最適な記事です。",
+                        },
+                        {
+                            title: "3. 【HTML】なぜ div ばかり使ってはいけないのか？",
+                            url: "https://qiita.com/kabechiyo13/items/8165c919adfcdcaf1227",
+                            reason: "エンジニア向けに、divの乱用が招くデメリット（メンテナンス性の低下、機械可読性の損失、アクセシビリティ低下）がコンパクトにまとまっています。「動くからヨシ」を脱却するための必読エントリーです。",
+                        },
+                        {
+                            title: "4. セマンティックHTMLとは？SEOへの効果とマークアップ方法",
+                            url: "https://freelance-concierge.jp/articles/detail/88/",
+                            reason: "セマンティックなマークアップが、なぜ「SEO（検索エンジン最適化）」に直結するのかがビジネス視点も含めて解説されています。事業成長のために正しいコード必要であるという納得感が得られます。",
+                        },
+                    ],
+                },
+                {
+                    cat: "カテゴリ2：アクセシビリティの思想（誰のためのものか）",
+                    items: [
+                        {
+                            title: "5. SmartHR Design System：アクセシビリティの考え方",
+                            url: "https://smarthr.design/accessibility/",
+                            reason: "国内最高峰のデザインシステム。「アクセシビリティ＝障害者のため」ではなく、「屋外の眩しい場所にいる人」や「片手が塞がっている人」など、すべての人の一時的な制限を解決する体験設計であるという思想が、最も美しく学べます。",
+                        },
+                        {
+                            title: "6. デジタル庁：ウェブアクセシビリティ導入ガイドブック（PDF）",
+                            url: "https://www.digital.go.jp/assets/contents/node/basic_page/field_ref_resources/08ed88e1-d622-43cb-900b-84957ab87826/bf5f4482/20251016_introduction_to_web_accessibility.pdf",
+                            reason: "国（デジタル庁）が公式に発行している優良ガイドブックです。「なぜ今ウェブアクセシビリティなのか」という社会的背景から、明日からできる基本の実践までが、非常に分かりやすく図解されています。",
+                        },
+                        {
+                            title: "7. WebアクセシビリティがSEOに与える影響とは？",
+                            url: "https://wcag-lab.jp/column/web-accessibility-seo-impact/",
+                            reason: "Googleなどの検索エンジンが「アクセシブルなサイト（＝誰もが使いやすいサイト）」をいかに高く評価するかという、SEOとの相乗効果（シナジー）を専門的に学べます。",
+                        },
+                    ],
+                },
+                {
+                    cat: "カテゴリ3：WAI-ARIAと実装のコツ（よく使う属性と大原則）",
+                    items: [
+                        {
+                            title: "8. role 属性、aria-* 属性、WAI-ARIA とは何か、いつ使うべきなのか",
+                            url: "https://qiita.com/ymrl/items/6c9c059208ea11e6d7bc",
+                            reason: "「WAI-ARIAの第1ルール：なるべく使うな（まずは正しいHTMLタグを使え）」という大原則を丁寧に説いています。「とりあえず属性をつければいいや」という間違ったハックを防ぎ、正しいWebの設計思想を身につけるための重要記事です。",
+                        },
+                        {
+                            title: "9. アクセシビリティで便利なWAI-ARIAの「aria-label属性」：SEO効果も",
+                            url: "https://www.bring-flower.com/blog/aria-label/",
+                            reason: "現場で最もよく使う属性である aria-label にフォーカスした解説記事です。Figma上で「×」としか書かれていないアイコンボタンを、スクリーンリーダーに正しく「閉じる」と読ませるための実践的なテクニックが分かります。",
+                        },
+                    ],
+                },
+                {
+                    cat: "カテゴリ4：HTMLの基本（実践・入門編）",
+                    items: [
+                        {
+                            title: "10. 【2026年版】HTML入門 — タグ・構造・セマンティクスを基礎から完全理解する",
+                            url: "https://qiita.com/NakajimaSH/items/829d9a5ebfc5d1d37aba",
+                            reason: "「lang 属性の指定」「適切なリンクテキスト」「alt 属性の空文字の扱い」など、HTMLの超基本的な入門知識がまとめられた記事です。特別な技術を使わなくても、私たちが普段書く「ただの基本のHTML」を正しく記述すること自体が、そのままアクセシビリティやUXの向上に直結しているのだという原点に立ち返らせてくれます。",
+                        },
+                    ],
+                },
+            ];
+
+            // 🔗 セッション情報を崩さず、シンプルに相対ファイルパスへ遷移するナビゲーション関数
+            function navigateToChapter(file) {
+                try {
+                    const url = new URL(window.location.href);
+                    const path = url.pathname;
+                    const lastSlashIdx = path.lastIndexOf("/");
+                    const newPath = path.substring(0, lastSlashIdx + 1) + file;
+
+                    url.pathname = newPath;
+                    window.location.href = url.toString();
+                } catch (e) {
+                    // セーフティフォールバック
+                    window.location.href = file;
+                }
+            }
+
+            function renderChapterGrid() {
+                const grid = document.getElementById("chapter-grid");
+                grid.innerHTML = "";
+                chaptersData.forEach((c) => {
+                    const card = document.createElement("div");
+                    card.className =
+                        "border border-border rounded-xl p-6 bg-white hover:shadow-md hover:border-indigo-300 transition-all flex flex-col justify-between group shadow-sm shadow-indigo-500/5";
+                    card.innerHTML = `
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="bg-secondary text-secondary-foreground text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-md tracking-wider">${c.numLabel}</span>
+                            <span class="text-[10px] sm:text-xs text-muted-foreground font-medium">${c.badge}</span>
+                        </div>
+                        <h3 class="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-indigo-600 transition-colors">${c.title}</h3>
+                        <p class="text-muted-foreground text-xs leading-relaxed mb-6">${c.description}</p>
+                    </div>
+                    <button onclick="navigateToChapter('${c.file}')" class="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center block cursor-pointer">
+                        講義をはじめる
+                    </button>
+                `;
+                    grid.appendChild(card);
+                });
+            }
+
+            function renderResources() {
+                const section = document.getElementById("resource-section");
+                section.innerHTML = `
+                <div class="mb-6">
+                    <h3 class="text-base sm:text-lg font-bold text-foreground tracking-tight">📚 推薦学習リソース</h3>
+                    <p class="text-xs text-muted-foreground mt-1">アクセシビリティをさらに深く学ぶための、全メンバー必読の解説リンク集です。</p>
+                </div>
+            `;
+                const container = document.createElement("div");
+                container.className = "space-y-6";
+
+                resources.forEach((r) => {
+                    const div = document.createElement("div");
+                    div.innerHTML = `
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center space-x-2">
+                        <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span>
+                        <span>${r.cat}</span>
+                    </h4>
+                    <div class="grid gap-3 grid-cols-1 sm:grid-cols-2">
+                        ${r.items
+                            .map(
+                                (item) => `
+                            <a href="${item.url}" target="_blank" rel="noopener" class="block p-4 rounded-lg border border-border bg-white hover:bg-secondary/40 transition-all group">
+                                <span class="text-xs font-bold block mb-1 underline text-foreground group-hover:text-indigo-600 transition-colors">${item.title}</span>
+                                <span class="text-[10px] sm:text-[11px] text-muted-foreground leading-relaxed block">${item.reason}</span>
+                            </a>
+                        `,
+                            )
+                            .join("")}
+                    </div>
+                `;
+                    container.appendChild(div);
+                });
+                section.appendChild(container);
+            }
+
+            renderChapterGrid();
+            renderResources();
+        </script>
+    </body>
+</html>
