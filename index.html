@@ -110,10 +110,18 @@
                         ウェブアクセシビリティ研修プログラム
                     </h1>
                 </div>
-                <span
-                    class="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-0.5 border border-border rounded bg-secondary/50"
-                    >Internal Use Only</span
-                >
+                <div class="flex items-center space-x-3">
+                    <button
+                        onclick="clearAllProgress()"
+                        class="text-[9px] sm:text-[10px] text-rose-600 hover:text-rose-700 font-bold uppercase tracking-tight px-2.5 py-1 border border-rose-200 hover:border-rose-300 rounded bg-rose-50/50 transition-colors"
+                    >
+                        進捗リセット
+                    </button>
+                    <span
+                        class="text-[9px] sm:text-[10px] font-bold text-muted-foreground uppercase tracking-widest px-2 py-0.5 border border-border rounded bg-secondary/50"
+                        >Internal Use Only</span
+                    >
+                </div>
             </div>
         </header>
 
@@ -302,26 +310,72 @@
                 },
             ];
 
-            // 🔗 セッション情報を崩さず、シンプルに相対ファイルパスへ遷移するナビゲーション関数
             function navigateToChapter(file) {
                 try {
                     const url = new URL(window.location.href);
                     const path = url.pathname;
                     const lastSlashIdx = path.lastIndexOf("/");
                     const newPath = path.substring(0, lastSlashIdx + 1) + file;
-
                     url.pathname = newPath;
                     window.location.href = url.toString();
                 } catch (e) {
-                    // セーフティフォールバック
                     window.location.href = file;
+                }
+            }
+
+            function clearAllProgress() {
+                if (
+                    confirm(
+                        "すべてのチャプターの研修進捗をリセットします。よろしいですか？",
+                    )
+                ) {
+                    for (let i = 1; i <= 6; i++) {
+                        localStorage.removeItem(`accessibility_quiz_ch${i}`);
+                    }
+                    renderChapterGrid();
                 }
             }
 
             function renderChapterGrid() {
                 const grid = document.getElementById("chapter-grid");
                 grid.innerHTML = "";
+
                 chaptersData.forEach((c) => {
+                    const key = `accessibility_quiz_ch${c.id}`;
+                    const saved = localStorage.getItem(key);
+                    let statusBadge = "";
+                    let buttonText = "講義をはじめる";
+                    let btnClass =
+                        "bg-primary hover:bg-primary/95 text-primary-foreground";
+
+                    if (saved) {
+                        try {
+                            const data = JSON.parse(saved);
+                            if (data.completed) {
+                                statusBadge = `
+                                    <span class="inline-flex items-center gap-1 bg-emerald-50 text-emerald-700 text-[10px] font-bold px-2.5 py-0.5 rounded border border-emerald-200">
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+                                        完了 (${data.score}/30)
+                                    </span>
+                                `;
+                                buttonText = "もう一度挑戦する";
+                                btnClass =
+                                    "bg-secondary hover:bg-secondary/80 text-secondary-foreground border border-border";
+                            } else if (data.currentIdx > 0) {
+                                statusBadge = `
+                                    <span class="inline-flex items-center gap-1 bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded border border-amber-200 animate-pulse">
+                                        進行中 (${data.currentIdx}/30問)
+                                    </span>
+                                `;
+                                buttonText = "続きから再開する";
+                                btnClass =
+                                    "bg-indigo-600 hover:bg-indigo-700 text-white font-bold shadow-sm shadow-indigo-200";
+                            }
+                        } catch (e) {
+                            console.error("進捗のデコードに失敗しました:", e);
+                        }
+                    }
+
                     const card = document.createElement("div");
                     card.className =
                         "border border-border rounded-xl p-6 bg-white hover:shadow-md hover:border-indigo-300 transition-all flex flex-col justify-between group shadow-sm shadow-indigo-500/5";
@@ -331,11 +385,16 @@
                             <span class="bg-secondary text-secondary-foreground text-[10px] sm:text-xs font-bold px-2.5 py-1 rounded-md tracking-wider">${c.numLabel}</span>
                             <span class="text-[10px] sm:text-xs text-muted-foreground font-medium">${c.badge}</span>
                         </div>
-                        <h3 class="text-base sm:text-lg font-bold text-foreground mb-2 group-hover:text-indigo-600 transition-colors">${c.title}</h3>
+                        <div class="flex items-start justify-between gap-2 mb-2">
+                            <h3 class="text-base sm:text-lg font-bold text-foreground group-hover:text-indigo-600 transition-colors leading-snug">${c.title}</h3>
+                        </div>
+                        <div class="mb-4 min-h-[20px]">
+                            ${statusBadge}
+                        </div>
                         <p class="text-muted-foreground text-xs leading-relaxed mb-6">${c.description}</p>
                     </div>
-                    <button onclick="navigateToChapter('${c.file}')" class="w-full bg-primary hover:bg-primary/95 text-primary-foreground font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center block cursor-pointer">
-                        講義をはじめる
+                    <button onclick="navigateToChapter('${c.file}')" class="w-full font-semibold py-2.5 rounded-md transition-colors text-xs sm:text-sm text-center block cursor-pointer ${btnClass}">
+                        ${buttonText}
                     </button>
                 `;
                     grid.appendChild(card);

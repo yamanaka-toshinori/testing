@@ -182,27 +182,32 @@
                     </section>
                 </div>
 
-                <!-- クイズ開始ボタン -->
+                <!-- クイズ開始ボタンエリア -->
                 <div class="mt-10 pt-6 border-t border-border text-center">
-                    <button
-                        onclick="startQuiz()"
-                        class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-auto"
+                    <div
+                        id="quiz-entry-container"
+                        class="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-xl mx-auto"
                     >
-                        <span>理解度クイズに挑戦する (全30問)</span>
-                        <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                        <button
+                            onclick="startQuiz()"
+                            class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full"
                         >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2.5"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                            ></path>
-                        </svg>
-                    </button>
+                            <span>理解度クイズに挑戦する (全30問)</span>
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -416,12 +421,14 @@
                 homeHubUrl: "", // ポータル(index.html)の完全URLを指定する場合のみ設定
             };
 
+            const LOCAL_KEY = "accessibility_quiz_ch2";
+
             function backToHomeHub() {
                 const targetUrl = CONFIG.homeHubUrl;
                 if (targetUrl && targetUrl.trim() !== "") {
                     window.location.href = targetUrl;
                 } else {
-                    navigateTo(""); // リネームに合わせてindex.htmlへ遷移
+                    navigateTo("index.html"); // ポータルへ遷移
                 }
             }
 
@@ -439,8 +446,6 @@
                 }
             }
 
-            // 📝 クイズデータ定義：問題（q）や選択肢（opts）は innerText で安全展開されるため、
-            // 記述内に &lt; や &gt; などの実体参照を使わず、生のタグ文字（ < や > ）で記述します。
             const quizData = [
                 {
                     tag: "色覚の不自由",
@@ -617,7 +622,7 @@
                         "送信ボタンを目立たせてキャンセルボタンを控えめな枠線のみのスタイルにする配置",
                         "二つの重要ボタンを全く同じカラーと同じサイズにして真横に密着させるデザイン",
                         "ボタン同士の間に押し間違いを防ぐための十分な余白のディスタンスをあける配置",
-                        "キャンセル用の戻るボタンを送信用のボタンから離して反対 of 端へ配置するデザイン",
+                        "キャンセル用の戻るボタンを送信用のボタンから離して反対の端へ配置するデザイン",
                     ],
                     ans: 1,
                     note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>焦っているゲスト（WCAG 3.2.4）は、同一形状のボタンを区別できません。決定を目立たせ、サブアクションを控えめにする視覚的セマンティクス（意味構造）の明示が、誤操作によるデータ消失を防ぎます。",
@@ -752,7 +757,7 @@
                         "アプリケーションのプログラム動作速度が、物理的に2倍速くなるから",
                     ],
                     ans: 1,
-                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>公的機関や大手企業は、外部サービスを調達（導入・連携）する際の厳格なセーフティ要件として「JIS AA適合」を必須条件として定めています。規格に適合させておくことは、大きな取引を勝ち取る強固な営業アドバンテージとなるからです。",
+                    note: "<strong>【なぜそれが必要なのか（理由・背景）】</strong><br>公的機関や大企業は、外部サービスを調達（導入・連携）する際の厳格なセーフティ要件として「JIS AA適合」を必須条件として定めています。規格に適合させておくことは、大きな取引を勝ち取る強固な営業アドバンテージとなるからです。",
                 },
                 {
                     tag: "色覚特性併記",
@@ -809,6 +814,82 @@
                 isAnswered = false,
                 currentShuffledOpts = [];
 
+            // 🚀 起動時にセーブデータを監査してUIを再構成
+            window.addEventListener("DOMContentLoaded", () => {
+                checkResumeData();
+            });
+
+            function checkResumeData() {
+                const saved = localStorage.getItem(LOCAL_KEY);
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        if (
+                            !data.completed &&
+                            data.currentIdx > 0 &&
+                            data.currentIdx < 30
+                        ) {
+                            const container = document.getElementById(
+                                "quiz-entry-container",
+                            );
+                            container.innerHTML = `
+                                <button
+                                    onclick="resumeQuiz()"
+                                    class="inline-flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-md transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-1/2"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>続きから再開する (第 ${data.currentIdx + 1} 問)</span>
+                                </button>
+                                <button
+                                    onclick="startQuiz()"
+                                    class="inline-flex items-center justify-center space-x-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm border border-border transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-1/2"
+                                >
+                                    <span>最初からやり直す</span>
+                                </button>
+                            `;
+                        }
+                    } catch (e) {
+                        console.error("データの読み込みエラー:", e);
+                    }
+                }
+            }
+
+            function saveProgress(completed = false) {
+                const data = {
+                    currentIdx: currentIdx,
+                    score: score,
+                    completed: completed,
+                };
+                localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+            }
+
+            function resumeQuiz() {
+                const saved = localStorage.getItem(LOCAL_KEY);
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        currentIdx = data.currentIdx;
+                        score = data.score;
+
+                        document
+                            .getElementById("learning-phase")
+                            .classList.add("hidden");
+                        document
+                            .getElementById("quiz-phase")
+                            .classList.remove("hidden");
+                        loadQuestion();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    } catch (e) {
+                        startQuiz();
+                    }
+                } else {
+                    startQuiz();
+                }
+            }
+
             function startQuiz() {
                 document
                     .getElementById("learning-phase")
@@ -818,12 +899,15 @@
                     .classList.remove("hidden");
                 currentIdx = 0;
                 score = 0;
+                saveProgress(false);
                 loadQuestion();
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
 
             function loadQuestion() {
                 isAnswered = false;
+                saveProgress(false); // リアルタイムセーブ
+
                 const qBox = quizData[currentIdx];
                 document.getElementById("question-index").innerText =
                     `第 ${currentIdx + 1} 問 / 30 問中`;
@@ -832,7 +916,6 @@
                 document.getElementById("progress-bar").style.width =
                     `${((currentIdx + 1) / 30) * 100}%`;
                 document.getElementById("question-tag").innerText = qBox.tag;
-                // 💡 innerTextを介してそのまま生テキストを出力し二重エスケープバグを100%防止
                 document.getElementById("question-text").innerText = qBox.q;
 
                 // シャッフル
@@ -884,6 +967,8 @@
                     btns[idx].className +=
                         " bg-rose-50/50 border-rose-400 text-rose-900 font-medium";
                 }
+
+                saveProgress(false);
 
                 const feedback = document.getElementById("feedback-box");
                 feedback.className = `mt-4 p-3 sm:p-4 rounded-lg border ${correct ? "bg-emerald-50/50 border-emerald-500 text-emerald-900" : "bg-rose-50/50 border-rose-400 text-rose-900"} fade-in text-left`;
@@ -947,6 +1032,8 @@
                 rankSpan.innerText = `ランク：${rank}`;
                 msgP.innerText = msg;
                 window.scrollTo({ top: 0, behavior: "smooth" });
+
+                saveProgress(true); // 完了
             }
 
             function restartQuizOnly() {

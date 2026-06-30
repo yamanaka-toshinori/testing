@@ -243,27 +243,32 @@
                     </section>
                 </div>
 
-                <!-- クイズ開始ボタン -->
+                <!-- クイズ開始ボタンエリア -->
                 <div class="mt-10 pt-6 border-t border-border text-center">
-                    <button
-                        onclick="startQuiz()"
-                        class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-auto"
+                    <div
+                        id="quiz-entry-container"
+                        class="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-xl mx-auto"
                     >
-                        <span>理解度クイズに挑戦する (全30問)</span>
-                        <svg
-                            class="w-4 h-4"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                        <button
+                            onclick="startQuiz()"
+                            class="inline-flex items-center justify-center space-x-2 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm transition-colors cursor-pointer text-xs sm:text-sm w-full"
                         >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2.5"
-                                d="M14 5l7 7m0 0l-7 7m7-7H3"
-                            ></path>
-                        </svg>
-                    </button>
+                            <span>理解度クイズに挑戦する (全30問)</span>
+                            <svg
+                                class="w-4 h-4"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2.5"
+                                    d="M14 5l7 7m0 0l-7 7m7-7H3"
+                                ></path>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -479,12 +484,14 @@
                     "https://script.google.com/a/macros/asoview.co.jp/s/AKfycbyx4bKqlEjDsKXBeeGLaPJAcA1XcIC7ICPzgxunaf3-k4udl-h5rwenxeuUg_0qRXm_/exec", // あなたのGASのURLに差し替えてください（未設定時はシミュレーションモードになります）
             };
 
+            const LOCAL_KEY = "accessibility_quiz_ch1";
+
             function backToHomeHub() {
                 const targetUrl = CONFIG.homeHubUrl;
                 if (targetUrl && targetUrl.trim() !== "") {
                     window.location.href = targetUrl;
                 } else {
-                    navigateTo(""); // リネームに合わせてポータルへ遷移
+                    navigateTo("index.html"); // ポータルへ遷移
                 }
             }
 
@@ -870,6 +877,85 @@
                 isAnswered = false,
                 currentShuffledOpts = [];
 
+            // 🚀 起動時にセーブデータを読み込み、前回の進捗が1問目以降、かつ未完了であればレジュームUIに変更する
+            window.addEventListener("DOMContentLoaded", () => {
+                checkResumeData();
+            });
+
+            function checkResumeData() {
+                const saved = localStorage.getItem(LOCAL_KEY);
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        if (
+                            !data.completed &&
+                            data.currentIdx > 0 &&
+                            data.currentIdx < 30
+                        ) {
+                            const container = document.getElementById(
+                                "quiz-entry-container",
+                            );
+                            container.innerHTML = `
+                                <button
+                                    onclick="resumeQuiz()"
+                                    class="inline-flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-md transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-1/2"
+                                >
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <span>続きから再開する (第 ${data.currentIdx + 1} 問)</span>
+                                </button>
+                                <button
+                                    onclick="startQuiz()"
+                                    class="inline-flex items-center justify-center space-x-2 bg-secondary hover:bg-secondary/80 text-secondary-foreground font-semibold px-6 sm:px-8 py-3 sm:py-3.5 rounded-md shadow-sm border border-border transition-colors cursor-pointer text-xs sm:text-sm w-full sm:w-1/2"
+                                >
+                                    <span>最初からやり直す</span>
+                                </button>
+                            `;
+                        }
+                    } catch (e) {
+                        console.error(
+                            "レジュームデータの解析に失敗しました:",
+                            e,
+                        );
+                    }
+                }
+            }
+
+            function saveProgress(completed = false) {
+                const data = {
+                    currentIdx: currentIdx,
+                    score: score,
+                    completed: completed,
+                };
+                localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+            }
+
+            function resumeQuiz() {
+                const saved = localStorage.getItem(LOCAL_KEY);
+                if (saved) {
+                    try {
+                        const data = JSON.parse(saved);
+                        currentIdx = data.currentIdx;
+                        score = data.score;
+
+                        document
+                            .getElementById("learning-phase")
+                            .classList.add("hidden");
+                        document
+                            .getElementById("quiz-phase")
+                            .classList.remove("hidden");
+                        loadQuestion();
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                    } catch (e) {
+                        startQuiz();
+                    }
+                } else {
+                    startQuiz();
+                }
+            }
+
             function startQuiz() {
                 document
                     .getElementById("learning-phase")
@@ -879,12 +965,15 @@
                     .classList.remove("hidden");
                 currentIdx = 0;
                 score = 0;
+                saveProgress(false);
                 loadQuestion();
                 window.scrollTo({ top: 0, behavior: "smooth" });
             }
 
             function loadQuestion() {
                 isAnswered = false;
+                saveProgress(false); // 読み込み時点で現在の進捗を同期保存
+
                 const qBox = quizData[currentIdx];
                 document.getElementById("question-index").innerText =
                     `第 ${currentIdx + 1} 問 / 30 問中`;
@@ -944,6 +1033,8 @@
                     btns[idx].className +=
                         " bg-rose-50/50 border-rose-400 text-rose-900 font-medium";
                 }
+
+                saveProgress(false);
 
                 const feedback = document.getElementById("feedback-box");
                 feedback.className = `mt-4 p-3 sm:p-4 rounded-lg border ${correct ? "bg-emerald-50/50 border-emerald-500 text-emerald-900" : "bg-rose-50/50 border-rose-400 text-rose-900"} fade-in text-left`;
@@ -1008,8 +1099,10 @@
                 msgP.innerText = msg;
                 window.scrollTo({ top: 0, behavior: "smooth" });
 
+                saveProgress(true); // 完了を完全に記録
+
                 // ==========================================
-                // 🚀 【新規追加】GASへの受講結果オートポストシステム
+                // 🚀 GASへの受講結果オートポストシステム
                 // ==========================================
                 sendResultToGoogleSystem("Chapter 01：マインド編", score, rank);
             }
@@ -1022,7 +1115,6 @@
             ) {
                 const gasWebActionUrl = CONFIG.gasWebActionUrl;
 
-                // デフォルト/未設定時のガード
                 if (
                     !gasWebActionUrl ||
                     gasWebActionUrl.includes("【ここにあなたのGASのIDを入力】")
@@ -1039,7 +1131,6 @@
                     rank: finalRank,
                 };
 
-                // 社員の画面動作を一切邪魔しない非同期かつCORS安全なno-corsモードで裏側送信
                 fetch(gasWebActionUrl, {
                     method: "POST",
                     mode: "no-cors",
